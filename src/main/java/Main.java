@@ -16,7 +16,7 @@ public class Main {
     static ArrayList puntoContrarioBBDD = new ArrayList();
     static ArrayList recepcionBBDD = new ArrayList();
     static ArrayList colocacionBBDD = new ArrayList();
-    static ArrayList renateBBDD = new ArrayList();
+    static ArrayList remateBBDD = new ArrayList();
     static ArrayList bloqueoBBDD = new ArrayList();
     static ArrayList defensaBBDD = new ArrayList();
     static ArrayList saqueBBDD = new ArrayList();
@@ -30,7 +30,7 @@ public class Main {
     static String puntoContrarioPartido;
     static ArrayList recepcionPartido = new ArrayList();
     static ArrayList colocacionPartido = new ArrayList();
-    static ArrayList renatePartido = new ArrayList();
+    static ArrayList rematePartido = new ArrayList();
     static ArrayList bloqueoPartido = new ArrayList();
     static ArrayList defensaPartido = new ArrayList();
     static ArrayList saquePartido = new ArrayList();
@@ -102,6 +102,12 @@ public class Main {
         finalDeSetBBDD = database.readCloseWordsFromBBDD("FINALDESET");
         errorContrarioBBDD = database.readCloseWordsFromBBDD("ERRORCONTRARIO");
         puntoContrarioBBDD = database.readCloseWordsFromBBDD("PUNTOCONTRARIO");
+        saqueBBDD = database.readSkillsFromBBDD("SAQUE");
+        remateBBDD = database.readSkillsFromBBDD("REMATE");
+        recepcionBBDD = database.readSkillsFromBBDD("RECEPCION");
+        colocacionBBDD = database.readSkillsFromBBDD("COLOCACION");
+        defensaBBDD = database.readSkillsFromBBDD("DEFENSA");
+        bloqueoBBDD = database.readSkillsFromBBDD("BLOQUEO");
     }
 
     public static void formatMatch(){
@@ -205,7 +211,7 @@ public class Main {
 
                 // Si es por aquí, entonces tiene que ser un movimiento de un juegador
                 if (UtilsNumber.isNumber(movement)){
-                    if (esTiempo(movement.toString().toUpperCase())) {
+                    if (esSaque(match.get(i+1).toString().toUpperCase())) {
                         if (match.size() > i + 1) {
                             if (esPuntoContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
                                 puntoContrarioPartido = puntoContrarioBBDD.get(0).toString();
@@ -275,6 +281,48 @@ public class Main {
 
     public static boolean esPuntoContrario (String data){
         if (puntoContrarioBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esSaque (String data){
+        if (saqueBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esRecepcion (String data){
+        if (recepcionBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esColocacion (String data){
+        if (colocacionBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esRemate (String data){
+        if (remateBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esBloqueo (String data){
+        if (bloqueoBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esDefensa (String data){
+        if (defensaBBDD.contains(data)) {
             return true;
         }
         return false;
