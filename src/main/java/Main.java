@@ -4,14 +4,36 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Main {
+    static BBDD database = new BBDD();
+    static ArrayList match = new ArrayList();
     static ArrayList alineacionBBDD = new ArrayList();
     static ArrayList tanteoBBDD = new ArrayList();
     static ArrayList cambioBBDD = new ArrayList();
-    static BBDD database = new BBDD();
-    static ArrayList match = new ArrayList();
+    static ArrayList convocatoriaBBDD = new ArrayList();
+    static ArrayList tiempoBBDD = new ArrayList();
+    static ArrayList finalDeSetBBDD = new ArrayList();
+    static ArrayList errorContrarioBBDD = new ArrayList();
+    static ArrayList puntoContrarioBBDD = new ArrayList();
+    static ArrayList recepcionBBDD = new ArrayList();
+    static ArrayList colocacionBBDD = new ArrayList();
+    static ArrayList renateBBDD = new ArrayList();
+    static ArrayList bloqueoBBDD = new ArrayList();
+    static ArrayList defensaBBDD = new ArrayList();
+    static ArrayList saqueBBDD = new ArrayList();
     static String alineacionPartido;
     static String tanteoPartido;
     static String cambioPartido;
+    static String convocatoriaPartido;
+    static String tiempoPartido;
+    static String finalDeSetPartido;
+    static String errorContrarioPartido;
+    static String puntoContrarioPartido;
+    static ArrayList recepcionPartido = new ArrayList();
+    static ArrayList colocacionPartido = new ArrayList();
+    static ArrayList renatePartido = new ArrayList();
+    static ArrayList bloqueoPartido = new ArrayList();
+    static ArrayList defensaPartido = new ArrayList();
+    static ArrayList saquePartido = new ArrayList();
 
     public static void main(String[] args) throws Exception{
         Utils prueba = new Utils();
@@ -21,6 +43,8 @@ public class Main {
         File conf = new File(classloader.getResource("Conf.txt").getFile());
         BufferedReader br = new BufferedReader(new FileReader(conf.getPath()));
         String everything = "";
+        UtilsNumber.loadNumbers();
+
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -41,6 +65,8 @@ public class Main {
 
         database = new BBDD();
         database.openconnection();
+
+        database.deleteRawMatchTable();
 
         for (String palabra: lectura) {
             database.insertDataRow("1718001", palabra.toString());
@@ -68,9 +94,14 @@ public class Main {
         database = new BBDD();
         database.openconnection();
 
-        alineacionBBDD = database.readDataBBDD("ALINEACION");
-        tanteoBBDD = database.readDataBBDD("TANTEO");
-        cambioBBDD = database.readDataBBDD("CAMBIO");
+        alineacionBBDD = database.readCloseWordsFromBBDD("ALINEACION");
+        tanteoBBDD = database.readCloseWordsFromBBDD("TANTEO");
+        cambioBBDD = database.readCloseWordsFromBBDD("CAMBIO");
+        convocatoriaBBDD = database.readCloseWordsFromBBDD("CONVOCATORIA");
+        tiempoBBDD = database.readCloseWordsFromBBDD("TIEMPO");
+        finalDeSetBBDD = database.readCloseWordsFromBBDD("FINALDESET");
+        errorContrarioBBDD = database.readCloseWordsFromBBDD("ERRORCONTRARIO");
+        puntoContrarioBBDD = database.readCloseWordsFromBBDD("PUNTOCONTRARIO");
     }
 
     public static void formatMatch(){
@@ -79,42 +110,112 @@ public class Main {
         if (match.size() == 0){
             System.out.println("Tamaño 0 del partido");
         } else {
+            //Primero formateo números
             for (int i= 0; i < match.size(); i++) {
-                //Si es alineación
                 movement = match.get(i).toString();
+                if (UtilsNumber.isNumberInLetters(movement)){
+                    match.set(i, UtilsNumber.numberInNumber(movement));
+                }
+            }
+
+            for (int i= 0; i < match.size(); i++) {
+                movement = match.get(i).toString();
+
+                //Si es convocatoria
+                if (esConvocatoria(movement.toString().toUpperCase())) {
+                    convocatoriaPartido = convocatoriaBBDD.get(0).toString() + " ";
+                    boolean endConvocatoria = false;
+                    i++;
+                    while (!esConvocatoria(match.get(i).toString().toUpperCase())) {
+                        convocatoriaPartido = convocatoriaPartido + " " + match.get(i);
+                        i++;
+                    }
+                    System.out.println(convocatoriaPartido);
+                    continue;
+                }
+
+                //Si es alineación
                 if (esAlienacion(movement.toString().toUpperCase())) {
-                    alineacionPartido = alineacionBBDD.get(0).toString() + " ";
-                    i++;
-                    alineacionPartido = alineacionPartido + match.get (i) + " ";
-                    i++;
-                    alineacionPartido = alineacionPartido + match.get (i) + " ";
-                    i++;
-                    alineacionPartido = alineacionPartido + match.get (i) + " ";
-                    i++;
-                    alineacionPartido = alineacionPartido + match.get (i) + " ";
-                    i++;
-                    alineacionPartido = alineacionPartido + match.get (i) + " ";
-                    i++;
-                    alineacionPartido = alineacionPartido + match.get (i);
+                    alineacionPartido = alineacionBBDD.get(0).toString() + " " +
+                            match.get(++i) + " " +
+                            match.get(++i) + " " +
+                            match.get(++i) + " " +
+                            match.get(++i) + " " +
+                            match.get(++i) + " " +
+                            match.get(++i);
+                    //i--;
                     System.out.println(alineacionPartido);
+                    continue;
                 }
 
                 if (esTanteo(movement.toString().toUpperCase())) {
-                    tanteoPartido = tanteoBBDD.get(0).toString() + " ";
-                    i++;
-                    tanteoPartido = tanteoPartido + match.get (i) + " ";
-                    i++;
-                    tanteoPartido = tanteoPartido + match.get (i);
+                    tanteoPartido = tanteoBBDD.get(0).toString() + " " +
+                            match.get(++i) + " " +
+                            match.get(++i);
+                    //i--;
                     System.out.println(tanteoPartido);
+                    continue;
                 }
 
                 if (esCambio(movement.toString().toUpperCase())) {
-                    cambioPartido = cambioBBDD.get(0).toString() + " ";
-                    i++;
-                    cambioPartido = cambioPartido + match.get (i) + " ";
-                    i++;
-                    cambioPartido = cambioPartido + match.get (i);
+                    cambioPartido = cambioBBDD.get(0).toString() + " " +
+                            match.get(++i) + " " +
+                            match.get(++i);
+                    //i--;
                     System.out.println(cambioPartido);
+                    continue;
+                }
+
+                if (esTiempo(movement.toString().toUpperCase())) {
+                    tiempoPartido = tiempoBBDD.get(0).toString();
+                    System.out.println(tiempoPartido);
+                    continue;
+                }
+
+                if (match.size() > i+2){
+                    if (esFinDeSet(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
+                        finalDeSetPartido = finalDeSetBBDD.get(0).toString();
+                        System.out.println(finalDeSetPartido);
+                        continue;
+                    } else {
+                        --i;
+                        --i;
+                    }
+                }
+
+                if (match.size() > i+1){
+                    if (esErrorContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
+                        errorContrarioPartido = errorContrarioBBDD.get(0).toString();
+                        System.out.println(errorContrarioPartido);
+                        continue;
+                    } else {
+                        --i;
+                    }
+                }
+
+                if (match.size() > i+1){
+                    if (esPuntoContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
+                        puntoContrarioPartido = puntoContrarioBBDD.get(0).toString();
+                        System.out.println(puntoContrarioPartido);
+                        continue;
+                    } else {
+                        --i;
+                    }
+                }
+
+                // Si es por aquí, entonces tiene que ser un movimiento de un juegador
+                if (UtilsNumber.isNumber(movement)){
+                    if (esTiempo(movement.toString().toUpperCase())) {
+                        if (match.size() > i + 1) {
+                            if (esPuntoContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
+                                puntoContrarioPartido = puntoContrarioBBDD.get(0).toString();
+                                System.out.println(puntoContrarioPartido);
+                                continue;
+                            } else {
+                                --i;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -139,6 +240,41 @@ public class Main {
     public static boolean esCambio (String data){
 
         if (cambioBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esConvocatoria (String data){
+        if (convocatoriaBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esTiempo (String data){
+        if (tiempoBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esFinDeSet (String data){
+        if (finalDeSetBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esErrorContrario (String data){
+        if (errorContrarioBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esPuntoContrario (String data){
+        if (puntoContrarioBBDD.contains(data)) {
             return true;
         }
         return false;
