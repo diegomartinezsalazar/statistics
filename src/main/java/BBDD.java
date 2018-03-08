@@ -136,7 +136,7 @@ public class BBDD {
     }
 
     public ArrayList readSkillsFromBBDD(String word){
-        String SQL = "Select Type, Translation From skills_translation Where Skill = '" + word + "'";
+        String SQL = "Select Skill, Translation From skills_translation Where Skill = '" + word + "'";
         ArrayList result = new ArrayList();
         try {
             stmt = con.createStatement();

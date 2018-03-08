@@ -28,12 +28,12 @@ public class Main {
     static String finalDeSetPartido;
     static String errorContrarioPartido;
     static String puntoContrarioPartido;
-    static ArrayList recepcionPartido = new ArrayList();
-    static ArrayList colocacionPartido = new ArrayList();
-    static ArrayList rematePartido = new ArrayList();
-    static ArrayList bloqueoPartido = new ArrayList();
-    static ArrayList defensaPartido = new ArrayList();
-    static ArrayList saquePartido = new ArrayList();
+    static String recepcionPartido;
+    static String colocacionPartido;
+    static String rematePartido;
+    static String bloqueoPartido;
+    static String defensaPartido;
+    static String saquePartido;
 
     public static void main(String[] args) throws Exception{
         Utils prueba = new Utils();
@@ -212,14 +212,18 @@ public class Main {
                 // Si es por aquí, entonces tiene que ser un movimiento de un juegador
                 if (UtilsNumber.isNumber(movement)){
                     if (esSaque(match.get(i+1).toString().toUpperCase())) {
-                        if (match.size() > i + 1) {
-                            if (esPuntoContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
-                                puntoContrarioPartido = puntoContrarioBBDD.get(0).toString();
-                                System.out.println(puntoContrarioPartido);
-                                continue;
-                            } else {
-                                --i;
-                            }
+                        if (match.size() > i + 5) {
+                            saquePartido = movement + " " +
+                                    saqueBBDD.get(0).toString() + " " +
+                                    match.get(++i) + " " +
+                                    match.get(++i) + " " +
+                                    match.get(++i) + " " +
+                                    match.get(++i) + " " +
+                                    match.get(++i) + " " +
+                                    match.get(++i);
+                            //i--;
+                            System.out.println(saquePartido);
+                            continue;
                         }
                     }
                 }
