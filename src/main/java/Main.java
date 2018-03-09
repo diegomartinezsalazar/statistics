@@ -91,7 +91,6 @@ public class Main {
     }
 
     public static void loadData (){
-        database = new BBDD();
         database.openconnection();
 
         alineacionBBDD = database.readCloseWordsFromBBDD("ALINEACION");
@@ -112,19 +111,40 @@ public class Main {
 
     public static void formatMatch(){
         String movement;
+        ArrayList jugada;
+        boolean jugadaTerminada;
         // Voy leyendo el fichero por orden de lo que me tengo que ir encontrando
         if (match.size() == 0){
             System.out.println("Tamaño 0 del partido");
         } else {
-            //Primero formateo números
+            //Primero formateo números y keywords
             for (int i= 0; i < match.size(); i++) {
                 movement = match.get(i).toString();
                 if (UtilsNumber.isNumberInLetters(movement)){
                     match.set(i, UtilsNumber.numberInNumber(movement));
+                } else {
+                    match.set(i, database.keyWord(movement));
                 }
             }
 
             for (int i= 0; i < match.size(); i++) {
+                movement = match.get(i).toString();
+                jugada = new ArrayList();
+                jugadaTerminada = false;
+                while (!jugadaTerminada){
+                    jugada.add(movement);
+                    i++;
+                    if (!database.isKeyWord(match.get(++i).toString())){
+                        jugada.add(match.get(++i).toString());
+                    } else {
+                        jugadaTerminada = true;
+                        i--;
+                        imprimirArray(jugada);
+                    }
+                }
+            }
+
+            /*for (int i= 0; i < match.size(); i++) {
                 movement = match.get(i).toString();
 
                 //Si es convocatoria
@@ -238,7 +258,7 @@ public class Main {
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 
@@ -341,5 +361,14 @@ public class Main {
             return true;
         }
         return false;
+    }
+
+    public static void imprimirArray (ArrayList<String> array){
+        String jugada = "";
+        for (String data: array
+             ) {
+            jugada = jugada + " " + data;
+        }
+        System.out.println(jugada);
     }
 }

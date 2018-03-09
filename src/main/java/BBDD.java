@@ -3,6 +3,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BBDD {
 
@@ -10,6 +12,8 @@ public class BBDD {
     Connection con = null;
     Statement stmt = null;
     ResultSet rs = null;
+    private static Map<String, String> mapa = new HashMap<String, String>();
+
     public void openconnection()
     {
 
@@ -121,6 +125,7 @@ public class BBDD {
             while (rs.next()) {
                 String data = rs.getString("Translation");
                 result.add(data);
+                mapa.put(data, word);
             }
             // Handle any errors that may have occurred.
         }
@@ -144,6 +149,7 @@ public class BBDD {
             while (rs.next()) {
                 String data = rs.getString("Translation");
                 result.add(data);
+                mapa.put(data, word);
             }
             // Handle any errors that may have occurred.
         }
@@ -156,5 +162,18 @@ public class BBDD {
             //if (con != null) try { con.close(); } catch(Exception e) {}
         }
         return result;
+    }
+
+    public String keyWord (String word){
+        if (mapa.containsKey(word)) {
+            return (mapa.get(word.toUpperCase()).toString());
+        }
+        else{
+            return word;
+        }
+    }
+
+    public boolean isKeyWord (String word){
+        return mapa.containsKey(word.toUpperCase());
     }
 }
