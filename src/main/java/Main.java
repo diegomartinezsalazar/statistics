@@ -214,13 +214,24 @@ public class Main {
                     if (esSaque(match.get(i+1).toString().toUpperCase())) {
                         if (match.size() > i + 5) {
                             saquePartido = movement + " " +
-                                    saqueBBDD.get(0).toString() + " " +
-                                    match.get(++i) + " " +
-                                    match.get(++i) + " " +
-                                    match.get(++i) + " " +
-                                    match.get(++i) + " " +
-                                    match.get(++i) + " " +
-                                    match.get(++i);
+                                saqueBBDD.get(0).toString() + " " +
+                                match.get(++i) + " " +
+                                match.get(++i) + " " +
+                                match.get(++i) + " " +
+                                match.get(++i) + " " +
+                                match.get(++i) + " " +
+                                match.get(++i);
+                            //i--;
+                            System.out.println(saquePartido);
+                            continue;
+                        }
+                    }
+                    if (esRecepcion(match.get(i+1).toString().toUpperCase())) {
+                        if (match.size() > i + 1) {
+                            recepcionPartido = movement + " " +
+                                recepcionBBDD.get(0).toString() + " " +
+                                match.get(++i) + " " +
+                                match.get(++i);
                             //i--;
                             System.out.println(saquePartido);
                             continue;
