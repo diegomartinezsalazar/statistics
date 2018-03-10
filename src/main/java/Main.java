@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Main {
     static BBDD database = new BBDD();
@@ -46,6 +48,12 @@ public class Main {
         UtilsNumber.loadNumbers();
 
         try {
+            database = new BBDD();
+            database.openconnection();
+
+            database.deleteRawMatchTable();
+            loadData();
+            
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -62,12 +70,12 @@ public class Main {
         File fichero = new File(everything);
 
         ArrayList<String> lectura = prueba.readFile(fichero);
+        //ArrayList<String> lectura;
 
-        database = new BBDD();
-        database.openconnection();
-
-        database.deleteRawMatchTable();
-
+        String fileInText = Utils.readFile(everything, Charset.defaultCharset());
+        System.out.println(fileInText);
+        System.out.println(formatFile(fileInText));
+        
         for (String palabra: lectura) {
             database.insertDataRow("1718001", palabra.toString());
             //System.out.println(palabra.toString());
@@ -123,7 +131,7 @@ public class Main {
                 if (UtilsNumber.isNumberInLetters(movement)){
                     match.set(i, UtilsNumber.numberInNumber(movement));
                 } else {
-                    match.set(i, database.keyWord(movement));
+                    match.set(i, database.keyWord(movement.toUpperCase()));
                 }
             }
 
@@ -131,11 +139,10 @@ public class Main {
                 movement = match.get(i).toString();
                 jugada = new ArrayList();
                 jugadaTerminada = false;
-                while (!jugadaTerminada){
-                    jugada.add(movement);
-                    i++;
+                jugada.add(movement);
+                while ((!jugadaTerminada) && (i < match.size())){
                     if (!database.isKeyWord(match.get(++i).toString())){
-                        jugada.add(match.get(++i).toString());
+                        jugada.add(match.get(i).toString());
                     } else {
                         jugadaTerminada = true;
                         i--;
@@ -370,5 +377,22 @@ public class Main {
             jugada = jugada + " " + data;
         }
         System.out.println(jugada);
+    }
+    
+    public static String formatFile (String fileInText) {
+        String result = "";
+        result = fileInText.toUpperCase();
+
+        for (Map.Entry<String, String> entry : database.allWords.entrySet())
+        {
+            result = result.replaceAll(entry.getKey(), entry.getValue());
+        }
+
+        for (Map.Entry<String, String> entry : UtilsNumber.mapa.entrySet())
+        {
+            result = result.replaceAll(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 }

@@ -12,7 +12,7 @@ public class BBDD {
     Connection con = null;
     Statement stmt = null;
     ResultSet rs = null;
-    private static Map<String, String> mapa = new HashMap<String, String>();
+    public static Map<String, String> allWords = new HashMap<String, String>();
 
     public void openconnection()
     {
@@ -125,7 +125,7 @@ public class BBDD {
             while (rs.next()) {
                 String data = rs.getString("Translation");
                 result.add(data);
-                mapa.put(data, word);
+                allWords.put(data, word);
             }
             // Handle any errors that may have occurred.
         }
@@ -149,7 +149,7 @@ public class BBDD {
             while (rs.next()) {
                 String data = rs.getString("Translation");
                 result.add(data);
-                mapa.put(data, word);
+                allWords.put(data, word);
             }
             // Handle any errors that may have occurred.
         }
@@ -165,8 +165,8 @@ public class BBDD {
     }
 
     public String keyWord (String word){
-        if (mapa.containsKey(word)) {
-            return (mapa.get(word.toUpperCase()).toString());
+        if (allWords.containsKey(word)) {
+            return (allWords.get(word.toUpperCase()).toString());
         }
         else{
             return word;
@@ -174,6 +174,6 @@ public class BBDD {
     }
 
     public boolean isKeyWord (String word){
-        return mapa.containsKey(word.toUpperCase());
+        return allWords.containsKey(word.toUpperCase());
     }
 }

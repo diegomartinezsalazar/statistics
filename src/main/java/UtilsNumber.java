@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UtilsNumber {
-    private static Map<String, String> mapa = new HashMap<String, String>();
+    public static Map<String, String> mapa = new HashMap<String, String>();
 
     public static String unidadEnTexto(int iNumero){
 // Método que dado un número me lo devuelve en texto
