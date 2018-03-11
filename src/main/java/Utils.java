@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Utils {
@@ -23,6 +24,21 @@ public class Utils {
             sc.close();
 
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            return list;
+        }
+    }
+
+    public static ArrayList<String> stringToArray(String text) {
+
+        //Scanner s = new Scanner(new File("filepath"));
+        ArrayList<String> list = new ArrayList<String>();
+
+        try {
+            list = new ArrayList<>(Arrays.asList(text.split(" ")));
+            System.out.println(list.size());
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             return list;

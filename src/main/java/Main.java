@@ -69,12 +69,14 @@ public class Main {
 
         File fichero = new File(everything);
 
-        ArrayList<String> lectura = prueba.readFile(fichero);
+        //ArrayList<String> lecturaBruta = prueba.readFile(fichero);
         //ArrayList<String> lectura;
 
         String fileInText = Utils.readFile(everything, Charset.defaultCharset());
         System.out.println(fileInText);
         System.out.println(formatFile(fileInText));
+
+        ArrayList<String> lectura = Utils.stringToArray(formatFile(fileInText));
         
         for (String palabra: lectura) {
             database.insertDataRow("1718001", palabra.toString());
@@ -126,14 +128,14 @@ public class Main {
             System.out.println("Tamaño 0 del partido");
         } else {
             //Primero formateo números y keywords
-            for (int i= 0; i < match.size(); i++) {
+            /*for (int i= 0; i < match.size(); i++) {
                 movement = match.get(i).toString();
                 if (UtilsNumber.isNumberInLetters(movement)){
                     match.set(i, UtilsNumber.numberInNumber(movement));
                 } else {
                     match.set(i, database.keyWord(movement.toUpperCase()));
                 }
-            }
+            }*/
 
             for (int i= 0; i < match.size(); i++) {
                 movement = match.get(i).toString();
@@ -141,12 +143,21 @@ public class Main {
                 jugadaTerminada = false;
                 jugada.add(movement);
                 while ((!jugadaTerminada) && (i < match.size())){
-                    if (!database.isKeyWord(match.get(++i).toString())){
-                        jugada.add(match.get(i).toString());
+                    if (i != match.size()-1){
+                        if (!database.isKeyWord(match.get(++i).toString())){
+                            jugada.add(match.get(i).toString());
+                        } else {
+                            jugadaTerminada = true;
+                            i--;
+                            imprimirArray(jugada);
+                        }
                     } else {
-                        jugadaTerminada = true;
-                        i--;
-                        imprimirArray(jugada);
+                        //if (!database.isKeyWord(match.get(++i).toString())) {
+                        //    jugada.add(match.get(i).toString());
+                        //} else {
+                            jugadaTerminada = true;
+                            imprimirArray(jugada);
+                        //}
                     }
                 }
             }
@@ -267,6 +278,45 @@ public class Main {
                 }
             }*/
         }
+    }
+
+    public static void generaJugada(ArrayList<String> movement){
+
+        String typeOfMovement = movement.get(0).toString();
+        //Si es convocatoria
+        if (esConvocatoria(typeOfMovement)) {
+            // Generar convocatoria
+        } else if (esAlienacion(typeOfMovement)){
+            // Generar alineación
+        } else if (esTanteo(typeOfMovement)) {
+            // Generar tanteo
+        } else if (esCambio(typeOfMovement)) {
+            // Generar cambio
+        } else if (esTiempo(typeOfMovement)) {
+            // Generar tiempo
+        } else if (esFinDeSet(typeOfMovement)) {
+            // Generar fin de set
+        } else if (esErrorContrario(typeOfMovement)) {
+            // Generar error contrario
+        } else if (esPuntoContrario(typeOfMovement)) {
+            // Generar punto contrario
+        } else if (esSaque(typeOfMovement)) {
+            // Generar saque
+        } else if (esRecepcion(typeOfMovement)) {
+            // Generar recepción
+        } else if (esColocacion(typeOfMovement)) {
+            // Generar colocación
+        } else if (esRemate(typeOfMovement)) {
+            // Generar remate
+        } else if (esBloqueo(typeOfMovement)) {
+            // Generar bloqueo
+        } else if (esDefensa(typeOfMovement)) {
+            // Generar defensa
+        }
+
+
+
+
     }
 
     public static boolean esAlienacion (String data){

@@ -173,7 +173,11 @@ public class BBDD {
         }
     }
 
-    public boolean isKeyWord (String word){
+    public boolean isKeyWordTranslation(String word){
         return allWords.containsKey(word.toUpperCase());
+    }
+
+    public boolean isKeyWord(String word){
+        return allWords.containsValue(word.toUpperCase());
     }
 }
