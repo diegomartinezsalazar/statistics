@@ -16,7 +16,7 @@ public class Convocatoria extends Movement{
         return players;
     }
 
-    public void setPlayers(String player) {
+    public void setPlayer(String player) {
         players.add(player);
     }
 }

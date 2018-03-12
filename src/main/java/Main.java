@@ -1,3 +1,6 @@
+import Match.Alineacion;
+import Match.Convocatoria;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -127,16 +130,6 @@ public class Main {
         if (match.size() == 0){
             System.out.println("Tamaño 0 del partido");
         } else {
-            //Primero formateo números y keywords
-            /*for (int i= 0; i < match.size(); i++) {
-                movement = match.get(i).toString();
-                if (UtilsNumber.isNumberInLetters(movement)){
-                    match.set(i, UtilsNumber.numberInNumber(movement));
-                } else {
-                    match.set(i, database.keyWord(movement.toUpperCase()));
-                }
-            }*/
-
             for (int i= 0; i < match.size(); i++) {
                 movement = match.get(i).toString();
                 jugada = new ArrayList();
@@ -161,133 +154,19 @@ public class Main {
                     }
                 }
             }
-
-            /*for (int i= 0; i < match.size(); i++) {
-                movement = match.get(i).toString();
-
-                //Si es convocatoria
-                if (esConvocatoria(movement.toString().toUpperCase())) {
-                    convocatoriaPartido = convocatoriaBBDD.get(0).toString() + " ";
-                    boolean endConvocatoria = false;
-                    i++;
-                    while (!esConvocatoria(match.get(i).toString().toUpperCase())) {
-                        convocatoriaPartido = convocatoriaPartido + " " + match.get(i);
-                        i++;
-                    }
-                    System.out.println(convocatoriaPartido);
-                    continue;
-                }
-
-                //Si es alineación
-                if (esAlienacion(movement.toString().toUpperCase())) {
-                    alineacionPartido = alineacionBBDD.get(0).toString() + " " +
-                            match.get(++i) + " " +
-                            match.get(++i) + " " +
-                            match.get(++i) + " " +
-                            match.get(++i) + " " +
-                            match.get(++i) + " " +
-                            match.get(++i);
-                    //i--;
-                    System.out.println(alineacionPartido);
-                    continue;
-                }
-
-                if (esTanteo(movement.toString().toUpperCase())) {
-                    tanteoPartido = tanteoBBDD.get(0).toString() + " " +
-                            match.get(++i) + " " +
-                            match.get(++i);
-                    //i--;
-                    System.out.println(tanteoPartido);
-                    continue;
-                }
-
-                if (esCambio(movement.toString().toUpperCase())) {
-                    cambioPartido = cambioBBDD.get(0).toString() + " " +
-                            match.get(++i) + " " +
-                            match.get(++i);
-                    //i--;
-                    System.out.println(cambioPartido);
-                    continue;
-                }
-
-                if (esTiempo(movement.toString().toUpperCase())) {
-                    tiempoPartido = tiempoBBDD.get(0).toString();
-                    System.out.println(tiempoPartido);
-                    continue;
-                }
-
-                if (match.size() > i+2){
-                    if (esFinDeSet(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
-                        finalDeSetPartido = finalDeSetBBDD.get(0).toString();
-                        System.out.println(finalDeSetPartido);
-                        continue;
-                    } else {
-                        --i;
-                        --i;
-                    }
-                }
-
-                if (match.size() > i+1){
-                    if (esErrorContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
-                        errorContrarioPartido = errorContrarioBBDD.get(0).toString();
-                        System.out.println(errorContrarioPartido);
-                        continue;
-                    } else {
-                        --i;
-                    }
-                }
-
-                if (match.size() > i+1){
-                    if (esPuntoContrario(movement.toString().toUpperCase() + " " + match.get(++i).toString().toUpperCase())) {
-                        puntoContrarioPartido = puntoContrarioBBDD.get(0).toString();
-                        System.out.println(puntoContrarioPartido);
-                        continue;
-                    } else {
-                        --i;
-                    }
-                }
-
-                // Si es por aquí, entonces tiene que ser un movimiento de un juegador
-                if (UtilsNumber.isNumber(movement)){
-                    if (esSaque(match.get(i+1).toString().toUpperCase())) {
-                        if (match.size() > i + 5) {
-                            saquePartido = movement + " " +
-                                saqueBBDD.get(0).toString() + " " +
-                                match.get(++i) + " " +
-                                match.get(++i) + " " +
-                                match.get(++i) + " " +
-                                match.get(++i) + " " +
-                                match.get(++i) + " " +
-                                match.get(++i);
-                            //i--;
-                            System.out.println(saquePartido);
-                            continue;
-                        }
-                    }
-                    if (esRecepcion(match.get(i+1).toString().toUpperCase())) {
-                        if (match.size() > i + 1) {
-                            recepcionPartido = movement + " " +
-                                recepcionBBDD.get(0).toString() + " " +
-                                match.get(++i) + " " +
-                                match.get(++i);
-                            //i--;
-                            System.out.println(saquePartido);
-                            continue;
-                        }
-                    }
-                }
-            }*/
         }
     }
 
-    public static void generaJugada(ArrayList<String> movement){
+    public static void generaJugada(ArrayList<String> movement, String matchId){
 
         String typeOfMovement = movement.get(0).toString();
         //Si es convocatoria
         if (esConvocatoria(typeOfMovement)) {
             // Generar convocatoria
+            Convocatoria convocatoria = new Convocatoria(matchId, movement);
         } else if (esAlienacion(typeOfMovement)){
             // Generar alineación
+            Alineacion alineacion= new Alineacion(matchId, movement);
         } else if (esTanteo(typeOfMovement)) {
             // Generar tanteo
         } else if (esCambio(typeOfMovement)) {

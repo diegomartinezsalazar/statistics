@@ -1,12 +1,22 @@
 package Match;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Alineacion extends Movement {
-    public static Map<Integer, Integer> jugadoresAlineacion = new HashMap<Integer, Integer>();
-    public Alineacion(ArrayList<String> alineacion){
+    private ArrayList jugadoresAlineacion;
+    public Alineacion(String matchId, ArrayList<String> alineacion){
+        super(matchId);
+        for (String player: alineacion
+                ) {
+            jugadoresAlineacion.add(player);
+        }
+    }
 
+    public ArrayList getPlayers() {
+        return jugadoresAlineacion;
+    }
+
+    public void setPlayer(String player) {
+        jugadoresAlineacion.add(player);
     }
 }
