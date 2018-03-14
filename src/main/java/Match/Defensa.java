@@ -1,17 +1,13 @@
 package Match;
 
-public class Defensa extends Skill {
-    private String tipo;
+import java.util.ArrayList;
 
+public class Defensa extends Skill {
     public Defensa (String matchId, Player player, String value){
         super (matchId, player, value);
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public Defensa (String matchId, ArrayList movement){
+        super (matchId, Integer.parseInt(movement.get(1).toString()), movement.get(2).toString());
     }
 }

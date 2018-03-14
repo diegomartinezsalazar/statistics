@@ -1,5 +1,4 @@
-import Match.Alineacion;
-import Match.Convocatoria;
+import Match.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -169,18 +168,25 @@ public class Main {
             Alineacion alineacion= new Alineacion(matchId, movement);
         } else if (esTanteo(typeOfMovement)) {
             // Generar tanteo
+            Tanteo tanteo = new Tanteo(matchId, movement);
         } else if (esCambio(typeOfMovement)) {
             // Generar cambio
+            Cambio cambio = new Cambio(matchId, movement);
         } else if (esTiempo(typeOfMovement)) {
             // Generar tiempo
+            Tiempo tiempo = new Tiempo(matchId, movement);
         } else if (esFinDeSet(typeOfMovement)) {
             // Generar fin de set
+            FinDeSet finDeSet = new FinDeSet(matchId, movement);
         } else if (esErrorContrario(typeOfMovement)) {
             // Generar error contrario
+            ErrorContrario errorContrario = new ErrorContrario(matchId);
         } else if (esPuntoContrario(typeOfMovement)) {
             // Generar punto contrario
+            PuntoContrario puntoContrario = new PuntoContrario(matchId);
         } else if (esSaque(typeOfMovement)) {
             // Generar saque
+            Saque saque = new Saque(matchId, movement);
         } else if (esRecepcion(typeOfMovement)) {
             // Generar recepción
         } else if (esColocacion(typeOfMovement)) {

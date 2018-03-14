@@ -2,17 +2,17 @@ package Match;
 
 import java.util.ArrayList;
 
-public class Tanteo extends Movement{
+public class FinDeSet extends Movement{
     private int tanteoLocal;
     private int tanteoVisitante;
 
-    public Tanteo (String matchId, int tanteoLocal, int tanteoVisitante){
+    public FinDeSet (String matchId, int tanteoLocal, int tanteoVisitante){
         super(matchId);
         this.tanteoLocal = tanteoLocal;
         this.tanteoVisitante = tanteoVisitante;
     }
 
-    public Tanteo (String matchId, ArrayList movement){
+    public FinDeSet (String matchId, ArrayList movement){
         super(matchId);
         this.tanteoLocal = Integer.parseInt(movement.get(1).toString());
         this.tanteoVisitante = Integer.parseInt(movement.get(2).toString());

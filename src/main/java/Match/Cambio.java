@@ -1,5 +1,7 @@
 package Match;
 
+import java.util.ArrayList;
+
 public class Cambio extends Movement {
     private int tanteoLocal;
     private int tanteoVisitante;
@@ -12,6 +14,14 @@ public class Cambio extends Movement {
         this.tanteoVisitante = tanteoVisitante;
         this.entra = entra;
         this.seRetira = seRetira;
+    }
+
+    public Cambio(String matchId, ArrayList movement) {
+        super(matchId);
+        this.tanteoLocal = Integer.parseInt(movement.get(1).toString());;
+        this.tanteoVisitante = Integer.parseInt(movement.get(2).toString());;
+        this.entra = Integer.parseInt(movement.get(3).toString());;
+        this.seRetira = Integer.parseInt(movement.get(4).toString());;
     }
 
     public int getTanteoVisitante() {

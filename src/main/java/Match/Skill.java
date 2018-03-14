@@ -1,20 +1,20 @@
 package Match;
 
 public class Skill extends Movement{
-    private Player player;
+    private int player;
     private String value;
 
-    public Skill (String matchId, Player player, String value){
+    public Skill (String matchId, int player, String value){
         super(matchId);
         this.setPlayer(player);
         this.setValue(value);
     }
 
-    public Player getPlayer() {
+    public int getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(int player) {
         this.player = player;
     }
 
