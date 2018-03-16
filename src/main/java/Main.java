@@ -122,9 +122,13 @@ public class Main {
     }
 
     public static void formatMatch(){
+        Match partido = new Match();
         String movement;
         ArrayList jugada;
         boolean jugadaTerminada;
+        Object arrayMovimiento;
+
+        partido.setMatchId("1718001");
         // Voy leyendo el fichero por orden de lo que me tengo que ir encontrando
         if (match.size() == 0){
             System.out.println("Tamaño 0 del partido");
@@ -142,6 +146,8 @@ public class Main {
                             jugadaTerminada = true;
                             i--;
                             imprimirArray(jugada);
+                            arrayMovimiento = generaJugada(partido.getMatchId(), jugada);
+                            partido.addMovimiento(arrayMovimiento);
                         }
                     } else {
                         //if (!database.isKeyWord(match.get(++i).toString())) {
@@ -149,6 +155,8 @@ public class Main {
                         //} else {
                             jugadaTerminada = true;
                             imprimirArray(jugada);
+                            arrayMovimiento = generaJugada(partido.getMatchId(), jugada);
+                            partido.addMovimiento(arrayMovimiento);
                         //}
                     }
                 }
@@ -156,7 +164,7 @@ public class Main {
         }
     }
 
-    public static void generaJugada(ArrayList<String> movement, String matchId){
+    public static Object generaJugada(String matchId, ArrayList<String> movement){
 
         String typeOfMovement = movement.get(0).toString();
         //Si es convocatoria
@@ -189,18 +197,20 @@ public class Main {
             Saque saque = new Saque(matchId, movement);
         } else if (esRecepcion(typeOfMovement)) {
             // Generar recepción
+            Recepcion recepcion = new Recepcion(matchId, movement);
         } else if (esColocacion(typeOfMovement)) {
             // Generar colocación
+            Colocacion colocacion = new Colocacion(matchId, movement);
         } else if (esRemate(typeOfMovement)) {
             // Generar remate
+            Remate remate = new Remate(matchId, movement);
         } else if (esBloqueo(typeOfMovement)) {
             // Generar bloqueo
+            Bloqueo bloqueo = new Bloqueo(matchId, movement);
         } else if (esDefensa(typeOfMovement)) {
             // Generar defensa
+            Defensa defensa = new Defensa(matchId, movement);
         }
-
-
-
 
     }
 
