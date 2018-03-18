@@ -1,13 +1,12 @@
 package Match;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Match {
     private String matchId;
-    private ArrayList<Set> sets = new ArrayList<Set>;
-    private ArrayList<Object> listaMovimientos = new ArrayList<Object>;
-    private ArrayList<Object> listaMovimientosCompleta = new ArrayList<Object>;
+    private ArrayList<Set> sets = new ArrayList<Set>();
+    private ArrayList<Object> listaMovimientos = new ArrayList<Object>();
+    private ArrayList<Object> listaMovimientosCompleta = new ArrayList<Object>();
 
     private Convocatoria convocatoria;
 
@@ -48,7 +47,7 @@ public class Match {
         this.sets = sets;
     }
 
-    public void formatMatch(){
+    public void startMatch(){
         int setsLocal = 0;
         int setsVisitante = 0;
         int setActual = 0;
@@ -59,9 +58,11 @@ public class Match {
         String equipoLocal = "";
         String equipoVisitante = "";
 
-        for (Object movimiento: listaMovimientos
-             ) {
-            // Comienzo la gestion del partido
+        for (Object objeto: listaMovimientos
+                ) {
+            if (objeto.getClass() == Convocatoria.class){
+                convocatoria = (Convocatoria) objeto;
+            }// else if ()
         }
     }
 }

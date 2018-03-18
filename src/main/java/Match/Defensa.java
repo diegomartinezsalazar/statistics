@@ -3,7 +3,7 @@ package Match;
 import java.util.ArrayList;
 
 public class Defensa extends Skill {
-    public Defensa (String matchId, Player player, String value){
+    public Defensa (String matchId, int player, String value){
         super (matchId, player, value);
     }
 
