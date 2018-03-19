@@ -57,12 +57,18 @@ public class Match {
         int tiemposVisitante = 0;
         String equipoLocal = "";
         String equipoVisitante = "";
+        Set set = new Set();
 
         for (Object objeto: listaMovimientos
                 ) {
             if (objeto.getClass() == Convocatoria.class){
                 convocatoria = (Convocatoria) objeto;
-            }// else if ()
+            } else if (objeto.getClass() == Alineacion.class) {
+                Alineacion alineacion = (Alineacion) objeto;
+                set.setAlineacion(alineacion);
+            } else if (objeto instanceof Skill){
+                //Significa que es parte de una jugada, así que la agrego a la jugada
+            }
         }
     }
 }

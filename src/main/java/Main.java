@@ -171,7 +171,7 @@ public class Main {
         if (esConvocatoria(typeOfMovement)) {
             // Generar convocatoria
             Convocatoria convocatoria = new Convocatoria(matchId, movement);
-        } else if (esAlienacion(typeOfMovement)){
+        } else if (esAlineacion(typeOfMovement)){
             // Generar alineación
             Alineacion alineacion= new Alineacion(matchId, movement);
         } else if (esTanteo(typeOfMovement)) {
@@ -214,7 +214,7 @@ public class Main {
 
     }
 
-    public static boolean esAlienacion (String data){
+    public static boolean esAlineacion (String data){
 
         if (alineacionBBDD.contains(data)) {
             return true;
