@@ -8,15 +8,23 @@ public class Alineacion extends Movement {
         super(matchId);
         for (String player: alineacion
                 ) {
-            jugadoresAlineacion.add(player);
+            getJugadoresAlineacion().add(Integer.parseInt(player));
         }
     }
 
     public ArrayList getPlayers() {
-        return jugadoresAlineacion;
+        return getJugadoresAlineacion();
     }
 
     public void setPlayer(String player) {
-        jugadoresAlineacion.add(player);
+        getJugadoresAlineacion().add(player);
+    }
+
+    public ArrayList getJugadoresAlineacion() {
+        return jugadoresAlineacion;
+    }
+
+    public void setJugadoresAlineacion(ArrayList jugadoresAlineacion) {
+        this.jugadoresAlineacion = jugadoresAlineacion;
     }
 }
