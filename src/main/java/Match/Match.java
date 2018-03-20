@@ -58,6 +58,8 @@ public class Match {
         String equipoLocal = "";
         String equipoVisitante = "";
         Set set = new Set();
+        int numSet = 1;
+        set.setNumSet(numSet);
 
         for (Object objeto: listaMovimientos
                 ) {
@@ -81,42 +83,20 @@ public class Match {
                 set.addCambio((Cambio) objeto);
             }
 
-
+            if (set.setTerminado == true){
+                sets.add(set);
+                set = new Set();
+                numSet = 2;
+                set.setNumSet(numSet);
+            }
             /*
 
 
 
-        } else if (esTiempo(typeOfMovement)) {
-            // Generar tiempo
-            Tiempo tiempo = new Tiempo(matchId, movement);
+
         } else if (esFinDeSet(typeOfMovement)) {
             // Generar fin de set
             FinDeSet finDeSet = new FinDeSet(matchId, movement);
-        } else if (esErrorContrario(typeOfMovement)) {
-            // Generar error contrario
-            ErrorContrario errorContrario = new ErrorContrario(matchId);
-        } else if (esPuntoContrario(typeOfMovement)) {
-            // Generar punto contrario
-            PuntoContrario puntoContrario = new PuntoContrario(matchId);
-        } else if (esSaque(typeOfMovement)) {
-            // Generar saque
-            Saque saque = new Saque(matchId, movement);
-        } else if (esRecepcion(typeOfMovement)) {
-            // Generar recepción
-            Recepcion recepcion = new Recepcion(matchId, movement);
-        } else if (esColocacion(typeOfMovement)) {
-            // Generar colocación
-            Colocacion colocacion = new Colocacion(matchId, movement);
-        } else if (esRemate(typeOfMovement)) {
-            // Generar remate
-            Remate remate = new Remate(matchId, movement);
-        } else if (esBloqueo(typeOfMovement)) {
-            // Generar bloqueo
-            Bloqueo bloqueo = new Bloqueo(matchId, movement);
-        } else if (esDefensa(typeOfMovement)) {
-            // Generar defensa
-            Defensa defensa = new Defensa(matchId, movement);
-        }
             * */
 
 
