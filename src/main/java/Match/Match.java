@@ -68,7 +68,61 @@ public class Match {
                 set.setAlineacion(alineacion);
             } else if (objeto instanceof Skill){
                 //Significa que es parte de una jugada, así que la agrego a la jugada
+                set.addJugada(objeto);
+            } else if (objeto.getClass() == PuntoContrario.class){
+                set.addPuntoContrario((PuntoContrario) objeto);
+            } else if (objeto.getClass() == ErrorContrario.class){
+                set.addErrorContrario((ErrorContrario) objeto);
+            } else if (objeto.getClass() == Tanteo.class){
+                set.addErrorContrario((ErrorContrario) objeto);
+            } else if (objeto.getClass() == Tanteo.class){
+                set.compruebaTanteo((Tanteo) objeto);
             }
+
+
+            /*
+
+
+        } else if (esTanteo(typeOfMovement)) {
+            // Generar tanteo
+            Tanteo tanteo = new Tanteo(matchId, movement);
+        } else if (esCambio(typeOfMovement)) {
+            // Generar cambio
+            Cambio cambio = new Cambio(matchId, movement);
+        } else if (esTiempo(typeOfMovement)) {
+            // Generar tiempo
+            Tiempo tiempo = new Tiempo(matchId, movement);
+        } else if (esFinDeSet(typeOfMovement)) {
+            // Generar fin de set
+            FinDeSet finDeSet = new FinDeSet(matchId, movement);
+        } else if (esErrorContrario(typeOfMovement)) {
+            // Generar error contrario
+            ErrorContrario errorContrario = new ErrorContrario(matchId);
+        } else if (esPuntoContrario(typeOfMovement)) {
+            // Generar punto contrario
+            PuntoContrario puntoContrario = new PuntoContrario(matchId);
+        } else if (esSaque(typeOfMovement)) {
+            // Generar saque
+            Saque saque = new Saque(matchId, movement);
+        } else if (esRecepcion(typeOfMovement)) {
+            // Generar recepción
+            Recepcion recepcion = new Recepcion(matchId, movement);
+        } else if (esColocacion(typeOfMovement)) {
+            // Generar colocación
+            Colocacion colocacion = new Colocacion(matchId, movement);
+        } else if (esRemate(typeOfMovement)) {
+            // Generar remate
+            Remate remate = new Remate(matchId, movement);
+        } else if (esBloqueo(typeOfMovement)) {
+            // Generar bloqueo
+            Bloqueo bloqueo = new Bloqueo(matchId, movement);
+        } else if (esDefensa(typeOfMovement)) {
+            // Generar defensa
+            Defensa defensa = new Defensa(matchId, movement);
+        }
+            * */
+
+
         }
     }
 }

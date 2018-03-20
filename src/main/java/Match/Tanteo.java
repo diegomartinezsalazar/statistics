@@ -3,34 +3,34 @@ package Match;
 import java.util.ArrayList;
 
 public class Tanteo extends Movement{
-    private int tanteoLocal;
-    private int tanteoVisitante;
+    private int nuestroTanteo;
+    private int suTanteo;
 
-    public Tanteo (String matchId, int tanteoLocal, int tanteoVisitante){
+    public Tanteo (String matchId, int nuestroTanteo, int suTanteo){
         super(matchId);
-        this.tanteoLocal = tanteoLocal;
-        this.tanteoVisitante = tanteoVisitante;
+        this.nuestroTanteo = nuestroTanteo;
+        this.suTanteo = suTanteo;
     }
 
     public Tanteo (String matchId, ArrayList movement){
         super(matchId);
-        this.tanteoLocal = Integer.parseInt(movement.get(1).toString());
-        this.tanteoVisitante = Integer.parseInt(movement.get(2).toString());
+        this.nuestroTanteo = Integer.parseInt(movement.get(1).toString());
+        this.suTanteo = Integer.parseInt(movement.get(2).toString());
     }
 
-    public int getTanteoVisitante() {
-        return tanteoVisitante;
+    public int getSuTanteo() {
+        return suTanteo;
     }
 
-    public void setTanteoVisitante(int tanteoVisitante) {
-        this.tanteoVisitante = tanteoVisitante;
+    public void setSuTanteo(int suTanteo) {
+        this.suTanteo = suTanteo;
     }
 
-    public int getTanteoLocal() {
-        return tanteoLocal;
+    public int getNuestroTanteo() {
+        return nuestroTanteo;
     }
 
-    public void setTanteoLocal(int tanteoLocal) {
-        this.tanteoLocal = tanteoLocal;
+    public void setNuestroTanteo(int nuestroTanteo) {
+        this.nuestroTanteo = nuestroTanteo;
     }
 }

@@ -12,6 +12,10 @@ public class Alineacion extends Movement {
         }
     }
 
+    public Alineacion (){
+        super();
+    }
+
     public ArrayList getPlayers() {
         return getJugadoresAlineacion();
     }

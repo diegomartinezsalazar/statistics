@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class Jugada {
     private ArrayList movimientos = new ArrayList();
-    private ArrayList alineacion = new ArrayList();
-    private Tanteo tanteoInicial;
-    private Tanteo tanteoFinal;
+    private Alineacion alineacion = new Alineacion();
+    private int nuestroTanteoInicial = 0;
+    private int nuestroTanteoFinal = 0;
+    private int suTanteoInicial = 0;
+    private int suTanteoFinal = 0;
 
     public ArrayList getMovimientos() {
         return movimientos;
@@ -16,31 +18,47 @@ public class Jugada {
         this.movimientos = movimientos;
     }
 
-    public ArrayList getAlineacion() {
+    public Alineacion getAlineacion() {
         return alineacion;
     }
 
-    public void setAlineacion(ArrayList alineacion) {
+    public void setAlineacion(Alineacion alineacion) {
         this.alineacion = alineacion;
-    }
-
-    public Tanteo getTanteoInicial() {
-        return tanteoInicial;
-    }
-
-    public void setTanteoInicial(Tanteo tanteoInicial) {
-        this.tanteoInicial = tanteoInicial;
-    }
-
-    public Tanteo getTanteoFinal() {
-        return tanteoFinal;
-    }
-
-    public void setTanteoFinal(Tanteo tanteoFinal) {
-        this.tanteoFinal = tanteoFinal;
     }
 
     public void addMovimiento(Object objeto){
         movimientos.add(objeto);
+    }
+
+    public int getNuestroTanteoInicial() {
+        return nuestroTanteoInicial;
+    }
+
+    public void setNuestroTanteoInicial(int nuestroTanteoInicial) {
+        this.nuestroTanteoInicial = nuestroTanteoInicial;
+    }
+
+    public int getNuestroTanteoFinal() {
+        return nuestroTanteoFinal;
+    }
+
+    public void setNuestroTanteoFinal(int nuestroTanteoFinal) {
+        this.nuestroTanteoFinal = nuestroTanteoFinal;
+    }
+
+    public int getSuTanteoInicial() {
+        return suTanteoInicial;
+    }
+
+    public void setSuTanteoInicial(int suTanteoInicial) {
+        this.suTanteoInicial = suTanteoInicial;
+    }
+
+    public int getSuTanteoFinal() {
+        return suTanteoFinal;
+    }
+
+    public void setSuTanteoFinal(int suTanteoFinal) {
+        this.suTanteoFinal = suTanteoFinal;
     }
 }
