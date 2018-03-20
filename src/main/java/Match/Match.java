@@ -77,18 +77,15 @@ public class Match {
                 set.addErrorContrario((ErrorContrario) objeto);
             } else if (objeto.getClass() == Tanteo.class){
                 set.compruebaTanteo((Tanteo) objeto);
+            } else if (objeto.getClass() == Cambio.class){
+                set.addCambio((Cambio) objeto);
             }
 
 
             /*
 
 
-        } else if (esTanteo(typeOfMovement)) {
-            // Generar tanteo
-            Tanteo tanteo = new Tanteo(matchId, movement);
-        } else if (esCambio(typeOfMovement)) {
-            // Generar cambio
-            Cambio cambio = new Cambio(matchId, movement);
+
         } else if (esTiempo(typeOfMovement)) {
             // Generar tiempo
             Tiempo tiempo = new Tiempo(matchId, movement);

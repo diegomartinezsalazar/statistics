@@ -169,4 +169,8 @@ public class Set {
             System.out.println("Tanteo momentáneo incorrecto");
         }
     }
+
+    public void addCambio (Cambio cambio){
+        alineacionActual.addCambio(cambio.getSeRetira(), cambio.getEntra());
+    }
 }

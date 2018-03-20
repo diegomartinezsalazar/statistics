@@ -20,7 +20,7 @@ public class Alineacion extends Movement {
         return getJugadoresAlineacion();
     }
 
-    public void setPlayer(String player) {
+    public void setPlayer(int player) {
         getJugadoresAlineacion().add(player);
     }
 
@@ -30,5 +30,14 @@ public class Alineacion extends Movement {
 
     public void setJugadoresAlineacion(ArrayList jugadoresAlineacion) {
         this.jugadoresAlineacion = jugadoresAlineacion;
+    }
+
+    public void addCambio (int saledelCampo, int entraAlCampo){
+        for (int i = 0; i < 7; i++){
+            if (Integer.parseInt((String)jugadoresAlineacion.get(i)) == saledelCampo){
+                jugadoresAlineacion.set(i, entraAlCampo);
+                break;
+            }
+        }
     }
 }
