@@ -15,6 +15,7 @@ public class Set {
     public Jugada jugadaActual;
     private boolean setTerminado = false;
     private int numSet = 0;
+    private boolean setGanado = false;
 
     public int getNumeroSet() {
         return numeroSet;
@@ -194,18 +195,24 @@ public class Set {
         if (numSet == 5){
             if ((puntosNuestros==15) && (puntosSuyos<=13)){
                 setSetTerminado(true);
+                setSetGanado(true);
             } else if ((puntosSuyos==15) && (puntosNuestros<=13)){
                 setSetTerminado(true);
+                setSetGanado(false);
             } else if (((puntosSuyos>15) || (puntosNuestros>15)) && (Math.abs(puntosSuyos - puntosNuestros) >= 2)){
                 setSetTerminado(true);
+                setSetGanado(puntosNuestros>puntosSuyos);
             }
         } else {
             if ((puntosNuestros==25) && (puntosSuyos<=23)){
                 setSetTerminado(true);
+                setSetGanado(true);
             } else if ((puntosSuyos==25) && (puntosNuestros<=23)){
                 setSetTerminado(true);
+                setSetGanado(false);
             } else if (((puntosSuyos>25) || (puntosNuestros>25)) && (Math.abs(puntosSuyos - puntosNuestros) >= 2)){
                 setSetTerminado(true);
+                setSetGanado(puntosNuestros>puntosSuyos);
             }
         }
     }
@@ -216,5 +223,13 @@ public class Set {
 
     public void setSetTerminado(boolean setTerminado) {
         this.setTerminado = setTerminado;
+    }
+
+    public boolean isSetGanado() {
+        return setGanado;
+    }
+
+    public void setSetGanado (boolean setGanado) {
+        this.setGanado = setGanado;
     }
 }

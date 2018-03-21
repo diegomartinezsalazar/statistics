@@ -14,6 +14,9 @@ public class Match {
     private ArrayList<Object> listaMovimientos = new ArrayList<Object>();
     private ArrayList<Object> listaMovimientosCompleta = new ArrayList<Object>();
     private Convocatoria convocatoria;
+    int setsAFavor = 0;
+    int setsEnContra = 0;
+    boolean partidoGanado = false;
 
     public Convocatoria getConvocatoria() {
         return convocatoria;
@@ -93,6 +96,7 @@ public class Match {
                 set = new Set();
                 numSet += 1;
                 set.setNumSet(numSet);
+                finalizaPartido();
             }
             /*
 
@@ -106,5 +110,18 @@ public class Match {
 
 
         }
+    }
+
+    public void finalizaPartido (){
+        for (Set set: sets
+             ) {
+            if (set.isSetGanado()){
+                setsAFavor += 1;
+            } else {
+                setsEnContra += 1;
+            }
+        }
+
+        partidoGanado = (setsAFavor == 3)?true:false;
     }
 }
