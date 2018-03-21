@@ -2,12 +2,17 @@ package Match;
 
 import java.util.ArrayList;
 
+/**
+ * Esta es la clase principal del partido
+ *
+ * @author Diego Martínez Salazar
+ * @version 1.0
+ */
 public class Match {
     private String matchId;
     private ArrayList<Set> sets = new ArrayList<Set>();
     private ArrayList<Object> listaMovimientos = new ArrayList<Object>();
     private ArrayList<Object> listaMovimientosCompleta = new ArrayList<Object>();
-
     private Convocatoria convocatoria;
 
     public Convocatoria getConvocatoria() {
@@ -83,10 +88,10 @@ public class Match {
                 set.addCambio((Cambio) objeto);
             }
 
-            if (set.setTerminado == true){
+            if (set.isSetTerminado() == true){
                 sets.add(set);
                 set = new Set();
-                numSet = 2;
+                numSet += 1;
                 set.setNumSet(numSet);
             }
             /*

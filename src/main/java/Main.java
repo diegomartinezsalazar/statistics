@@ -171,45 +171,61 @@ public class Main {
         if (esConvocatoria(typeOfMovement)) {
             // Generar convocatoria
             Convocatoria convocatoria = new Convocatoria(matchId, movement);
+            return convocatoria;
         } else if (esAlineacion(typeOfMovement)){
             // Generar alineación
             Alineacion alineacion= new Alineacion(matchId, movement);
+            return alineacion;
         } else if (esTanteo(typeOfMovement)) {
             // Generar tanteo
             Tanteo tanteo = new Tanteo(matchId, movement);
+            return tanteo;
         } else if (esCambio(typeOfMovement)) {
             // Generar cambio
             Cambio cambio = new Cambio(matchId, movement);
+            return cambio;
         } else if (esTiempo(typeOfMovement)) {
             // Generar tiempo
             Tiempo tiempo = new Tiempo(matchId, movement);
+            return tiempo;
         } else if (esFinDeSet(typeOfMovement)) {
             // Generar fin de set
             FinDeSet finDeSet = new FinDeSet(matchId, movement);
+            return finDeSet;
         } else if (esErrorContrario(typeOfMovement)) {
             // Generar error contrario
             ErrorContrario errorContrario = new ErrorContrario(matchId);
+            return errorContrario;
         } else if (esPuntoContrario(typeOfMovement)) {
             // Generar punto contrario
             PuntoContrario puntoContrario = new PuntoContrario(matchId);
+            return puntoContrario;
         } else if (esSaque(typeOfMovement)) {
             // Generar saque
             Saque saque = new Saque(matchId, movement);
+            return saque;
         } else if (esRecepcion(typeOfMovement)) {
             // Generar recepción
             Recepcion recepcion = new Recepcion(matchId, movement);
+            return recepcion;
         } else if (esColocacion(typeOfMovement)) {
             // Generar colocación
             Colocacion colocacion = new Colocacion(matchId, movement);
+            return colocacion;
         } else if (esRemate(typeOfMovement)) {
             // Generar remate
             Remate remate = new Remate(matchId, movement);
+            return remate;
         } else if (esBloqueo(typeOfMovement)) {
             // Generar bloqueo
             Bloqueo bloqueo = new Bloqueo(matchId, movement);
+            return bloqueo;
         } else if (esDefensa(typeOfMovement)) {
             // Generar defensa
             Defensa defensa = new Defensa(matchId, movement);
+            return defensa;
+        } else {
+            return new Object();
         }
 
     }

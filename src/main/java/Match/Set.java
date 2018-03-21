@@ -13,7 +13,7 @@ public class Set {
     public boolean saqueInicialFavor = false;
     public boolean saqueActualFavor = false;
     public Jugada jugadaActual;
-    public boolean setTerminado = false;
+    private boolean setTerminado = false;
     private int numSet = 0;
 
     public int getNumeroSet() {
@@ -193,20 +193,28 @@ public class Set {
     public void terminaSet(){
         if (numSet == 5){
             if ((puntosNuestros==15) && (puntosSuyos<=13)){
-                setTerminado = true;
+                setSetTerminado(true);
             } else if ((puntosSuyos==15) && (puntosNuestros<=13)){
-                setTerminado = true;
+                setSetTerminado(true);
             } else if (((puntosSuyos>15) || (puntosNuestros>15)) && (Math.abs(puntosSuyos - puntosNuestros) >= 2)){
-                setTerminado = true;
+                setSetTerminado(true);
             }
         } else {
             if ((puntosNuestros==25) && (puntosSuyos<=23)){
-                setTerminado = true;
+                setSetTerminado(true);
             } else if ((puntosSuyos==25) && (puntosNuestros<=23)){
-                setTerminado = true;
+                setSetTerminado(true);
             } else if (((puntosSuyos>25) || (puntosNuestros>25)) && (Math.abs(puntosSuyos - puntosNuestros) >= 2)){
-                setTerminado = true;
+                setSetTerminado(true);
             }
         }
+    }
+
+    public boolean isSetTerminado() {
+        return setTerminado;
+    }
+
+    public void setSetTerminado(boolean setTerminado) {
+        this.setTerminado = setTerminado;
     }
 }
