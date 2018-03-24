@@ -3,41 +3,41 @@ package Match;
 import java.util.ArrayList;
 
 public class Cambio extends Movement {
-    private int tanteoLocal;
-    private int tanteoVisitante;
+    private int nuestroTanteo;
+    private int suTanteo;
     private int entra;
     private int seRetira;
 
     public Cambio(String matchId, int tanteoLocal, int tanteoVisitante, int entra, int seRetira) {
         super(matchId);
-        this.tanteoLocal = tanteoLocal;
-        this.tanteoVisitante = tanteoVisitante;
+        this.nuestroTanteo = tanteoLocal;
+        this.suTanteo = tanteoVisitante;
         this.entra = entra;
         this.seRetira = seRetira;
     }
 
     public Cambio(String matchId, ArrayList movement) {
         super(matchId);
-        this.tanteoLocal = Integer.parseInt(movement.get(1).toString());;
-        this.tanteoVisitante = Integer.parseInt(movement.get(2).toString());;
-        this.entra = Integer.parseInt(movement.get(3).toString());;
-        this.seRetira = Integer.parseInt(movement.get(4).toString());;
+        this.nuestroTanteo = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
+        this.suTanteo = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
+        this.entra = Integer.parseInt(movement.get(0).toString());;
+        this.seRetira = Integer.parseInt(movement.get(1).toString());;
     }
 
-    public int getTanteoVisitante() {
-        return tanteoVisitante;
+    public int getSuTanteo() {
+        return suTanteo;
     }
 
-    public void setTanteoVisitante(int tanteoVisitante) {
-        this.tanteoVisitante = tanteoVisitante;
+    public void setSuTanteo(int suTanteo) {
+        this.suTanteo = suTanteo;
     }
 
-    public int getTanteoLocal() {
-        return tanteoLocal;
+    public int getNuestroTanteo() {
+        return nuestroTanteo;
     }
 
-    public void setTanteoLocal(int tanteoLocal) {
-        this.tanteoLocal = tanteoLocal;
+    public void setNuestroTanteo(int nuestroTanteo) {
+        this.nuestroTanteo = nuestroTanteo;
     }
 
     public int getEntra() {

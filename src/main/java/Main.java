@@ -24,6 +24,11 @@ public class Main {
     static ArrayList bloqueoBBDD = new ArrayList();
     static ArrayList defensaBBDD = new ArrayList();
     static ArrayList saqueBBDD = new ArrayList();
+    static ArrayList doblePositivoBBDD = new ArrayList();
+    static ArrayList positivoBBDD = new ArrayList();
+    static ArrayList barraBBDD = new ArrayList();
+    static ArrayList negativoBBDD = new ArrayList();
+    static ArrayList dobleNegativoBBDD = new ArrayList();
     static String alineacionPartido;
     static String tanteoPartido;
     static String cambioPartido;
@@ -38,6 +43,11 @@ public class Main {
     static String bloqueoPartido;
     static String defensaPartido;
     static String saquePartido;
+    static String doblePositivo;
+    static String positivo;
+    static String barra;
+    static String negativo;
+    static String dobleNegativo;
 
     public static void main(String[] args) throws Exception{
         Utils prueba = new Utils();
@@ -119,6 +129,11 @@ public class Main {
         colocacionBBDD = database.readSkillsFromBBDD("COLOCACION");
         defensaBBDD = database.readSkillsFromBBDD("DEFENSA");
         bloqueoBBDD = database.readSkillsFromBBDD("BLOQUEO");
+        doblePositivoBBDD = database.readValuesFromBBDD("++");
+        positivoBBDD = database.readValuesFromBBDD("+");
+        barraBBDD = database.readValuesFromBBDD("/");
+        negativoBBDD = database.readValuesFromBBDD("-");
+        dobleNegativoBBDD = database.readValuesFromBBDD("--");
     }
 
     public static void formatMatch(){
@@ -162,11 +177,14 @@ public class Main {
                 }
             }
         }
+
+        partido.startMatch();
     }
 
     public static Object generaJugada(String matchId, ArrayList<String> movement){
 
         String typeOfMovement = movement.get(0).toString();
+        movement.remove(0);
         //Si es convocatoria
         if (esConvocatoria(typeOfMovement)) {
             // Generar convocatoria

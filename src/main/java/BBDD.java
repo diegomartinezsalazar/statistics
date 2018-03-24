@@ -13,6 +13,7 @@ public class BBDD {
     Statement stmt = null;
     ResultSet rs = null;
     public static Map<String, String> allWords = new HashMap<String, String>();
+    public static Map<String, String> allStartWords = new HashMap<String, String>();
 
     public void openconnection()
     {
@@ -126,6 +127,7 @@ public class BBDD {
                 String data = rs.getString("Translation");
                 result.add(data);
                 allWords.put(data, word);
+                allStartWords.put(data, word);
             }
             // Handle any errors that may have occurred.
         }
@@ -142,6 +144,31 @@ public class BBDD {
 
     public ArrayList readSkillsFromBBDD(String word){
         String SQL = "Select Skill, Translation From skills_translation Where Skill = '" + word + "'";
+        ArrayList result = new ArrayList();
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                String data = rs.getString("Translation");
+                result.add(data);
+                allWords.put(data, word);
+                allStartWords.put(data, word);
+            }
+            // Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            //if (rs != null) try { rs.close(); } catch(Exception e) {}
+            //if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            //if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return result;
+    }
+
+    public ArrayList readValuesFromBBDD(String word){
+        String SQL = "Select Subject, Translation From values_translation Where Subject = '" + word + "'";
         ArrayList result = new ArrayList();
         try {
             stmt = con.createStatement();
@@ -174,10 +201,10 @@ public class BBDD {
     }
 
     public boolean isKeyWordTranslation(String word){
-        return allWords.containsKey(word.toUpperCase());
+        return allStartWords.containsKey(word.toUpperCase());
     }
 
     public boolean isKeyWord(String word){
-        return allWords.containsValue(word.toUpperCase());
+        return allStartWords.containsValue(word.toUpperCase());
     }
 }

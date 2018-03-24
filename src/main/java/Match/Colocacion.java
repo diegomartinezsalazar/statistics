@@ -11,7 +11,7 @@ public class Colocacion extends Skill {
     }
 
     public Colocacion (String matchId, ArrayList movement){
-        super (matchId, Integer.parseInt(movement.get(1).toString()), movement.get(2).toString());
+        super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
     }
 
     public String getTipo() {

@@ -17,6 +17,12 @@ public class Set {
     private int numSet = 0;
     private boolean setGanado = false;
 
+    public Set (){
+        jugadas = new ArrayList<>();
+        tiempos = new ArrayList<>();
+        inicializaJugada();
+    }
+
     public int getNumeroSet() {
         return numeroSet;
     }
@@ -128,13 +134,14 @@ public class Set {
     }
 
     public void rotacion(){
-        int aux = 0;
-        ArrayList<String> alineacionAux = alineacionActual.getPlayers();
-        for (int i = 0; i<5; i++){
-            aux = Integer.parseInt(alineacionAux.get(i+1));
-            alineacionAux.set(i+1, alineacionAux.get(i));
+        Integer aux = 0;
+        ArrayList<Integer> alineacionAux = alineacionActual.getPlayers();
+
+        aux = (Integer)alineacionAux.get(0);
+        for (int i = 1; i < 6; i++){
+            alineacionAux.set(i-1, alineacionAux.get(i));
         }
-        alineacionAux.set(0, Integer.toString(aux));
+        alineacionAux.set(5, aux);
         alineacionActual.setJugadoresAlineacion(alineacionAux);
     }
 

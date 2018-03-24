@@ -14,8 +14,8 @@ public class Tanteo extends Movement{
 
     public Tanteo (String matchId, ArrayList movement){
         super(matchId);
-        this.nuestroTanteo = Integer.parseInt(movement.get(1).toString());
-        this.suTanteo = Integer.parseInt(movement.get(2).toString());
+        this.nuestroTanteo = Integer.parseInt(movement.get(0).toString());
+        this.suTanteo = Integer.parseInt(movement.get(1).toString());
     }
 
     public int getSuTanteo() {

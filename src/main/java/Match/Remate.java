@@ -12,7 +12,7 @@ public class Remate extends Skill {
     }
 
     public Remate (String matchId, ArrayList movement){
-        super(matchId, Integer.parseInt(movement.get(1).toString()), movement.get(4).toString());
+        super(matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
         this.origen = Integer.parseInt(movement.get(2).toString());
         this.destino = Integer.parseInt(movement.get(3).toString());
     }

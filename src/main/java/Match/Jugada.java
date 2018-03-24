@@ -10,6 +10,10 @@ public class Jugada {
     private int suTanteoInicial = 0;
     private int suTanteoFinal = 0;
 
+    public Jugada (){
+        movimientos = new ArrayList();
+    }
+
     public ArrayList getMovimientos() {
         return movimientos;
     }

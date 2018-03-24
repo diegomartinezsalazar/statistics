@@ -13,6 +13,9 @@ public class Saque extends Skill {
 
     public Saque (String matchId, ArrayList movement){
         super (matchId, Integer.parseInt(movement.get(1).toString()), movement.get(2).toString());
+        this.tipo = movement.get(1).toString();
+        this.origen = Integer.parseInt(movement.get(3).toString());
+        this.destino = Integer.parseInt(movement.get(5).toString());
     }
 
     public int getOrigen() {

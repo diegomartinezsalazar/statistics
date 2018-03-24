@@ -6,9 +6,10 @@ public class Alineacion extends Movement {
     private ArrayList jugadoresAlineacion;
     public Alineacion(String matchId, ArrayList<String> alineacion){
         super(matchId);
+        jugadoresAlineacion = new ArrayList();
         for (String player: alineacion
                 ) {
-            getJugadoresAlineacion().add(Integer.parseInt(player));
+            jugadoresAlineacion.add(Integer.parseInt(player));
         }
     }
 

@@ -12,7 +12,6 @@ public class Match {
     private String matchId;
     private ArrayList<Set> sets = new ArrayList<Set>();
     private ArrayList<Object> listaMovimientos = new ArrayList<Object>();
-    private ArrayList<Object> listaMovimientosCompleta = new ArrayList<Object>();
     private Convocatoria convocatoria;
     int setsAFavor = 0;
     int setsEnContra = 0;
@@ -56,15 +55,6 @@ public class Match {
     }
 
     public void startMatch(){
-        int setsLocal = 0;
-        int setsVisitante = 0;
-        int setActual = 0;
-        int tanteoActualLocal = 0;
-        int tanteoActualVisitante = 0;
-        int tiemposLocal = 0;
-        int tiemposVisitante = 0;
-        String equipoLocal = "";
-        String equipoVisitante = "";
         Set set = new Set();
         int numSet = 1;
         set.setNumSet(numSet);
@@ -84,8 +74,6 @@ public class Match {
             } else if (objeto.getClass() == ErrorContrario.class){
                 set.addErrorContrario((ErrorContrario) objeto);
             } else if (objeto.getClass() == Tanteo.class){
-                set.addErrorContrario((ErrorContrario) objeto);
-            } else if (objeto.getClass() == Tanteo.class){
                 set.compruebaTanteo((Tanteo) objeto);
             } else if (objeto.getClass() == Cambio.class){
                 set.addCambio((Cambio) objeto);
@@ -99,16 +87,10 @@ public class Match {
                 finalizaPartido();
             }
             /*
-
-
-
-
         } else if (esFinDeSet(typeOfMovement)) {
             // Generar fin de set
             FinDeSet finDeSet = new FinDeSet(matchId, movement);
             * */
-
-
         }
     }
 

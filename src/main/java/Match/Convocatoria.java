@@ -6,6 +6,7 @@ public class Convocatoria extends Movement{
     private ArrayList players;
     public Convocatoria (String matchId, ArrayList<String> playerList){
         super(matchId);
+        players = new ArrayList();
         for (String player: playerList
              ) {
             players.add(player);
