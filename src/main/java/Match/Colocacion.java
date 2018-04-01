@@ -29,4 +29,11 @@ public class Colocacion extends Skill {
     public void setPosicion(String posicion) {
         this.posicion = posicion;
     }
+
+    @Override
+    public String toString() {
+        String skill = "";
+        skill = String.valueOf(getPlayer()) + " COL " + getValue();
+        return skill;
+    }
 }

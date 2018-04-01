@@ -1,13 +1,14 @@
 package Match;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Set {
     private int numeroSet;
     private Alineacion alineacionInicial;
     private Alineacion alineacionActual;
     private ArrayList<Object> tiempos;
-    private ArrayList<Object> jugadas;
+    private ArrayList<Jugada> jugadas;
     public int puntosNuestros = 0;
     public int puntosSuyos = 0;
     public boolean saqueInicialFavor = false;
@@ -18,7 +19,7 @@ public class Set {
     private boolean setGanado = false;
 
     public Set (){
-        jugadas = new ArrayList<>();
+        jugadas = new ArrayList<Jugada>();
         tiempos = new ArrayList<>();
         inicializaJugada();
     }
@@ -45,7 +46,13 @@ public class Set {
     }
 
     public void setAlineacion(Alineacion alineacionActual) {
+        if (hasAlineacionInicial()){
+            this.alineacionInicial =  new Alineacion();
+            alineacionInicial.setMatchId(alineacionActual.getMatchId());
+            alineacionInicial.setJugadoresAlineacion(new ArrayList(alineacionActual.getJugadoresAlineacion()));
+        }
         this.alineacionActual = alineacionActual;
+        inicializaJugada();
     }
 
     public ArrayList<Object> getTiempos() {
@@ -61,9 +68,10 @@ public class Set {
     }
 
     public void addJugada(Object object){
+        jugadaActual.addMovimiento(object);
         if (object.getClass() == Saque.class){
             Saque saque = (Saque)object;
-            jugadaActual.addMovimiento(object);
+            //jugadaActual.addMovimiento(object);
             switch (saque.getValue()){
                 case "++":{
                     puntoNuestro();
@@ -77,19 +85,19 @@ public class Set {
 
         } else if (object.getClass() == Recepcion.class){
             Recepcion recepcion = (Recepcion) object;
-            jugadaActual.addMovimiento(object);
-            if (recepcion.getValue() == "--"){
+            //jugadaActual.addMovimiento(object);
+            if (Objects.equals("--", recepcion.getValue())){
                 puntoSuyo();;
             }
         } else if (object.getClass() == Colocacion.class){
             Colocacion colocacion = (Colocacion) object;
-            jugadaActual.addMovimiento(object);
-            if (colocacion.getValue() == "--"){
+            //jugadaActual.addMovimiento(object);
+            if (Objects.equals("--", colocacion.getValue())){
                 puntoSuyo();;
             }
         } else if (object.getClass() == Remate.class){
             Remate remate = (Remate)object;
-            jugadaActual.addMovimiento(object);
+            //jugadaActual.addMovimiento(object);
             switch (remate.getValue()){
                 case "++":{
                     puntoNuestro();
@@ -103,7 +111,7 @@ public class Set {
 
         } else if (object.getClass() == Bloqueo.class){
             Bloqueo bloqueo = (Bloqueo) object;
-            jugadaActual.addMovimiento(object);
+            //jugadaActual.addMovimiento(object);
             switch (bloqueo.getValue()){
                 case "++":{
                     puntoNuestro();
@@ -116,8 +124,9 @@ public class Set {
             }
         } else if (object.getClass() == Defensa.class){
             Defensa defensa = (Defensa) object;
-            jugadaActual.addMovimiento(object);
-            if (defensa.getValue() == "--"){
+            //jugadaActual.addMovimiento(object);
+            if (Objects.equals("--", defensa.getValue())){
+            //if ("--".equals(defensa.getValue())){
                 puntoSuyo();;
             }
         }
@@ -135,9 +144,9 @@ public class Set {
 
     public void rotacion(){
         Integer aux = 0;
-        ArrayList<Integer> alineacionAux = alineacionActual.getPlayers();
+        ArrayList<Integer> alineacionAux = new ArrayList<>(alineacionActual.getPlayers());
 
-        aux = (Integer)alineacionAux.get(0);
+        aux = alineacionAux.get(0);
         for (int i = 1; i < 6; i++){
             alineacionAux.set(i-1, alineacionAux.get(i));
         }
@@ -167,6 +176,7 @@ public class Set {
         }
         terminaJugada();
         terminaSet();
+        inicializaJugada();
     }
 
     public void puntoSuyo(){
@@ -174,6 +184,7 @@ public class Set {
         saqueActualFavor = false;
         terminaJugada();
         terminaSet();
+        inicializaJugada();
     }
 
     public void compruebaTanteo (Tanteo tanteo){
@@ -184,10 +195,6 @@ public class Set {
 
     public void addCambio (Cambio cambio){
         alineacionActual.addCambio(cambio.getSeRetira(), cambio.getEntra());
-    }
-
-    public void addTiempo (Tiempo tiempo){
-        tiempos.add(tiempo);
     }
 
     public int getNumSet() {
@@ -238,5 +245,22 @@ public class Set {
 
     public void setSetGanado (boolean setGanado) {
         this.setGanado = setGanado;
+    }
+
+    public void addTimeOut (Tiempo tiempo){
+        tiempos.add (tiempo);
+    }
+
+    public boolean hasAlineacionInicial(){
+        return alineacionInicial == null;
+    }
+
+    public void printSet(){
+        System.out.println("Comienzo Set " + numSet);
+        System.out.println ("Alineación inicial: " + alineacionInicial.toString());
+        for (Jugada jugada: jugadas
+             ) {
+            System.out.println(jugada.toString());
+        }
     }
 }

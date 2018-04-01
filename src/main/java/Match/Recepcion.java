@@ -10,7 +10,7 @@ public class Recepcion extends Skill {
     }
 
     public Recepcion (String matchId, ArrayList movement){
-        super (matchId, Integer.parseInt(movement.get(1).toString()), movement.get(2).toString());
+        super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
     }
 
     public String getTipo() {
@@ -19,5 +19,12 @@ public class Recepcion extends Skill {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        String skill = "";
+        skill = String.valueOf(getPlayer()) + " REC " + getValue();
+        return skill;
     }
 }

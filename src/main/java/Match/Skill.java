@@ -25,4 +25,5 @@ public class Skill extends Movement{
     public void setValue(String value) {
         this.value = value;
     }
+
 }

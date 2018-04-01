@@ -12,10 +12,10 @@ public class Saque extends Skill {
     }
 
     public Saque (String matchId, ArrayList movement){
-        super (matchId, Integer.parseInt(movement.get(1).toString()), movement.get(2).toString());
+        super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
         this.tipo = movement.get(1).toString();
-        this.origen = Integer.parseInt(movement.get(3).toString());
-        this.destino = Integer.parseInt(movement.get(5).toString());
+        this.origen = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
+        this.destino = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
     }
 
     public int getOrigen() {
@@ -40,5 +40,12 @@ public class Saque extends Skill {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        String skill = "";
+        skill = String.valueOf(getPlayer()) + " SAQ " + getValue();
+        return skill;
     }
 }

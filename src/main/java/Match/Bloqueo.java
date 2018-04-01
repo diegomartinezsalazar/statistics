@@ -11,4 +11,11 @@ public class Bloqueo extends Skill {
     public Bloqueo (String matchId, ArrayList movement){
         super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
     }
+
+    @Override
+    public String toString() {
+        String skill = "";
+        skill = String.valueOf(getPlayer()) + " BLO " + getValue();
+        return skill;
+    }
 }

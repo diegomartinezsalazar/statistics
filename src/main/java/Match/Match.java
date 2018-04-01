@@ -13,9 +13,9 @@ public class Match {
     private ArrayList<Set> sets = new ArrayList<Set>();
     private ArrayList<Object> listaMovimientos = new ArrayList<Object>();
     private Convocatoria convocatoria;
-    int setsAFavor = 0;
-    int setsEnContra = 0;
-    boolean partidoGanado = false;
+    private int setsAFavor = 0;
+    private int setsEnContra = 0;
+    private boolean partidoGanado = false;
 
     public Convocatoria getConvocatoria() {
         return convocatoria;
@@ -77,14 +77,18 @@ public class Match {
                 set.compruebaTanteo((Tanteo) objeto);
             } else if (objeto.getClass() == Cambio.class){
                 set.addCambio((Cambio) objeto);
+            } else if (objeto.getClass() == Tiempo.class){
+                set.addTimeOut((Tiempo) objeto);
             }
 
+
             if (set.isSetTerminado() == true){
+                printSet(set);
                 sets.add(set);
                 set = new Set();
                 numSet += 1;
                 set.setNumSet(numSet);
-                finalizaPartido();
+                calculaSets();
             }
             /*
         } else if (esFinDeSet(typeOfMovement)) {
@@ -94,7 +98,7 @@ public class Match {
         }
     }
 
-    public void finalizaPartido (){
+    public void calculaSets(){
         for (Set set: sets
              ) {
             if (set.isSetGanado()){
@@ -104,6 +108,24 @@ public class Match {
             }
         }
 
-        partidoGanado = (setsAFavor == 3)?true:false;
+        partidoGanado = (setsAFavor == 3?true:false);
+    }
+
+    public int getSetsAFavor() {
+        calculaSets();
+        return setsAFavor;
+    }
+
+    public int getSetsEnContra() {
+        calculaSets();
+        return setsEnContra;
+    }
+
+    public boolean isPartidoGanado() {
+        return partidoGanado;
+    }
+
+    public void printSet(Set set){
+        set.printSet();
     }
 }

@@ -125,7 +125,8 @@ public class BBDD {
             ResultSet rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 String data = rs.getString("Translation");
-                result.add(data);
+                String type = rs.getString("Type");
+                result.add(type);
                 allWords.put(data, word);
                 allStartWords.put(data, word);
             }
@@ -150,7 +151,8 @@ public class BBDD {
             ResultSet rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 String data = rs.getString("Translation");
-                result.add(data);
+                String Skill = rs.getString("Skill");
+                result.add(Skill);
                 allWords.put(data, word);
                 allStartWords.put(data, word);
             }
@@ -175,7 +177,8 @@ public class BBDD {
             ResultSet rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 String data = rs.getString("Translation");
-                result.add(data);
+                String subject = rs.getString("Subject");
+                result.add(subject);
                 allWords.put(data, word);
             }
             // Handle any errors that may have occurred.

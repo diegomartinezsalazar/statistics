@@ -44,4 +44,12 @@ public class Tiempo extends Movement {
     public void setPedidoLocal(boolean pedidoLocal) {
         this.pedidoLocal = pedidoLocal;
     }
+
+    @Override
+    public String toString() {
+        //return super.toString();
+        String tiempo = "";
+        tiempo = "Tiempo";
+        return tiempo;
+    }
 }

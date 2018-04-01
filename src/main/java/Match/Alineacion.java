@@ -1,5 +1,7 @@
 package Match;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.ArrayList;
 
 public class Alineacion extends Movement {
@@ -9,7 +11,9 @@ public class Alineacion extends Movement {
         jugadoresAlineacion = new ArrayList();
         for (String player: alineacion
                 ) {
-            jugadoresAlineacion.add(Integer.parseInt(player));
+            if (NumberUtils.isCreatable(player)){
+                jugadoresAlineacion.add(Integer.parseInt(player));
+            }
         }
     }
 
@@ -35,10 +39,22 @@ public class Alineacion extends Movement {
 
     public void addCambio (int saledelCampo, int entraAlCampo){
         for (int i = 0; i < 7; i++){
-            if (Integer.parseInt((String)jugadoresAlineacion.get(i)) == saledelCampo){
+            if (Integer.parseInt(jugadoresAlineacion.get(i).toString()) == saledelCampo){
                 jugadoresAlineacion.set(i, entraAlCampo);
                 break;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        //return super.toString();
+        String resultado = "";
+        for (Object player : jugadoresAlineacion
+             ) {
+            resultado = (resultado == "")?player.toString():resultado + " " + player.toString();
+            //resultado = resultado + " " + player.toString();
+        }
+        return resultado;
     }
 }

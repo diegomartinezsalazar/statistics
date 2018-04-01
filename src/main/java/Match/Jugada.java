@@ -65,4 +65,17 @@ public class Jugada {
     public void setSuTanteoFinal(int suTanteoFinal) {
         this.suTanteoFinal = suTanteoFinal;
     }
+
+    @Override
+    public String toString() {
+        //return super.toString();
+        String jugada = "";
+        jugada += nuestroTanteoInicial + " - " + suTanteoInicial;
+        jugada += " / " + alineacion.toString() + " /";
+        for (Object movimiento: movimientos
+             ) {
+            jugada += " " + movimiento.toString();
+        }
+        return jugada;
+    }
 }

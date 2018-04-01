@@ -13,8 +13,8 @@ public class Remate extends Skill {
 
     public Remate (String matchId, ArrayList movement){
         super(matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
-        this.origen = Integer.parseInt(movement.get(2).toString());
-        this.destino = Integer.parseInt(movement.get(3).toString());
+        this.origen = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
+        this.destino = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
     }
 
     public String getTipo() {
@@ -39,5 +39,12 @@ public class Remate extends Skill {
 
     public void setDestino(int destino) {
         this.destino = destino;
+    }
+
+    @Override
+    public String toString() {
+        String skill = "";
+        skill = String.valueOf(getPlayer()) + " REM " + getValue();
+        return skill;
     }
 }

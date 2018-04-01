@@ -1,11 +1,12 @@
 import Match.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 public class Main {
     static BBDD database = new BBDD();
@@ -49,6 +50,8 @@ public class Main {
     static String negativo;
     static String dobleNegativo;
 
+    public static final String UTF8_BOM = "\uFeFF";
+
     public static void main(String[] args) throws Exception{
         Utils prueba = new Utils();
         //File fichero = new File("Stats.txt");
@@ -56,6 +59,10 @@ public class Main {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         File conf = new File(classloader.getResource("Conf.txt").getFile());
         BufferedReader br = new BufferedReader(new FileReader(conf.getPath()));
+        //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"ISO-8859-1"));
+        //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"UTF-8"));
+        //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"windows-1252"));
+        //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()), Charset.forName("Cp1252")));
         String everything = "";
         UtilsNumber.loadNumbers();
 
@@ -86,9 +93,10 @@ public class Main {
 
         String fileInText = Utils.readFile(everything, Charset.defaultCharset());
         System.out.println(fileInText);
-        System.out.println(formatFile(fileInText));
-
-        ArrayList<String> lectura = Utils.stringToArray(formatFile(fileInText));
+        //System.out.println(formatFile(fileInText));
+        fileInText = StringUtils.stripAccents(fileInText);
+        System.out.println(fileInText);
+        ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
         
         for (String palabra: lectura) {
             database.insertDataRow("1718001", palabra.toString());
@@ -148,6 +156,10 @@ public class Main {
         if (match.size() == 0){
             System.out.println("Tamaño 0 del partido");
         } else {
+            //Si la primera letra de la posición es una interrogante, la elimino. Esto es un bug que se corregirá
+            if (match.get(0).toString().startsWith("?")){
+                match.set(0, match.get(0).toString().substring(1));
+            }
             for (int i= 0; i < match.size(); i++) {
                 movement = match.get(i).toString();
                 jugada = new ArrayList();
@@ -357,15 +369,76 @@ public class Main {
         }
         System.out.println(jugada);
     }
+
+    public static String formatFileOrderingByNumberOfWords (String fileInText){
+        String result = "";
+        result = fileInText.toUpperCase();
+        Map<String, String> allWords = database.allWords;
+        //result = "DOBLE +";
+
+        for(int i=maxWordsInSpecialWords();i>0;i--) {
+            for (Map.Entry<String, String> entry : allWords.entrySet()) {
+                if (numberOfWords(entry.getKey()) == i) {
+                    result = result.replaceAll(Pattern.quote(entry.getKey().toString()), entry.getValue().toString());
+                    //System.out.println("Cambio " + entry.getKey() + " por " + entry.getValue() + " y queda:");
+                    //System.out.println(result);
+                }
+            }
+        }
+        System.out.println(result);
+        //result = result.replaceAll("DOBLE -", "--");
+        //result = result.replaceAll("DOBLE +", "++");
+        //System.out.println(result);
+
+        for (Map.Entry<String, String> entry : UtilsNumber.mapa.entrySet())
+        {
+            result = result.replaceAll(entry.getKey(), entry.getValue());
+        }
+
+        System.out.println(result);
+
+        return result;
+
+    }
+
+    public static int maxWordsInSpecialWords (){
+        int wordsNumber = 0;
+        Map<String, String> allWords = database.allWords;
+        int wordsInCloseWord = 0;
+
+        for (Map.Entry<String, String> entry : allWords.entrySet())
+        {
+            wordsInCloseWord = numberOfWords(entry.getKey().toString());
+            wordsNumber = (wordsInCloseWord > wordsNumber)?wordsInCloseWord:wordsNumber;
+        }
+
+        return wordsNumber;
+    }
+
+    public static int numberOfWords (String text){
+        StringTokenizer stringTokenizer = new StringTokenizer(text.trim());
+
+        return stringTokenizer.countTokens();
+    }
     
     public static String formatFile (String fileInText) {
         String result = "";
         result = fileInText.toUpperCase();
+        int i = 1;
+        //result = "DOBLE +";
 
         for (Map.Entry<String, String> entry : database.allWords.entrySet())
         {
-            result = result.replaceAll(entry.getKey(), entry.getValue());
+            result = result.replaceAll(Pattern.quote(entry.getKey().toString()), entry.getValue().toString());
+            System.out.println("Cambio " + entry.getKey() +  " por " + entry.getValue() + " y queda:");
+            //System.out.println(result);
+            i++;
         }
+
+        //System.out.println(result);
+        //result = result.replaceAll("DOBLE -", "--");
+        //result = result.replaceAll("DOBLE +", "++");
+        //System.out.println(result);
 
         for (Map.Entry<String, String> entry : UtilsNumber.mapa.entrySet())
         {

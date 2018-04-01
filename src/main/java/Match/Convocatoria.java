@@ -20,4 +20,16 @@ public class Convocatoria extends Movement{
     public void setPlayer(String player) {
         players.add(player);
     }
+
+    @Override
+    public String toString() {
+        //return super.toString();
+        String convocatoria = "";
+        for (Object player : players
+                ) {
+            convocatoria = (convocatoria == "")?player.toString():convocatoria + " " + player.toString();
+            //resultado = resultado + " " + player.toString();
+        }
+        return convocatoria;
+    }
 }

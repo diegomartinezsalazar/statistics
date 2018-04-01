@@ -8,7 +8,7 @@ public class Cambio extends Movement {
     private int entra;
     private int seRetira;
 
-    public Cambio(String matchId, int tanteoLocal, int tanteoVisitante, int entra, int seRetira) {
+    public Cambio(String matchId, int tanteoLocal, int tanteoVisitante, int seRetira, int entra) {
         super(matchId);
         this.nuestroTanteo = tanteoLocal;
         this.suTanteo = tanteoVisitante;
@@ -20,8 +20,8 @@ public class Cambio extends Movement {
         super(matchId);
         this.nuestroTanteo = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
         this.suTanteo = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
-        this.entra = Integer.parseInt(movement.get(0).toString());;
-        this.seRetira = Integer.parseInt(movement.get(1).toString());;
+        this.seRetira = Integer.parseInt(movement.get(0).toString());;
+        this.entra = Integer.parseInt(movement.get(1).toString());;
     }
 
     public int getSuTanteo() {
@@ -54,5 +54,12 @@ public class Cambio extends Movement {
 
     public void setSeRetira(int seRetira) {
         this.seRetira = seRetira;
+    }
+
+    @Override
+    public String toString() {
+        String cambio = "";
+        cambio = String.valueOf("CAMBIO: Sale " + getEntra() + " entra " + getSeRetira());
+        return cambio;
     }
 }
