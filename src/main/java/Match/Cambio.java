@@ -18,9 +18,9 @@ public class Cambio extends Movement {
 
     public Cambio(String matchId, ArrayList movement) {
         super(matchId);
-        this.nuestroTanteo = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
-        this.suTanteo = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
-        this.seRetira = Integer.parseInt(movement.get(0).toString());;
+        this.nuestroTanteo = (movement.size()>8)?Integer.parseInt(movement.get(5).toString()):0;
+        this.suTanteo = (movement.size()>8)?Integer.parseInt(movement.get(7).toString()):0;
+        this.seRetira = Integer.parseInt(movement.get(3).toString());;
         this.entra = Integer.parseInt(movement.get(1).toString());;
     }
 
