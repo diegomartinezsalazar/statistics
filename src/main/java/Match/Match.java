@@ -130,6 +130,12 @@ public class Match {
 
     @Override
     public String toString(){
-
+        System.out.println("Comienzo del partido " + matchId);
+        System.out.println("Alineación inicial: " + convocatoria.toString());
+        for (Set set: sets
+             ) {
+            set.toString();
+        }
+        return
     }
 }
