@@ -70,7 +70,7 @@ public class Jugada {
     public String toString() {
         //return super.toString();
         String jugada = "";
-        jugada += nuestroTanteoInicial + " - " + suTanteoInicial;
+        jugada += nuestroTanteoFinal + " - " + suTanteoFinal;
         jugada += " / " + alineacion.toString() + " /";
         for (Object movimiento: movimientos
              ) {
