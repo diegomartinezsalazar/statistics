@@ -37,7 +37,6 @@ public class Match {
         listaMovimientos.add(movimiento);
     }
 
-
     public String getMatchId() {
         return matchId;
     }
@@ -127,5 +126,10 @@ public class Match {
 
     public void printSet(Set set){
         set.printSet();
+    }
+
+    @Override
+    public String toString(){
+
     }
 }
