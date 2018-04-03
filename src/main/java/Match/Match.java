@@ -82,7 +82,7 @@ public class Match {
 
 
             if (set.isSetTerminado() == true){
-                printSet(set);
+                System.out.println(set.toString());
                 sets.add(set);
                 set = new Set();
                 numSet += 1;
@@ -124,9 +124,9 @@ public class Match {
         return partidoGanado;
     }
 
-    public void printSet(Set set){
+    /*public void printSet(Set set){
         set.printSet();
-    }
+    }*/
 
     /*@Override
     public String toString(){

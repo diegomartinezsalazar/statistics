@@ -255,12 +255,26 @@ public class Set {
         return alineacionInicial == null;
     }
 
-    public void printSet(){
+    /*public void printSet(){
         System.out.println("Comienzo Set " + numSet);
         System.out.println ("Alineación inicial: " + alineacionInicial.toString());
         for (Jugada jugada: jugadas
              ) {
             System.out.println(jugada.toString());
         }
+    }*/
+
+    @Override
+    public String toString() {
+        String set;
+
+        set = "Comienzo Set " + numSet;
+        set += "Alineación inicial: " + alineacionInicial.toString();
+        for (Jugada jugada: jugadas
+            ) {
+            set += jugada.toString();
+        }
+
+        return set;
     }
 }
