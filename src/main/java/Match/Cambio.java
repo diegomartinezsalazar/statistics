@@ -24,6 +24,13 @@ public class Cambio extends Movement {
         this.entra = Integer.parseInt(movement.get(1).toString());;
     }
 
+    public Cambio (CambioBuilder cambioBuilder){
+        this.nuestroTanteo = cambioBuilder.getNuestroTanteo();
+        this.suTanteo = cambioBuilder.getSuTanteo();
+        this.entra = cambioBuilder.getEntra();
+        this.seRetira = cambioBuilder.getSeRetira();
+    }
+
     public int getSuTanteo() {
         return suTanteo;
     }
