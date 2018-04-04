@@ -15,6 +15,7 @@ public class Match {
     private Convocatoria convocatoria;
     private int setsAFavor = 0;
     private int setsEnContra = 0;
+    private boolean partidoTerminado = false;
     private boolean partidoGanado = false;
 
     public Convocatoria getConvocatoria() {
@@ -78,16 +79,20 @@ public class Match {
                 set.addCambio((Cambio) objeto);
             } else if (objeto.getClass() == Tiempo.class){
                 set.addTimeOut((Tiempo) objeto);
+            } else if (objeto.getClass() == FinDeSet.class){
+                //set.addTimeOut((Tiempo) objeto);
             }
 
 
             if (set.isSetTerminado() == true){
-                System.out.println(set.toString());
+                //System.out.println(set.toString());
                 sets.add(set);
-                set = new Set();
-                numSet += 1;
-                set.setNumSet(numSet);
-                calculaSets();
+                calculaEstadoPartido();
+                if (!partidoTerminado) {
+                    set = new Set();
+                    numSet += 1;
+                    set.setNumSet(numSet);
+                }
             }
             /*
         } else if (esFinDeSet(typeOfMovement)) {
@@ -95,9 +100,12 @@ public class Match {
             FinDeSet finDeSet = new FinDeSet(matchId, movement);
             * */
         }
+        System.out.println(toString());
     }
 
-    public void calculaSets(){
+    public void calculaEstadoPartido(){
+        setsAFavor = 0;
+        setsEnContra = 0;
         for (Set set: sets
              ) {
             if (set.isSetGanado()){
@@ -108,15 +116,16 @@ public class Match {
         }
 
         partidoGanado = (setsAFavor == 3?true:false);
+        partidoTerminado = ((setsAFavor == 3) || (setsEnContra == 3))?true:false;
     }
 
     public int getSetsAFavor() {
-        calculaSets();
+        calculaEstadoPartido();
         return setsAFavor;
     }
 
     public int getSetsEnContra() {
-        calculaSets();
+        calculaEstadoPartido();
         return setsEnContra;
     }
 
@@ -124,18 +133,33 @@ public class Match {
         return partidoGanado;
     }
 
+    public boolean isPartidoTerminado() {
+        return partidoTerminado;
+    }
+
+    public void setPartidoTerminado(boolean partidoTerminado) {
+        this.partidoTerminado = partidoTerminado;
+    }
+
     /*public void printSet(Set set){
         set.printSet();
     }*/
 
-    /*@Override
+    @Override
     public String toString(){
-        System.out.println("Comienzo del partido " + matchId);
-        System.out.println("Alineación inicial: " + convocatoria.toString());
+        String match;
+        String resumenSets = "";
+        match = "COMIENZO DEL PARTIDO " + matchId + "\n";
+        match += "Convocatoria: " + convocatoria.toString() + "\n\n";
         for (Set set: sets
              ) {
-            set.toString();
+            match += "\n" + set.toString();
+            resumenSets += "Set " + set.getNumSet() + ": " + set.getPuntosNuestros() + "-" + set.getPuntosSuyos() + "\n";
         }
-        return
-    }*/
+        match += "\nResultado: " + setsAFavor + "-" + setsEnContra + "\n";
+        match += resumenSets;
+        match += "\n";
+        match += "FINAL DEL PARTIDO";
+        return match;
+    }
 }

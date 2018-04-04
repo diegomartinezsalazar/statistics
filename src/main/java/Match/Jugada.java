@@ -27,7 +27,7 @@ public class Jugada {
     }
 
     public void setAlineacion(Alineacion alineacion) {
-        this.alineacion = alineacion;
+        this.alineacion = new Alineacion(alineacion);
     }
 
     public void addMovimiento(Object objeto){

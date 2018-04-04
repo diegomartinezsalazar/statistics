@@ -379,9 +379,13 @@ public class Main {
         for(int i=maxWordsInSpecialWords();i>0;i--) {
             for (Map.Entry<String, String> entry : allWords.entrySet()) {
                 if (numberOfWords(entry.getKey()) == i) {
-                    result = result.replaceAll(Pattern.quote(entry.getKey().toString()), entry.getValue().toString());
-                    //System.out.println("Cambio " + entry.getKey() + " por " + entry.getValue() + " y queda:");
-                    //System.out.println(result);
+                    for (int x = maxCharactersInSpecialWords();x>0;x--) {
+                        if (numberOfCharacters(entry.getKey()) == x) {
+                            result = result.replaceAll(Pattern.quote(entry.getKey().toString()), entry.getValue().toString());
+                            //System.out.println("Cambio " + entry.getKey() + " por " + entry.getValue() + " y queda:");
+                            //System.out.println(result);
+                        }
+                    }
                 }
             }
         }
@@ -420,7 +424,25 @@ public class Main {
 
         return stringTokenizer.countTokens();
     }
-    
+
+    public static int maxCharactersInSpecialWords (){
+        int characterNumber = 0;
+        Map<String, String> allWords = database.allWords;
+        int charactersInCloseWord = 0;
+
+        for (Map.Entry<String, String> entry : allWords.entrySet())
+        {
+            charactersInCloseWord = numberOfCharacters(entry.getKey().toString());
+            characterNumber = (charactersInCloseWord > characterNumber)?charactersInCloseWord:characterNumber;
+        }
+
+        return characterNumber;
+    }
+
+    public static int numberOfCharacters (String text){
+        return text.trim().length();
+    }
+
     public static String formatFile (String fileInText) {
         String result = "";
         result = fileInText.toUpperCase();

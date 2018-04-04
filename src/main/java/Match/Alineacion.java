@@ -5,7 +5,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.util.ArrayList;
 
 public class Alineacion extends Movement {
-    private ArrayList jugadoresAlineacion;
+    private ArrayList jugadoresAlineacion = new ArrayList();
     public Alineacion(String matchId, ArrayList<String> alineacion){
         super(matchId);
         jugadoresAlineacion = new ArrayList();
@@ -19,6 +19,11 @@ public class Alineacion extends Movement {
 
     public Alineacion (){
         super();
+    }
+
+    public Alineacion (Alineacion alineacion){
+        super();
+        jugadoresAlineacion = new ArrayList(alineacion.getJugadoresAlineacion());
     }
 
     public ArrayList getPlayers() {

@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Set {
-    private int numeroSet;
     private Alineacion alineacionInicial;
-    private Alineacion alineacionActual;
+    private Alineacion alineacionActual = new Alineacion();
     private ArrayList<Object> tiempos;
     private ArrayList<Jugada> jugadas;
-    public int puntosNuestros = 0;
-    public int puntosSuyos = 0;
-    public boolean saqueInicialFavor = false;
-    public boolean saqueActualFavor = false;
-    public Jugada jugadaActual;
+    private int puntosNuestros = 0;
+    private int puntosSuyos = 0;
+    private boolean saqueInicialFavor = false;
+    private boolean saqueActualFavor = false;
+    private Jugada jugadaActual;
     private boolean setTerminado = false;
     private int numSet = 0;
     private boolean setGanado = false;
@@ -22,14 +21,6 @@ public class Set {
         jugadas = new ArrayList<Jugada>();
         tiempos = new ArrayList<>();
         inicializaJugada();
-    }
-
-    public int getNumeroSet() {
-        return numeroSet;
-    }
-
-    public void setNumeroSet(int numeroSet) {
-        this.numeroSet = numeroSet;
     }
 
     public Alineacion getAlineacionInicial() {
@@ -155,8 +146,8 @@ public class Set {
     }
 
     public void terminaJugada (){
-        jugadaActual.setNuestroTanteoFinal(puntosNuestros);
-        jugadaActual.setSuTanteoFinal(puntosSuyos);
+        jugadaActual.setNuestroTanteoFinal(getPuntosNuestros());
+        jugadaActual.setSuTanteoFinal(getPuntosSuyos());
         jugadas.add(jugadaActual);
 
     }
@@ -164,12 +155,12 @@ public class Set {
     public void inicializaJugada(){
         jugadaActual = new Jugada();
         jugadaActual.setAlineacion(alineacionActual);
-        jugadaActual.setNuestroTanteoInicial(puntosNuestros);
-        jugadaActual.setSuTanteoInicial(puntosSuyos);
+        jugadaActual.setNuestroTanteoInicial(getPuntosNuestros());
+        jugadaActual.setSuTanteoInicial(getPuntosSuyos());
     }
 
     public void puntoNuestro(){
-        puntosNuestros += 1;
+        setPuntosNuestros(getPuntosNuestros() + 1);
         if (!saqueActualFavor){
             rotacion();
             saqueActualFavor = true;
@@ -180,7 +171,7 @@ public class Set {
     }
 
     public void puntoSuyo(){
-        puntosSuyos += 1;
+        setPuntosSuyos(getPuntosSuyos() + 1);
         saqueActualFavor = false;
         terminaJugada();
         terminaSet();
@@ -188,7 +179,7 @@ public class Set {
     }
 
     public void compruebaTanteo (Tanteo tanteo){
-        if ((tanteo.getNuestroTanteo() != puntosNuestros) || (tanteo.getSuTanteo() != puntosSuyos)) {
+        if ((tanteo.getNuestroTanteo() != getPuntosNuestros()) || (tanteo.getSuTanteo() != getPuntosSuyos())) {
             System.out.println("Tanteo momentáneo incorrecto");
         }
     }
@@ -207,26 +198,26 @@ public class Set {
 
     public void terminaSet(){
         if (numSet == 5){
-            if ((puntosNuestros==15) && (puntosSuyos<=13)){
+            if ((getPuntosNuestros() ==15) && (getPuntosSuyos() <=13)){
                 setSetTerminado(true);
                 setSetGanado(true);
-            } else if ((puntosSuyos==15) && (puntosNuestros<=13)){
+            } else if ((getPuntosSuyos() ==15) && (getPuntosNuestros() <=13)){
                 setSetTerminado(true);
                 setSetGanado(false);
-            } else if (((puntosSuyos>15) || (puntosNuestros>15)) && (Math.abs(puntosSuyos - puntosNuestros) >= 2)){
+            } else if (((getPuntosSuyos() >15) || (getPuntosNuestros() >15)) && (Math.abs(getPuntosSuyos() - getPuntosNuestros()) >= 2)){
                 setSetTerminado(true);
-                setSetGanado(puntosNuestros>puntosSuyos);
+                setSetGanado(getPuntosNuestros() > getPuntosSuyos());
             }
         } else {
-            if ((puntosNuestros==25) && (puntosSuyos<=23)){
+            if ((getPuntosNuestros() ==25) && (getPuntosSuyos() <=23)){
                 setSetTerminado(true);
                 setSetGanado(true);
-            } else if ((puntosSuyos==25) && (puntosNuestros<=23)){
+            } else if ((getPuntosSuyos() ==25) && (getPuntosNuestros() <=23)){
                 setSetTerminado(true);
                 setSetGanado(false);
-            } else if (((puntosSuyos>25) || (puntosNuestros>25)) && (Math.abs(puntosSuyos - puntosNuestros) >= 2)){
+            } else if (((getPuntosSuyos() >25) || (getPuntosNuestros() >25)) && (Math.abs(getPuntosSuyos() - getPuntosNuestros()) >= 2)){
                 setSetTerminado(true);
-                setSetGanado(puntosNuestros>puntosSuyos);
+                setSetGanado(getPuntosNuestros() > getPuntosSuyos());
             }
         }
     }
@@ -268,13 +259,29 @@ public class Set {
     public String toString() {
         String set;
 
-        set = "Comienzo Set " + numSet;
-        set += "Alineación inicial: " + alineacionInicial.toString();
+        set = "Comienzo Set " + numSet + "\n";
+        set += "Alineación inicial: " + alineacionInicial.toString() + "\n";
         for (Jugada jugada: jugadas
             ) {
-            set += jugada.toString();
+            set += jugada.toString() + "\n";
         }
 
         return set;
+    }
+
+    public int getPuntosNuestros() {
+        return puntosNuestros;
+    }
+
+    public void setPuntosNuestros(int puntosNuestros) {
+        this.puntosNuestros = puntosNuestros;
+    }
+
+    public int getPuntosSuyos() {
+        return puntosSuyos;
+    }
+
+    public void setPuntosSuyos(int puntosSuyos) {
+        this.puntosSuyos = puntosSuyos;
     }
 }
