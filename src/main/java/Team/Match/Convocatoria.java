@@ -1,8 +1,8 @@
-package Match;
+package Team.Match;
 
 import java.util.ArrayList;
 
-public class Convocatoria extends Movement{
+public class Convocatoria extends Movement {
     private ArrayList players;
     public Convocatoria (String matchId, ArrayList<String> playerList){
         super(matchId);

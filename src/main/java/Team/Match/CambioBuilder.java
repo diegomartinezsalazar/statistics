@@ -1,4 +1,4 @@
-package Match;
+package Team.Match;
 
 public class CambioBuilder {
     private int nuestroTanteo;

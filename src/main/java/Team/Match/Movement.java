@@ -1,4 +1,4 @@
-package Match;
+package Team.Match;
 
 public class Movement {
     private String matchId;

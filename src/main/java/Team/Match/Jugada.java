@@ -1,4 +1,4 @@
-package Match;
+package Team.Match;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class Jugada {
     private int suTanteoFinal = 0;
 
     public Jugada (){
-        movimientos = new ArrayList();
+        setMovimientos(new ArrayList());
     }
 
     public ArrayList getMovimientos() {
@@ -31,7 +31,7 @@ public class Jugada {
     }
 
     public void addMovimiento(Object objeto){
-        movimientos.add(objeto);
+        getMovimientos().add(objeto);
     }
 
     public int getNuestroTanteoInicial() {
@@ -72,7 +72,7 @@ public class Jugada {
         String jugada = "";
         jugada += nuestroTanteoFinal + " - " + suTanteoFinal;
         jugada += " / " + alineacion.toString() + " /";
-        for (Object movimiento: movimientos
+        for (Object movimiento: getMovimientos()
              ) {
             jugada += " " + movimiento.toString();
         }

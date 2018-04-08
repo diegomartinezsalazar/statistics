@@ -210,4 +210,26 @@ public class BBDD {
     public boolean isKeyWord(String word){
         return allStartWords.containsValue(word.toUpperCase());
     }
+
+    public ArrayList readAllValuesFromBBDD(){
+        String SQL = "Select Id From values";
+        ArrayList result = new ArrayList();
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                result.add(rs.getString("Id"));
+            }
+            // Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            //if (rs != null) try { rs.close(); } catch(Exception e) {}
+            //if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            //if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return result;
+    }
 }

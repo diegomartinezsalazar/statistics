@@ -1,6 +1,8 @@
-package Match;
+package Team.Match.Skill;
 
-public class Skill extends Movement{
+import Team.Match.Movement;
+
+public class Skill extends Movement {
     private int player;
     private String value;
 

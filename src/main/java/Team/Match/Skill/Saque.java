@@ -1,28 +1,21 @@
-package Match;
+package Team.Match.Skill;
 
 import java.util.ArrayList;
 
-public class Remate extends Skill {
-    private String tipo;
+public class Saque extends Skill {
     private int origen;
     private int destino;
+    private String tipo;
 
-    public Remate (String matchId, int player, String value){
+    public Saque (String matchId, int player, String value){
         super (matchId, player, value);
     }
 
-    public Remate (String matchId, ArrayList movement){
-        super(matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
+    public Saque (String matchId, ArrayList movement){
+        super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
+        this.tipo = movement.get(1).toString();
         this.origen = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
         this.destino = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getOrigen() {
@@ -41,10 +34,18 @@ public class Remate extends Skill {
         this.destino = destino;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     @Override
     public String toString() {
         String skill = "";
-        skill = String.valueOf(getPlayer()) + " REM " + getValue();
+        skill = String.valueOf(getPlayer()) + " SAQ " + getValue();
         return skill;
     }
 }

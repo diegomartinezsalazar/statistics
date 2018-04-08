@@ -47,6 +47,6 @@ public class raw_match {
 
     @Override
     public String toString() {
-        return "Match movement [id=" + this.id + ", match Id=" + this.getMatchId() + ", action= " + data + "]";
+        return "Team movement [id=" + this.id + ", match Id=" + this.getMatchId() + ", action= " + data + "]";
     }
 }

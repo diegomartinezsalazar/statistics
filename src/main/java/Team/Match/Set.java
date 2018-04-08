@@ -1,4 +1,6 @@
-package Match;
+package Team.Match;
+
+import Team.Match.Skill.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -18,7 +20,7 @@ public class Set {
     private boolean setGanado = false;
 
     public Set (){
-        jugadas = new ArrayList<Jugada>();
+        setJugadas(new ArrayList<Jugada>());
         tiempos = new ArrayList<>();
         inicializaJugada();
     }
@@ -148,7 +150,7 @@ public class Set {
     public void terminaJugada (){
         jugadaActual.setNuestroTanteoFinal(getPuntosNuestros());
         jugadaActual.setSuTanteoFinal(getPuntosSuyos());
-        jugadas.add(jugadaActual);
+        getJugadas().add(jugadaActual);
 
     }
 
@@ -261,7 +263,7 @@ public class Set {
 
         set = "Comienzo Set " + numSet + "\n";
         set += "Alineación inicial: " + alineacionInicial.toString() + "\n";
-        for (Jugada jugada: jugadas
+        for (Jugada jugada: getJugadas()
             ) {
             set += jugada.toString() + "\n";
         }
@@ -283,5 +285,13 @@ public class Set {
 
     public void setPuntosSuyos(int puntosSuyos) {
         this.puntosSuyos = puntosSuyos;
+    }
+
+    public ArrayList<Jugada> getJugadas() {
+        return jugadas;
+    }
+
+    public void setJugadas(ArrayList<Jugada> jugadas) {
+        this.jugadas = jugadas;
     }
 }

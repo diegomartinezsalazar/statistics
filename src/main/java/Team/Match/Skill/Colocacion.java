@@ -1,4 +1,4 @@
-package Match;
+package Team.Match.Skill;
 
 import java.util.ArrayList;
 

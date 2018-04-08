@@ -1,4 +1,4 @@
-package Match;
+package Team.Match;
 
 public class PuntoContrario extends Movement {
     public PuntoContrario (String matchId){

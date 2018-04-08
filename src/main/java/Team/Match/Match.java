@@ -1,4 +1,6 @@
-package Match;
+package Team.Match;
+
+import Team.Match.Skill.Skill;
 
 import java.util.ArrayList;
 
