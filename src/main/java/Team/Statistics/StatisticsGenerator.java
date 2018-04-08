@@ -1,14 +1,15 @@
+package Team.Statistics;
+
 import Team.Enum.Position;
 import Team.Match.Jugada;
 import Team.Match.Match;
 import Team.Match.Set;
 import Team.Match.Skill.*;
 import Team.Player;
-import Team.Statistics.*;
 
 import java.util.ArrayList;
 
-public class Orquestador {
+public class StatisticsGenerator {
     ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<SkillStatistic> subjectsList;
     ServeStatistic serveStatistic;
@@ -19,7 +20,7 @@ public class Orquestador {
     DigStatistic digStatistic;
     BBDD database = new BBDD();
 
-    public Orquestador(){}
+    public StatisticsGenerator(){}
 
     public void loadBaseData(){
 
