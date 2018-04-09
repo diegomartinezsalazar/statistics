@@ -118,11 +118,12 @@ public class Main {
         loadData();
         Match match = formatMatch();
         System.out.println("Final formateo" + "\n");
-        System.out.println("Final formateo" + "\n");
-        System.out.println("Final formateo" + "\n");
-        System.out.println("Inicio estadísitcas");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("Inicio estadísticas");
         StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
         statisticsGenerator.matchTreatment(match);
+        System.out.println("Final estadísticas");
 
     }
 
