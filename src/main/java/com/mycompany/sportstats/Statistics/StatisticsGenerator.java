@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class StatisticsGenerator {
     ArrayList<Player> players = new ArrayList<Player>();
-    ArrayList<SkillStatistic> subjectsList;
+    ArrayList<SkillStatistic> subjectsList = new ArrayList<>();
     ServeStatistic serveStatistic;
     ReceptionStatistic receptionStatistic;
     SetStatistic setStatistic;
@@ -64,6 +64,7 @@ public class StatisticsGenerator {
     }
 
     public void loadValues (){
+        openConnectionBBDD();
         ArrayList values = database.readAllValuesFromBBDD();
         serveStatistic = new ServeStatistic(values);
         receptionStatistic = new ReceptionStatistic(values);
@@ -96,32 +97,35 @@ public class StatisticsGenerator {
                  ) {
                 for (Object movement: jugada.getMovimientos()
                      ) {
-                    player = playerWithNumber(((Skill) movement).getPlayer());
                     //Si el movimiento extiende de Skill, se lo sumo al jugador
                     if (Saque.class == movement.getClass()){
                         movementPlayer = ((Saque)movement).getPlayer();
-                        //player = playerWithNumber(movementPlayer);
+                        player = playerWithNumber(movementPlayer);
                         player.addServeValue(((Saque) movement).getValue());
                     }
                     if (Recepcion.class == movement.getClass()){
                         movementPlayer = ((Recepcion)movement).getPlayer();
-                        //player = playerWithNumber(movementPlayer);
+                        player = playerWithNumber(movementPlayer);
                         player.addReceptionValue(((Recepcion) movement).getValue());
                     }
                     if (Colocacion.class == movement.getClass()){
                         movementPlayer = ((Colocacion)movement).getPlayer();
+                        player = playerWithNumber(((Skill) movement).getPlayer());
                         player.addSetValue(((Colocacion) movement).getValue());
                     }
                     if (Remate.class == movement.getClass()){
                         movementPlayer = ((Remate)movement).getPlayer();
+                        player = playerWithNumber(((Skill) movement).getPlayer());
                         player.addAttackValue(((Remate) movement).getValue());
                     }
                     if (Bloqueo.class == movement.getClass()){
                         movementPlayer = ((Bloqueo)movement).getPlayer();
+                        player = playerWithNumber(((Skill) movement).getPlayer());
                         player.addBlockValue(((Bloqueo) movement).getValue());
                     }
                     if (Defensa.class == movement.getClass()){
                         movementPlayer = ((Defensa)movement).getPlayer();
+                        player = playerWithNumber(((Skill) movement).getPlayer());
                         player.addDigValue(((Defensa) movement).getValue());
                     }
                 }

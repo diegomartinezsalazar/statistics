@@ -172,7 +172,7 @@ public class BBDD {
     }
 
     public ArrayList readValuesFromBBDD(String word){
-        String SQL = "Select Subject, Translation From values_translation Where Subject = '" + word + "'";
+        String SQL = "Select Subject, Translation From subject_values_translation Where Subject = '" + word + "'";
         ArrayList result = new ArrayList();
         try {
             stmt = con.createStatement();
@@ -214,7 +214,7 @@ public class BBDD {
     }
 
     public ArrayList readAllValuesFromBBDD(){
-        String SQL = "Select Id From values";
+        String SQL = "SELECT Id FROM subject_values";
         ArrayList result = new ArrayList();
         try {
             stmt = con.createStatement();

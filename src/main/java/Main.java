@@ -1,5 +1,3 @@
-package com.mycompany.sportstats;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -390,16 +388,14 @@ public class Main {
         String result = "";
         result = fileInText.toUpperCase();
         Map<String, String> allWords = database.allWords;
-        //result = "DOBLE +";
+        int maxCharactersInSpecialWords = maxCharactersInSpecialWords();
 
         for(int i=maxWordsInSpecialWords();i>0;i--) {
-            for (Map.Entry<String, String> entry : allWords.entrySet()) {
-                if (numberOfWords(entry.getKey()) == i) {
-                    for (int x = maxCharactersInSpecialWords();x>0;x--) {
+            for (int x = maxCharactersInSpecialWords;x>0;x--) {
+                for (Map.Entry<String, String> entry : allWords.entrySet()) {
+                    if (numberOfWords(entry.getKey()) == i) {
                         if (numberOfCharacters(entry.getKey()) == x) {
-                            result = result.replaceAll(Pattern.quote(entry.getKey().toString()), entry.getValue().toString());
-                            //System.out.println("Cambio " + entry.getKey() + " por " + entry.getValue() + " y queda:");
-                            //System.out.println(result);
+                            result = result.replaceAll(Pattern.quote(entry.getKey()), entry.getValue());
                         }
                     }
                 }
