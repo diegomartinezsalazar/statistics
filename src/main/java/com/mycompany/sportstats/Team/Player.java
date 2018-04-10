@@ -25,22 +25,22 @@ public class Player {
         for (SkillStatistic skillStatistic: subjectsList
              ) {
             if (skillStatistic.getClass() == ServeStatistic.class){
-                serveStatistic = (ServeStatistic) skillStatistic;
+                serveStatistic = new ServeStatistic (skillStatistic);
             }
             if (skillStatistic.getClass() == ReceptionStatistic.class){
-                receptionStatistic = (ReceptionStatistic) skillStatistic;
+                receptionStatistic = new ReceptionStatistic (skillStatistic);
             }
             if (skillStatistic.getClass() == SetStatistic.class){
-                setStatistic = (SetStatistic) skillStatistic;
+                setStatistic = new SetStatistic (skillStatistic);
             }
             if (skillStatistic.getClass() == AttackStatistic.class){
-                attackStatistic = (AttackStatistic) skillStatistic;
+                attackStatistic = new AttackStatistic (skillStatistic);
             }
             if (skillStatistic.getClass() == BlockStatistic.class){
-                blockStatistic = (BlockStatistic) skillStatistic;
+                blockStatistic = new BlockStatistic (skillStatistic);
             }
             if (skillStatistic.getClass() == DigStatistic.class){
-                digStatistic = (DigStatistic) skillStatistic;
+                digStatistic = new DigStatistic (skillStatistic);
             }
         }
     }

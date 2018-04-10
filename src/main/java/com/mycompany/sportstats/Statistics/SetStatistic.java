@@ -6,4 +6,8 @@ public class SetStatistic extends SkillStatistic {
     public SetStatistic(ArrayList<String> values){
         super(values);
     }
+
+    public SetStatistic (SkillStatistic skillStatistic){
+        super(skillStatistic);
+    }
 }

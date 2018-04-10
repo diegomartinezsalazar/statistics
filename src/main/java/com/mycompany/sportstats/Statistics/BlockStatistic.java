@@ -6,4 +6,8 @@ public class BlockStatistic extends SkillStatistic {
     public BlockStatistic (ArrayList<String> values){
         super(values);
     }
+
+    public BlockStatistic (SkillStatistic skillStatistic){
+        super(skillStatistic);
+    }
 }

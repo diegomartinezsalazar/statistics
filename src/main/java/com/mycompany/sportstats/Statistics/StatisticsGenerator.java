@@ -1,6 +1,7 @@
 package com.mycompany.sportstats.Statistics;
 
 import com.mycompany.sportstats.BBDD.BBDD;
+import com.mycompany.sportstats.Statistics.Export.ExportToExcel;
 import com.mycompany.sportstats.Team.Enum.Position;
 import com.mycompany.sportstats.Team.Match.Jugada;
 import com.mycompany.sportstats.Team.Match.Match;
@@ -8,6 +9,7 @@ import com.mycompany.sportstats.Team.Match.Set;
 import com.mycompany.sportstats.Team.Match.Skill.*;
 import com.mycompany.sportstats.Team.Player;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class StatisticsGenerator {
@@ -110,22 +112,22 @@ public class StatisticsGenerator {
                     }
                     if (Colocacion.class == movement.getClass()){
                         movementPlayer = ((Colocacion)movement).getPlayer();
-                        player = playerWithNumber(((Skill) movement).getPlayer());
+                        player = playerWithNumber(movementPlayer);
                         player.addSetValue(((Colocacion) movement).getValue());
                     }
                     if (Remate.class == movement.getClass()){
                         movementPlayer = ((Remate)movement).getPlayer();
-                        player = playerWithNumber(((Skill) movement).getPlayer());
+                        player = playerWithNumber(movementPlayer);
                         player.addAttackValue(((Remate) movement).getValue());
                     }
                     if (Bloqueo.class == movement.getClass()){
                         movementPlayer = ((Bloqueo)movement).getPlayer();
-                        player = playerWithNumber(((Skill) movement).getPlayer());
+                        player = playerWithNumber(movementPlayer);
                         player.addBlockValue(((Bloqueo) movement).getValue());
                     }
                     if (Defensa.class == movement.getClass()){
                         movementPlayer = ((Defensa)movement).getPlayer();
-                        player = playerWithNumber(((Skill) movement).getPlayer());
+                        player = playerWithNumber(movementPlayer);
                         player.addDigValue(((Defensa) movement).getValue());
                     }
                 }
@@ -146,5 +148,13 @@ public class StatisticsGenerator {
         return player;
     }
 
-    //public void printMatchStatistics ()
+    public void exportToExcel (){
+        try {
+            ExportToExcel exportToExcel = new ExportToExcel();
+
+            exportToExcel.ExportToExcelFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }

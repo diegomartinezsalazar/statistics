@@ -15,6 +15,10 @@ public class SkillStatistic {
         }
     }
 
+    public SkillStatistic(SkillStatistic skillStatistic){
+        this.lista = new HashMap<>(skillStatistic.lista);
+    }
+
     public void addSkill(String key){
         int skillNumber = lista.get(key);
 
