@@ -41,13 +41,13 @@ public class StatisticsGenerator {
         Player player7 = new Player(7, Position.OPUESTO, "Tami", subjectsList);
         Player player8 = new Player(8, Position.COLOCADOR, "Maddi", subjectsList);
         Player player9 = new Player(9, Position.CENTRAL, "Chris", subjectsList);
-        Player player10 = new Player(10, Position.CUATRO, "Irene", subjectsList);
+        Player player10 = new Player(10, Position.CUATRO, "Irene J", subjectsList);
         Player player11 = new Player(11, Position.LÍBERO, "Elena", subjectsList);
         Player player12 = new Player(12, Position.CUATRO, "Eli", subjectsList);
         Player player13 = new Player(13, Position.CENTRAL, "Andrea", subjectsList);
         Player player14 = new Player(14, Position.OPUESTO, "Sofí", subjectsList);
         Player player15 = new Player(15, Position.CUATRO, "Vane", subjectsList);
-        Player player19 = new Player(19, Position.CENTRAL, "Luque", subjectsList);
+        Player player19 = new Player(19, Position.CENTRAL, "Irene C", subjectsList);
 
         players.add(player1);
         players.add(player2);
@@ -150,7 +150,7 @@ public class StatisticsGenerator {
 
     public void exportToExcel (){
         try {
-            ExportToExcel exportToExcel = new ExportToExcel();
+            ExportToExcel exportToExcel = new ExportToExcel(players);
 
             exportToExcel.ExportToExcelFile();
         } catch (IOException e){

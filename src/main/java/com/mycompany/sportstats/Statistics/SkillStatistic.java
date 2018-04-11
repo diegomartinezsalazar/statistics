@@ -11,27 +11,35 @@ public class SkillStatistic {
     public SkillStatistic(ArrayList<String> values){
         for (String value: values
              ) {
-            lista.put(value, 0);
+            getLista().put(value, 0);
         }
     }
 
     public SkillStatistic(SkillStatistic skillStatistic){
-        this.lista = new HashMap<>(skillStatistic.lista);
+        this.setLista(new HashMap<>(skillStatistic.getLista()));
     }
 
     public void addSkill(String key){
-        int skillNumber = lista.get(key);
+        int skillNumber = getLista().get(key);
 
         skillNumber += 1;
 
-        lista.replace(key, skillNumber);
+        getLista().replace(key, skillNumber);
     }
 
     public void substractSkill(String key){
-        int skillNumber = lista.get(key);
+        int skillNumber = getLista().get(key);
 
         skillNumber -= 1;
 
-        lista.replace(key, skillNumber);
+        getLista().replace(key, skillNumber);
+    }
+
+    public Map<String, Integer> getLista() {
+        return lista;
+    }
+
+    public void setLista(Map<String, Integer> lista) {
+        this.lista = lista;
     }
 }

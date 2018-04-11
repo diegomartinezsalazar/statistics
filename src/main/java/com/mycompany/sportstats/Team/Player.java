@@ -20,53 +20,53 @@ public class Player {
 
     public Player (int number, Position position, String name, ArrayList<SkillStatistic> subjectsList){
         this.setNumber(number);
-        this.name = name;
+        this.setName(name);
         this.position = position;
         for (SkillStatistic skillStatistic: subjectsList
              ) {
             if (skillStatistic.getClass() == ServeStatistic.class){
-                serveStatistic = new ServeStatistic (skillStatistic);
+                setServeStatistic(new ServeStatistic (skillStatistic));
             }
             if (skillStatistic.getClass() == ReceptionStatistic.class){
-                receptionStatistic = new ReceptionStatistic (skillStatistic);
+                setReceptionStatistic(new ReceptionStatistic (skillStatistic));
             }
             if (skillStatistic.getClass() == SetStatistic.class){
-                setStatistic = new SetStatistic (skillStatistic);
+                setSetStatistic(new SetStatistic (skillStatistic));
             }
             if (skillStatistic.getClass() == AttackStatistic.class){
-                attackStatistic = new AttackStatistic (skillStatistic);
+                setAttackStatistic(new AttackStatistic (skillStatistic));
             }
             if (skillStatistic.getClass() == BlockStatistic.class){
-                blockStatistic = new BlockStatistic (skillStatistic);
+                setBlockStatistic(new BlockStatistic (skillStatistic));
             }
             if (skillStatistic.getClass() == DigStatistic.class){
-                digStatistic = new DigStatistic (skillStatistic);
+                setDigStatistic(new DigStatistic (skillStatistic));
             }
         }
     }
 
     public void addServeValue(String value){
-        serveStatistic.addSkill(value);
+        getServeStatistic().addSkill(value);
     }
 
     public void addReceptionValue(String value){
-        receptionStatistic.addSkill(value);
+        getReceptionStatistic().addSkill(value);
     }
 
     public void addSetValue(String value){
-        setStatistic.addSkill(value);
+        getSetStatistic().addSkill(value);
     }
 
     public void addAttackValue(String value){
-        attackStatistic.addSkill(value);
+        getAttackStatistic().addSkill(value);
     }
 
     public void addBlockValue(String value){
-        blockStatistic.addSkill(value);
+        getBlockStatistic().addSkill(value);
     }
 
     public void addDigValue(String value){
-        digStatistic.addSkill(value);
+        getDigStatistic().addSkill(value);
     }
 
     public int getNumber() {
@@ -75,5 +75,61 @@ public class Player {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ServeStatistic getServeStatistic() {
+        return serveStatistic;
+    }
+
+    public void setServeStatistic(ServeStatistic serveStatistic) {
+        this.serveStatistic = serveStatistic;
+    }
+
+    public ReceptionStatistic getReceptionStatistic() {
+        return receptionStatistic;
+    }
+
+    public void setReceptionStatistic(ReceptionStatistic receptionStatistic) {
+        this.receptionStatistic = receptionStatistic;
+    }
+
+    public SetStatistic getSetStatistic() {
+        return setStatistic;
+    }
+
+    public void setSetStatistic(SetStatistic setStatistic) {
+        this.setStatistic = setStatistic;
+    }
+
+    public AttackStatistic getAttackStatistic() {
+        return attackStatistic;
+    }
+
+    public void setAttackStatistic(AttackStatistic attackStatistic) {
+        this.attackStatistic = attackStatistic;
+    }
+
+    public BlockStatistic getBlockStatistic() {
+        return blockStatistic;
+    }
+
+    public void setBlockStatistic(BlockStatistic blockStatistic) {
+        this.blockStatistic = blockStatistic;
+    }
+
+    public DigStatistic getDigStatistic() {
+        return digStatistic;
+    }
+
+    public void setDigStatistic(DigStatistic digStatistic) {
+        this.digStatistic = digStatistic;
     }
 }
