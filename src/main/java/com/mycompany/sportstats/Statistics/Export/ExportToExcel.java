@@ -46,6 +46,7 @@ public class ExportToExcel {
             String playerName = "";
 
             while (! finish){
+                cellPosition = 1;
                 row = sheet.getRow(numLinea);
                 XSSFCell cell = row.getCell(0);
                 if ((cell == null) || (Objects.equals(cell.getStringCellValue(), "TOTAL"))) {
@@ -57,16 +58,16 @@ public class ExportToExcel {
                         // Comienzo a insertar las estadísticas
                         // Primero las colocaciones
                         insertSetStatistics(player.getSetStatistic().getLista(), cellPosition);
-                        cellPosition += 8;
-                        insertAttackStatistics(player.getSetStatistic().getLista(), cellPosition);
-                        cellPosition += 8;
-                        insertServeStatistics(player.getSetStatistic().getLista(), cellPosition);
-                        cellPosition += 8;
-                        insertDigStatistics(player.getSetStatistic().getLista(), cellPosition);
-                        cellPosition += 8;
-                        insertBlockStatistics(player.getSetStatistic().getLista(), cellPosition);
-                        cellPosition += 8;
-                        insertReceptionStatistics(player.getSetStatistic().getLista(), cellPosition);
+                        cellPosition += 9;
+                        insertAttackStatistics(player.getAttackStatistic().getLista(), cellPosition);
+                        cellPosition += 9;
+                        insertServeStatistics(player.getServeStatistic().getLista(), cellPosition);
+                        cellPosition += 9;
+                        insertDigStatistics(player.getDigStatistic().getLista(), cellPosition);
+                        cellPosition += 9;
+                        insertBlockStatistics(player.getBlockStatistic().getLista(), cellPosition);
+                        cellPosition += 9;
+                        insertReceptionStatistics(player.getReceptionStatistic().getLista(), cellPosition);
                     }
                 }
                 numLinea++;
