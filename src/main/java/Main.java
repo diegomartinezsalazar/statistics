@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -62,6 +63,8 @@ public class Main {
         Utils prueba = new Utils();
         //File fichero = new File("Stats.txt");
         System.out.println("Comienza lectura");
+        ResourceBundle sportstats = ResourceBundle.getBundle("sportstats");
+
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         File conf = new File(classloader.getResource("Conf.txt").getFile());
         BufferedReader br = new BufferedReader(new FileReader(conf.getPath()));
