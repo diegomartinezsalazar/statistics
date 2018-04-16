@@ -1,6 +1,7 @@
 package com.mycompany.sportstats.Statistics.Export;
 
 import com.mycompany.sportstats.Team.Match.Alineacion;
+import com.mycompany.sportstats.Team.Match.Cambio;
 import com.mycompany.sportstats.Team.Match.Match;
 import com.mycompany.sportstats.Team.Match.Set;
 import com.mycompany.sportstats.Team.Player;
@@ -32,6 +33,7 @@ public class ExportToExcel {
     private static final int FIRST_ALINEACION_LINE = 43;
     private static final int FIRST_SET_COLUMN = 2;
     private static final int DISTANCE_BETWEEN_SETS = 6;
+    private static final int FIRST_CHANGE_LINE = 50;
     ArrayList<Player> players;
     Match match;
     XSSFRow row;
@@ -55,6 +57,9 @@ public class ExportToExcel {
             System.out.println("Comienzo exportación alineación");
             exportAlineacion();
             System.out.println("Final exportación alineación");
+            System.out.println("Comienzo exportación cambios");
+            exportChanges();
+            System.out.println("Final exportación cambios");
 
 
             // Write the output to a file
@@ -121,6 +126,28 @@ public class ExportToExcel {
         }
     }
 
+    public void exportChanges (){
+        int changeColumn = 0;
+        Player playerEntra;
+        Player playerSeRetira;
+        int changeRowNumber;
+        int changeSetColumn = FIRST_SET_COLUMN;
+        for (Set set: match.getSets()
+                ) {
+            changeRowNumber = FIRST_CHANGE_LINE;
+            for (Cambio cambio: set.getCambios()
+                 ) {
+                playerEntra = getPlayerWithNumber(cambio.getEntra());
+                playerSeRetira = getPlayerWithNumber(cambio.getSeRetira());
+                row = sheet.getRow(changeRowNumber);
+                insertStrValue(row, changeSetColumn, playerSeRetira.getName());
+                insertStrValue(row, changeSetColumn + 2, playerEntra.getName());
+                changeRowNumber += 1;
+            }
+            changeSetColumn += DISTANCE_BETWEEN_SETS;
+        }
+    }
+
     public Player getPlayerWithName (String name){
         for (Player player: players
              ) {
@@ -152,7 +179,7 @@ public class ExportToExcel {
     public void insertStrValue(XSSFRow row, int column, String value){
         XSSFCell cell = row.getCell(column);
         if (cell == null) {
-            row.createCell(column);
+            cell = row.createCell(column);
         }
         cell.setCellValue(value);
     }
@@ -160,7 +187,7 @@ public class ExportToExcel {
     public void updateFormula (XSSFWorkbook ws, XSSFRow row, int column){
         XSSFCell cell = row.getCell(column);
         if (cell == null) {
-            row.createCell(column);
+            cell = row.createCell(column);
         }
         FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
         evaluator.evaluateFormulaCellEnum(cell);

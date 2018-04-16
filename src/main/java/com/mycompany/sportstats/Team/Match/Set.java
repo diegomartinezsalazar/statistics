@@ -10,6 +10,7 @@ public class Set {
     private Alineacion alineacionActual = new Alineacion();
     private ArrayList<Object> tiempos;
     private ArrayList<Jugada> jugadas;
+    private ArrayList<Cambio> cambios;
     private int puntosNuestros = 0;
     private int puntosSuyos = 0;
     private boolean saqueInicialFavor = false;
@@ -22,6 +23,7 @@ public class Set {
     public Set (){
         setJugadas(new ArrayList<Jugada>());
         tiempos = new ArrayList<>();
+        cambios = new ArrayList<>();
         inicializaJugada();
     }
 
@@ -187,6 +189,7 @@ public class Set {
     }
 
     public void addCambio (Cambio cambio){
+        cambios.add(cambio);
         alineacionActual.addCambio(cambio.getSeRetira(), cambio.getEntra());
     }
 
@@ -293,5 +296,9 @@ public class Set {
 
     public void setJugadas(ArrayList<Jugada> jugadas) {
         this.jugadas = jugadas;
+    }
+
+    public ArrayList<Cambio> getCambios() {
+        return cambios;
     }
 }
