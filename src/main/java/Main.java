@@ -124,7 +124,7 @@ public class Main {
         System.out.println("Inicio estadísticas");
         StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
         statisticsGenerator.matchTreatment(match);
-        statisticsGenerator.exportToExcel();
+        statisticsGenerator.exportToExcel(match);
         System.out.println("Final estadísticas");
 
     }

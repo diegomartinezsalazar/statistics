@@ -5,7 +5,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.util.ArrayList;
 
 public class Alineacion extends Movement {
-    private ArrayList jugadoresAlineacion = new ArrayList();
+    private ArrayList<Integer> jugadoresAlineacion = new ArrayList();
     public Alineacion(String matchId, ArrayList<String> alineacion){
         super(matchId);
         jugadoresAlineacion = new ArrayList();
@@ -30,11 +30,7 @@ public class Alineacion extends Movement {
         return getJugadoresAlineacion();
     }
 
-    public void setPlayer(int player) {
-        getJugadoresAlineacion().add(player);
-    }
-
-    public ArrayList getJugadoresAlineacion() {
+    public ArrayList<Integer> getJugadoresAlineacion() {
         return jugadoresAlineacion;
     }
 

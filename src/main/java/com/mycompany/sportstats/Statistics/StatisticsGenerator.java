@@ -23,6 +23,7 @@ public class StatisticsGenerator {
     DigStatistic digStatistic;
     BBDD database = new BBDD();
 
+
     public StatisticsGenerator(){
         loadValues();
         loadPlayers();
@@ -148,9 +149,9 @@ public class StatisticsGenerator {
         return player;
     }
 
-    public void exportToExcel (){
+    public void exportToExcel (Match match){
         try {
-            ExportToExcel exportToExcel = new ExportToExcel(players);
+            ExportToExcel exportToExcel = new ExportToExcel(players, match);
 
             exportToExcel.ExportToExcelFile();
         } catch (IOException e){

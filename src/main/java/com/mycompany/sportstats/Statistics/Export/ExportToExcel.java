@@ -1,5 +1,8 @@
 package com.mycompany.sportstats.Statistics.Export;
 
+import com.mycompany.sportstats.Team.Match.Alineacion;
+import com.mycompany.sportstats.Team.Match.Match;
+import com.mycompany.sportstats.Team.Match.Set;
 import com.mycompany.sportstats.Team.Player;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -25,12 +28,19 @@ public class ExportToExcel {
     private static final String FILE_NAME = "C:\\Users\\McMardigan\\Downloads\\Equipo.xlsm";
     //private static final String FILE_NAME = "/Users/dimartinez/Downloads/Equipo.xlsm";
     private static final int FIRST_PLAYER_LINE = 10;
-    ArrayList<Player> players = new ArrayList<>();
+    private static final int DISTANCE_BETWEEN_PLAYERS = 9;
+    private static final int FIRST_ALINEACION_LINE = 43;
+    private static final int FIRST_SET_COLUMN = 2;
+    private static final int DISTANCE_BETWEEN_SETS = 6;
+    ArrayList<Player> players;
+    Match match;
     XSSFRow row;
     XSSFWorkbook wb;
+    XSSFSheet sheet;
 
-    public ExportToExcel(ArrayList<Player> players){
+    public ExportToExcel(ArrayList<Player> players, Match match){
         this.players = players;
+        this.match = match;
     }
 
     public void ExportToExcelFile()  throws IOException {
@@ -38,45 +48,76 @@ public class ExportToExcel {
         int cellPosition = 1;
         try (FileInputStream fileIn = new FileInputStream(FILE_NAME)) {
             wb = new XSSFWorkbook(fileIn);
-            XSSFSheet sheet = wb.getSheet("Coslada V");
+            sheet = wb.getSheet("Coslada V");
+            System.out.println("Comienzo exportación estadísticas jugadoras");
+            exportPlayersStatistics();
+            System.out.println("Final exportación estadísticas jugadoras");
+            System.out.println("Comienzo exportación alineación");
+            exportAlineacion();
+            System.out.println("Final exportación alineación");
 
-            //Leemos cada una de las líneas de la primera columna donde empiezan los jugadores
-            boolean finish = false;
-            int numLinea = FIRST_PLAYER_LINE;
-            String playerName = "";
-
-            while (! finish){
-                cellPosition = 1;
-                row = sheet.getRow(numLinea);
-                XSSFCell cell = row.getCell(0);
-                if ((cell == null) || (Objects.equals(cell.getStringCellValue(), "TOTAL"))) {
-                    finish = true;
-                } else {
-                    // Busco el jugador en la lista de jugadores
-                    player = getPlayerWithName(cell.getStringCellValue());
-                    if (player != null) {
-                        // Comienzo a insertar las estadísticas
-                        // Primero las colocaciones
-                        insertSetStatistics(player.getSetStatistic().getLista(), cellPosition);
-                        cellPosition += 9;
-                        insertAttackStatistics(player.getAttackStatistic().getLista(), cellPosition);
-                        cellPosition += 9;
-                        insertServeStatistics(player.getServeStatistic().getLista(), cellPosition);
-                        cellPosition += 9;
-                        insertDigStatistics(player.getDigStatistic().getLista(), cellPosition);
-                        cellPosition += 9;
-                        insertBlockStatistics(player.getBlockStatistic().getLista(), cellPosition);
-                        cellPosition += 9;
-                        insertReceptionStatistics(player.getReceptionStatistic().getLista(), cellPosition);
-                    }
-                }
-                numLinea++;
-            }
 
             // Write the output to a file
             try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
                 wb.write(fileOut);
             }
+        }
+    }
+
+    private void exportPlayersStatistics() {
+        int cellPosition;
+        Player player;//Leemos cada una de las líneas de la primera columna donde empiezan los jugadores
+        boolean finish = false;
+        int numLinea = FIRST_PLAYER_LINE;
+        String playerName = "";
+
+        while (! finish){
+            cellPosition = 1;
+            row = sheet.getRow(numLinea);
+            XSSFCell cell = row.getCell(0);
+            if ((cell == null) || (Objects.equals(cell.getStringCellValue(), "TOTAL"))) {
+                finish = true;
+            } else {
+                // Busco el jugador en la lista de jugadores
+                player = getPlayerWithName(cell.getStringCellValue());
+                if (player != null) {
+                    // Comienzo a insertar las estadísticas
+                    // Primero las colocaciones
+                    insertSetStatistics(player.getSetStatistic().getLista(), cellPosition);
+                    cellPosition += DISTANCE_BETWEEN_PLAYERS;
+                    insertAttackStatistics(player.getAttackStatistic().getLista(), cellPosition);
+                    cellPosition += DISTANCE_BETWEEN_PLAYERS;
+                    insertServeStatistics(player.getServeStatistic().getLista(), cellPosition);
+                    cellPosition += DISTANCE_BETWEEN_PLAYERS;
+                    insertDigStatistics(player.getDigStatistic().getLista(), cellPosition);
+                    cellPosition += DISTANCE_BETWEEN_PLAYERS;
+                    insertBlockStatistics(player.getBlockStatistic().getLista(), cellPosition);
+                    cellPosition += DISTANCE_BETWEEN_PLAYERS;
+                    insertReceptionStatistics(player.getReceptionStatistic().getLista(), cellPosition);
+                }
+            }
+            numLinea++;
+        }
+    }
+
+    public void exportAlineacion (){
+        int alineacionColumn = 0;
+        Player player;
+        int alineacionRowNumber;
+        int alineacionSetColumn = FIRST_SET_COLUMN;
+        for (Set set: match.getSets()
+             ) {
+            Alineacion alineacion = set.getAlineacionInicial();
+            alineacionRowNumber = FIRST_ALINEACION_LINE;
+            for (Integer numJugador: alineacion.getJugadoresAlineacion()
+                 ) {
+                player = getPlayerWithNumber(numJugador);
+                row = sheet.getRow(alineacionRowNumber);
+                insertStrValue(row, alineacionSetColumn, player.getName());
+                alineacionRowNumber += 1;
+
+            }
+            alineacionSetColumn += DISTANCE_BETWEEN_SETS;
         }
     }
 
@@ -90,7 +131,25 @@ public class ExportToExcel {
         return null;
     }
 
+    public Player getPlayerWithNumber (int number){
+        for (Player player: players
+                ) {
+            if (player.getNumber() == number){
+                return player;
+            }
+        }
+        return null;
+    }
+
     public void insertIntValue(XSSFRow row, int column, int value){
+        XSSFCell cell = row.getCell(column);
+        if (cell == null) {
+            row.createCell(column);
+        }
+        cell.setCellValue(value);
+    }
+
+    public void insertStrValue(XSSFRow row, int column, String value){
         XSSFCell cell = row.getCell(column);
         if (cell == null) {
             row.createCell(column);

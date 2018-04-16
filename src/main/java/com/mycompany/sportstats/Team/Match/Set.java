@@ -137,7 +137,7 @@ public class Set {
 
     public void rotacion(){
         Integer aux = 0;
-        ArrayList<Integer> alineacionAux = new ArrayList<>(alineacionActual.getPlayers());
+        ArrayList<Integer> alineacionAux = new ArrayList<>(alineacionActual.getJugadoresAlineacion());
 
         aux = alineacionAux.get(0);
         for (int i = 1; i < 6; i++){
