@@ -142,6 +142,8 @@ public class ExportToExcel {
                 row = sheet.getRow(changeRowNumber);
                 insertStrValue(row, changeSetColumn, playerSeRetira.getName());
                 insertStrValue(row, changeSetColumn + 2, playerEntra.getName());
+                insertIntValue(row, changeSetColumn + 4, cambio.getSuTanteo());
+                insertIntValue(row, changeSetColumn + 5, cambio.getNuestroTanteo());
                 changeRowNumber += 1;
             }
             changeSetColumn += DISTANCE_BETWEEN_SETS;

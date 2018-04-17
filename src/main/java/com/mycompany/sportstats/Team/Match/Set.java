@@ -189,6 +189,8 @@ public class Set {
     }
 
     public void addCambio (Cambio cambio){
+        cambio.setNuestroTanteo(puntosNuestros);
+        cambio.setSuTanteo(puntosSuyos);
         cambios.add(cambio);
         alineacionActual.addCambio(cambio.getSeRetira(), cambio.getEntra());
     }
