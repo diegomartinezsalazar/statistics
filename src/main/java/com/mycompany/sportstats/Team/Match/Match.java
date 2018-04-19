@@ -11,6 +11,9 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Match {
+    private NuestroEquipo nuestroEquipo;
+    private EquipoContrario equipoContrario;
+    private boolean enCasa;
     private String matchId;
     private ArrayList<Set> sets = new ArrayList<Set>();
     private ArrayList<Object> listaMovimientos = new ArrayList<Object>();
@@ -83,6 +86,12 @@ public class Match {
                 set.addTimeOut((Tiempo) objeto);
             } else if (objeto.getClass() == FinDeSet.class){
                 //set.addTimeOut((Tiempo) objeto);
+            } else if (objeto.getClass() == NuestroEquipo.class){
+                nuestroEquipo = (NuestroEquipo) objeto;
+            } else if (objeto.getClass() == EquipoContrario.class) {
+                equipoContrario = (EquipoContrario) objeto;
+            } else if (objeto.getClass() == Campo.class) {
+                enCasa = ((Campo) objeto).isEnCasa();
             }
 
 
@@ -163,5 +172,29 @@ public class Match {
         match += "\n";
         match += "FINAL DEL PARTIDO";
         return match;
+    }
+
+    public NuestroEquipo getNuestroEquipo() {
+        return nuestroEquipo;
+    }
+
+    public void setNuestroEquipo(NuestroEquipo nuestroEquipo) {
+        this.nuestroEquipo = nuestroEquipo;
+    }
+
+    public EquipoContrario getEquipoContrario() {
+        return equipoContrario;
+    }
+
+    public void setEquipoContrario(EquipoContrario equipoContrario) {
+        this.equipoContrario = equipoContrario;
+    }
+
+    public boolean isEnCasa() {
+        return enCasa;
+    }
+
+    public void setEnCasa(boolean enCasa) {
+        this.enCasa = enCasa;
     }
 }

@@ -5,13 +5,7 @@ import com.mycompany.sportstats.Team.Match.Cambio;
 import com.mycompany.sportstats.Team.Match.Match;
 import com.mycompany.sportstats.Team.Match.Set;
 import com.mycompany.sportstats.Team.Player;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -34,6 +28,7 @@ public class ExportToExcel {
     private static final int FIRST_SET_COLUMN = 2;
     private static final int DISTANCE_BETWEEN_SETS = 6;
     private static final int FIRST_CHANGE_LINE = 50;
+    private static final int TEAM_COLUMN = 24;
     ArrayList<Player> players;
     Match match;
     XSSFRow row;
@@ -60,6 +55,9 @@ public class ExportToExcel {
             System.out.println("Comienzo exportación cambios");
             exportChanges();
             System.out.println("Final exportación cambios");
+            System.out.println("Comienzo exportación equipos");
+            exportTeams();
+            System.out.println("Final exportación equipos");
 
 
             // Write the output to a file
@@ -147,6 +145,20 @@ public class ExportToExcel {
                 changeRowNumber += 1;
             }
             changeSetColumn += DISTANCE_BETWEEN_SETS;
+        }
+    }
+
+    public void exportTeams (){
+        if (match.isEnCasa()){
+            row = sheet.getRow(0);
+            insertStrValue(row, TEAM_COLUMN, match.getNuestroEquipo().getNombre());
+            row = sheet.getRow(1);
+            insertStrValue(row, TEAM_COLUMN, match.getEquipoContrario().getNombre());
+        } else {
+            row = sheet.getRow(0);
+            insertStrValue(row, TEAM_COLUMN, match.getEquipoContrario().getNombre());
+            row = sheet.getRow(1);
+            insertStrValue(row, TEAM_COLUMN, match.getNuestroEquipo().getNombre());
         }
     }
 

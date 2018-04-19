@@ -18,6 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 public class Main {
     static BBDD database = new BBDD();
     static ArrayList match = new ArrayList();
+    static ArrayList nuestroEquipoBBDD = new ArrayList();
+    static ArrayList equipoContrarioBBDD = new ArrayList();
+    static ArrayList enCasaBBDD = new ArrayList();
+    static ArrayList fueraBBDD = new ArrayList();
     static ArrayList alineacionBBDD = new ArrayList();
     static ArrayList tanteoBBDD = new ArrayList();
     static ArrayList cambioBBDD = new ArrayList();
@@ -140,6 +144,10 @@ public class Main {
     public static void loadData (){
         database.openconnection();
 
+        nuestroEquipoBBDD = database.readCloseWordsFromBBDD("NUESTROEQUIPO");
+        equipoContrarioBBDD = database.readCloseWordsFromBBDD("CONTRINCANTE");
+        enCasaBBDD = database.readCloseWordsFromBBDD("CASA");
+        fueraBBDD = database.readCloseWordsFromBBDD("FUERA");
         alineacionBBDD = database.readCloseWordsFromBBDD("ALINEACION");
         tanteoBBDD = database.readCloseWordsFromBBDD("TANTEO");
         cambioBBDD = database.readCloseWordsFromBBDD("CAMBIO");
@@ -272,6 +280,22 @@ public class Main {
             // Generar defensa
             Defensa defensa = new Defensa(matchId, movement);
             return defensa;
+        } else if (esNuestroEquipo(typeOfMovement)) {
+            // Genero a nuestro equipo
+            NuestroEquipo nuestroEquipo = new NuestroEquipo(movement);
+            return nuestroEquipo;
+        } else if (esEquipoContrario(typeOfMovement)) {
+            // Genero al equipo contrario
+            EquipoContrario equipoContrario = new EquipoContrario(movement);
+            return equipoContrario;
+        } else if (esEnCasa(typeOfMovement)) {
+            // Genero el campo
+            Campo campo = new Campo(true);
+            return campo;
+        } else if (esFuera(typeOfMovement)) {
+            // Genero a nuestro equipo
+            Campo campo = new Campo(false);
+            return campo;
         } else {
             return new Object();
         }
@@ -374,6 +398,34 @@ public class Main {
 
     public static boolean esDefensa (String data){
         if (defensaBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esNuestroEquipo (String data){
+        if (nuestroEquipoBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esEquipoContrario (String data){
+        if (equipoContrarioBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esEnCasa (String data){
+        if (enCasaBBDD.contains(data)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean esFuera (String data){
+        if (fueraBBDD.contains(data)) {
             return true;
         }
         return false;
