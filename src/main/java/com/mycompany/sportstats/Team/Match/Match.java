@@ -22,6 +22,8 @@ public class Match {
     private int setsEnContra = 0;
     private boolean partidoTerminado = false;
     private boolean partidoGanado = false;
+    private String equipoLocal = "";
+    private String equipoVisitante = "";
 
     public Convocatoria getConvocatoria() {
         return convocatoria;
@@ -111,6 +113,8 @@ public class Match {
             FinDeSet finDeSet = new FinDeSet(matchId, movement);
             * */
         }
+        defineEquipos();
+
         System.out.println(toString());
     }
 
@@ -196,5 +200,47 @@ public class Match {
 
     public void setEnCasa(boolean enCasa) {
         this.enCasa = enCasa;
+    }
+
+    public String setWinner(Set set){
+        String winner = "";
+
+        winner = (set.isSetGanado()?nuestroEquipo.getNombre():equipoContrario.getNombre());
+
+        return winner;
+    }
+
+    public int homePoints(Set set){
+        return (isEnCasa()?set.getPuntosNuestros():set.getPuntosSuyos());
+    }
+
+    public int visitorPoints(Set set){
+        return (isEnCasa()?set.getPuntosSuyos():set.getPuntosNuestros());
+    }
+
+    public String getEquipoLocal() {
+        return equipoLocal;
+    }
+
+    public void setEquipoLocal(String equipoLocal) {
+        this.equipoLocal = equipoLocal;
+    }
+
+    public String getEquipoVisitante() {
+        return equipoVisitante;
+    }
+
+    public void setEquipoVisitante(String equipoVisitante) {
+        this.equipoVisitante = equipoVisitante;
+    }
+
+    public void defineEquipos(){
+        if (isEnCasa()){
+            equipoLocal = getNuestroEquipo().getNombre();
+            equipoVisitante = getEquipoContrario().getNombre();
+        } else {
+            equipoLocal = getEquipoContrario().getNombre();
+            equipoVisitante = getNuestroEquipo().getNombre();
+        }
     }
 }

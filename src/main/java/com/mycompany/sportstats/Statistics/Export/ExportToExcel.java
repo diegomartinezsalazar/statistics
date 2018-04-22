@@ -29,6 +29,15 @@ public class ExportToExcel {
     private static final int DISTANCE_BETWEEN_SETS = 6;
     private static final int FIRST_CHANGE_LINE = 50;
     private static final int TEAM_COLUMN = 24;
+    private static final int RESULT_ROW = 42;
+    private static final int FIRST_RESULT_SET_COLUMN = 2;
+    private static final int DISTANCE_BETWEEN_WINNER_AND_RESULT = 2;
+    private static final int DISTANCE_BETWEEN_RESULTS = 2;
+    private static final int PLAYER_PERCENTAJE_PLAYED = 5;
+    private static final int TEAM_STATISTICS_ROW = 24;
+    private static final int TEAM_PERCENTAJE_ROW = 25;
+    private static final int FIRST_MIDDLE_PLAYER_ROW = 84;
+    private static final int FIRST_BEST_PLAYERS_ROW = 27;
     ArrayList<Player> players;
     Match match;
     XSSFRow row;
@@ -58,7 +67,12 @@ public class ExportToExcel {
             System.out.println("Comienzo exportación equipos");
             exportTeams();
             System.out.println("Final exportación equipos");
-
+            System.out.println("Comienzo exportación resultado");
+            exportResult();
+            System.out.println("Final exportación resultado");
+            System.out.println("Comienzo exportación resultado");
+            updateFormula();
+            System.out.println("Final exportación resultado");
 
             // Write the output to a file
             try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
@@ -68,7 +82,7 @@ public class ExportToExcel {
     }
 
     private void exportPlayersStatistics() {
-        int cellPosition;
+        int cellPosition = 0;
         Player player;//Leemos cada una de las líneas de la primera columna donde empiezan los jugadores
         boolean finish = false;
         int numLinea = FIRST_PLAYER_LINE;
@@ -103,6 +117,18 @@ public class ExportToExcel {
         }
     }
 
+    public void exportResult(){
+        int cellPosition = FIRST_RESULT_SET_COLUMN;
+        row = sheet.getRow(RESULT_ROW);
+        for (Set set: match.getSets()
+                ) {
+            insertStrValue(row, cellPosition,match.setWinner(set));
+            insertIntValue(row, cellPosition + DISTANCE_BETWEEN_WINNER_AND_RESULT, match.homePoints(set));
+            insertIntValue(row, cellPosition + DISTANCE_BETWEEN_WINNER_AND_RESULT + DISTANCE_BETWEEN_RESULTS,match.visitorPoints(set));
+            cellPosition += 6;
+        }
+    }
+
     public void exportAlineacion (){
         int alineacionColumn = 0;
         Player player;
@@ -125,7 +151,6 @@ public class ExportToExcel {
     }
 
     public void exportChanges (){
-        int changeColumn = 0;
         Player playerEntra;
         Player playerSeRetira;
         int changeRowNumber;
@@ -149,17 +174,10 @@ public class ExportToExcel {
     }
 
     public void exportTeams (){
-        if (match.isEnCasa()){
-            row = sheet.getRow(0);
-            insertStrValue(row, TEAM_COLUMN, match.getNuestroEquipo().getNombre());
-            row = sheet.getRow(1);
-            insertStrValue(row, TEAM_COLUMN, match.getEquipoContrario().getNombre());
-        } else {
-            row = sheet.getRow(0);
-            insertStrValue(row, TEAM_COLUMN, match.getEquipoContrario().getNombre());
-            row = sheet.getRow(1);
-            insertStrValue(row, TEAM_COLUMN, match.getNuestroEquipo().getNombre());
-        }
+        row = sheet.getRow(0);
+        insertStrValue(row, TEAM_COLUMN, match.getEquipoLocal());
+        row = sheet.getRow(1);
+        insertStrValue(row, TEAM_COLUMN, match.getEquipoVisitante());
     }
 
     public Player getPlayerWithName (String name){
@@ -237,9 +255,72 @@ public class ExportToExcel {
         insertIntValue(row, ++firstColumn, lista.get("/"));
         insertIntValue(row, ++firstColumn, lista.get("-"));
         insertIntValue(row, ++firstColumn, lista.get("--"));
+    }
 
-        updateFormula(wb , row, ++firstColumn);
-        updateFormula(wb , row, ++firstColumn);
-        updateFormula(wb , row, ++firstColumn);
+    public void updateFormula(){
+        // Firstly, player statistics
+        int cellPosition = 0;
+        Player player;//Leemos cada una de las líneas de la primera columna donde empiezan los jugadores
+        boolean finish = false;
+        int numLinea = FIRST_PLAYER_LINE;
+
+        while (! finish){
+            cellPosition = 1;
+            row = sheet.getRow(numLinea);
+            XSSFCell cell = row.getCell(0);
+            if ((cell == null) || (Objects.equals(cell.getStringCellValue(), "TOTAL"))) {
+                finish = true;
+            } else {
+                // Busco el jugador en la lista de jugadores
+                player = getPlayerWithName(cell.getStringCellValue());
+
+                if (player != null) {
+                    for (int i = 0;i < 5; i++) {
+                        updateStatisticsFormulas(cellPosition + 4);
+                        cellPosition += DISTANCE_BETWEEN_PLAYERS;
+                    }
+                }
+            }
+            numLinea++;
+        }
+
+        // Secondly, the teams
+        updateFormulaRow(RESULT_ROW - 1);
+
+        // Thirdly, alineación, changes and final result
+        updateFormulaRow(PLAYER_PERCENTAJE_PLAYED);
+
+        // Fourthly, team statistics
+        updateFormulaRow(TEAM_STATISTICS_ROW);
+        updateFormulaRow(TEAM_PERCENTAJE_ROW);
+
+        // Middle player statistics
+        numLinea = FIRST_MIDDLE_PLAYER_ROW;
+        for (Player playerStatistic: players
+             ) {
+            updateFormulaRow(numLinea);
+            numLinea++;
+        }
+
+        // Best players
+        updateFormulaRow(FIRST_BEST_PLAYERS_ROW);
+        updateFormulaRow(FIRST_BEST_PLAYERS_ROW + 1);
+        updateFormulaRow(FIRST_BEST_PLAYERS_ROW + 2);
+    }
+
+    public void updateFormulaRow (int column){
+        row = sheet.getRow(column);
+        for (int i = 0;i < 100; i++) {
+            XSSFCell cell = row.getCell(i);
+            if (cell != null){
+                updateFormula(wb , row, i);
+            }
+        }
+    }
+
+    public void updateStatisticsFormulas(int column){
+        updateFormula(wb , row, ++column);
+        updateFormula(wb , row, ++column);
+        updateFormula(wb , row, ++column);
     }
 }
