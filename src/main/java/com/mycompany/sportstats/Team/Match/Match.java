@@ -1,8 +1,10 @@
 package com.mycompany.sportstats.Team.Match;
 
 import com.mycompany.sportstats.Team.Match.Skill.Skill;
+import com.mycompany.sportstats.Team.Player;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Esta es la clase principal del partido
@@ -242,5 +244,15 @@ public class Match {
             equipoLocal = getEquipoContrario().getNombre();
             equipoVisitante = getNuestroEquipo().getNombre();
         }
+    }
+
+    public boolean jugadorConvocado (Player player){
+        for (String jugadorConvocatoria: convocatoria.getPlayers()
+             ) {
+            if (Objects.equals(jugadorConvocatoria, String.valueOf(player.getNumber()))){
+                return true;
+            }
+        }
+        return false;
     }
 }

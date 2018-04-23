@@ -38,6 +38,7 @@ public class ExportToExcel {
     private static final int TEAM_PERCENTAJE_ROW = 25;
     private static final int FIRST_MIDDLE_PLAYER_ROW = 84;
     private static final int FIRST_BEST_PLAYERS_ROW = 27;
+    private static final int
     ArrayList<Player> players;
     Match match;
     XSSFRow row;
@@ -70,9 +71,9 @@ public class ExportToExcel {
             System.out.println("Comienzo exportación resultado");
             exportResult();
             System.out.println("Final exportación resultado");
-            System.out.println("Comienzo exportación resultado");
+            System.out.println("Comienzo actualización de fórmulas");
             updateFormula();
-            System.out.println("Final exportación resultado");
+            System.out.println("Final actualización de fórmulas");
 
             // Write the output to a file
             try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {

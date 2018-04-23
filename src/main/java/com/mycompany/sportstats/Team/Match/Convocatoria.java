@@ -3,7 +3,7 @@ package com.mycompany.sportstats.Team.Match;
 import java.util.ArrayList;
 
 public class Convocatoria extends Movement {
-    private ArrayList players;
+    private ArrayList<String> players;
     public Convocatoria (String matchId, ArrayList<String> playerList){
         super(matchId);
         players = new ArrayList();
@@ -13,7 +13,7 @@ public class Convocatoria extends Movement {
         }
     }
 
-    public ArrayList getPlayers() {
+    public ArrayList<String> getPlayers() {
         return players;
     }
 
