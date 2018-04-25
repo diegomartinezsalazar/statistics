@@ -38,7 +38,13 @@ public class ExportToExcel {
     private static final int TEAM_PERCENTAJE_ROW = 25;
     private static final int FIRST_MIDDLE_PLAYER_ROW = 84;
     private static final int FIRST_BEST_PLAYERS_ROW = 27;
-    private static final int
+    private static final int CALL_UP_COLUMN = 65;
+    private static final int MAX_COLUMN_NUMBER = 100;
+    private static final String SHEET_NAME_TEMPLATE = "Plantilla partidos";
+    private static final String SETUP_SHEET_NAME = "Configuraciones";
+    private static final int SETUP_ORIGIN_MATCHS = 1;
+    private static final int SETUP_DESTINATION_MATCHS = 2;
+
     ArrayList<Player> players;
     Match match;
     XSSFRow row;
@@ -55,9 +61,9 @@ public class ExportToExcel {
         int cellPosition = 1;
         try (FileInputStream fileIn = new FileInputStream(FILE_NAME)) {
             wb = new XSSFWorkbook(fileIn);
-            sheet = wb.getSheet("Coslada V");
+            sheet = matchSheet("Coslada V");
             System.out.println("Comienzo exportación estadísticas jugadoras");
-            exportPlayersStatistics();
+            exportPlayersStatisticsAndCallUp();
             System.out.println("Final exportación estadísticas jugadoras");
             System.out.println("Comienzo exportación alineación");
             exportAlineacion();
@@ -74,6 +80,9 @@ public class ExportToExcel {
             System.out.println("Comienzo actualización de fórmulas");
             updateFormula();
             System.out.println("Final actualización de fórmulas");
+            System.out.println("Comienzo actualización de configuraciones");
+            exportMatchSetup();
+            System.out.println("Final actualización de configuraciones");
 
             // Write the output to a file
             try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
@@ -82,12 +91,11 @@ public class ExportToExcel {
         }
     }
 
-    private void exportPlayersStatistics() {
+    private void exportPlayersStatisticsAndCallUp() {
         int cellPosition = 0;
         Player player;//Leemos cada una de las líneas de la primera columna donde empiezan los jugadores
         boolean finish = false;
         int numLinea = FIRST_PLAYER_LINE;
-        String playerName = "";
 
         while (! finish){
             cellPosition = 1;
@@ -112,6 +120,15 @@ public class ExportToExcel {
                     insertBlockStatistics(player.getBlockStatistic().getLista(), cellPosition);
                     cellPosition += DISTANCE_BETWEEN_PLAYERS;
                     insertReceptionStatistics(player.getReceptionStatistic().getLista(), cellPosition);
+
+                }
+
+                // Y ahora la convocatoria
+                cellPosition = CALL_UP_COLUMN;
+                if (match.jugadorConvocado(player)) {
+                    insertStrValue(row, cellPosition, "Convocado");
+                } else {
+                    insertStrValue(row, cellPosition, "No-convocado");
                 }
             }
             numLinea++;
@@ -179,6 +196,23 @@ public class ExportToExcel {
         insertStrValue(row, TEAM_COLUMN, match.getEquipoLocal());
         row = sheet.getRow(1);
         insertStrValue(row, TEAM_COLUMN, match.getEquipoVisitante());
+    }
+
+    public void exportMatchSetup (){
+        sheet = wb.getSheet(SETUP_SHEET_NAME);
+        for (int i = 0; i < 100; i++) {
+            row = sheet.getRow(i);
+            XSSFCell cell = row.getCell(SETUP_ORIGIN_MATCHS);
+            if ((cell != null) &&(Objects.equals(cell.getStringCellValue(), new String ("Coslada V")))){
+                cell.setCellValue("");
+                cell = row.getCell(SETUP_DESTINATION_MATCHS);
+                if (cell == null) {
+                    cell = row.createCell(SETUP_DESTINATION_MATCHS);
+                }
+                cell.setCellValue("Coslada V");
+                break;
+            }
+        }
     }
 
     public Player getPlayerWithName (String name){
@@ -272,15 +306,7 @@ public class ExportToExcel {
             if ((cell == null) || (Objects.equals(cell.getStringCellValue(), "TOTAL"))) {
                 finish = true;
             } else {
-                // Busco el jugador en la lista de jugadores
-                player = getPlayerWithName(cell.getStringCellValue());
-
-                if (player != null) {
-                    for (int i = 0;i < 5; i++) {
-                        updateStatisticsFormulas(cellPosition + 4);
-                        cellPosition += DISTANCE_BETWEEN_PLAYERS;
-                    }
-                }
+                updateFormulaRow(numLinea);
             }
             numLinea++;
         }
@@ -311,7 +337,7 @@ public class ExportToExcel {
 
     public void updateFormulaRow (int column){
         row = sheet.getRow(column);
-        for (int i = 0;i < 100; i++) {
+        for (int i = 0;i < MAX_COLUMN_NUMBER; i++) {
             XSSFCell cell = row.getCell(i);
             if (cell != null){
                 updateFormula(wb , row, i);
@@ -323,5 +349,9 @@ public class ExportToExcel {
         updateFormula(wb , row, ++column);
         updateFormula(wb , row, ++column);
         updateFormula(wb , row, ++column);
+    }
+
+    public XSSFSheet matchSheet(String sheetName){
+        return (wb.getSheet(sheetName) == null)?wb.cloneSheet(wb.getSheetIndex(SHEET_NAME_TEMPLATE),sheetName):wb.getSheet(sheetName);
     }
 }
