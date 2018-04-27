@@ -86,7 +86,7 @@ public class StatisticsGenerator {
 
     public void openConnectionBBDD(){
         database = new BBDD();
-        database.openconnection();
+        database.openMSSQLSERVERconnection();
     }
 
     public void matchTreatment (Match match){

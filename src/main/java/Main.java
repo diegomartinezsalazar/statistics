@@ -71,6 +71,7 @@ public class Main {
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         File conf = new File(classloader.getResource("Conf.txt").getFile());
+        //File conf = new File(classloader.getResource("ConfMySQL.txt").getFile());
         BufferedReader br = new BufferedReader(new FileReader(conf.getPath()));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"ISO-8859-1"));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"UTF-8"));
@@ -81,7 +82,8 @@ public class Main {
 
         try {
             database = new BBDD();
-            database.openconnection();
+            //database.openMSSQLSERVERconnection();
+            database.openMySQLconnection();
 
             database.deleteRawMatchTable();
             loadData();
@@ -135,14 +137,14 @@ public class Main {
 
     public static void prepareMatch(String matchId){
         // Leer de la base de datos el partido
-        database.openconnection();
+        database.openMSSQLSERVERconnection();
 
         match = database.readMatch(matchId);
         System.out.println(match.size());
     }
 
     public static void loadData (){
-        database.openconnection();
+        database.openMSSQLSERVERconnection();
 
         nuestroEquipoBBDD = database.readCloseWordsFromBBDD("NUESTROEQUIPO");
         equipoContrarioBBDD = database.readCloseWordsFromBBDD("CONTRINCANTE");

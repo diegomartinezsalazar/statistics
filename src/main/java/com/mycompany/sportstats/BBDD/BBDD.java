@@ -17,7 +17,7 @@ public class BBDD {
     public static Map<String, String> allWords = new HashMap<String, String>();
     public static Map<String, String> allStartWords = new HashMap<String, String>();
 
-    public void openconnection()
+    public void openMSSQLSERVERconnection()
     {
 
         String connectionUrl = "jdbc:sqlserver://DESKTOP-5DDLJ2R\\SQLEXPRESS;" +
@@ -28,6 +28,29 @@ public class BBDD {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+            con = DriverManager.getConnection(connectionUrl);
+        }
+
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            //if (rs != null) try { rs.close(); } catch(Exception e) {}
+            //if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            //if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+    }
+
+    public void openMySQLconnection()
+    {
+        String connectionUrl = "jdbc:mysql://localhost/VOLSTATSDB?user=gueststats&password=gueststats";
+
+        try {
+            // Establish the connection.
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
             con = DriverManager.getConnection(connectionUrl);
         }
 
