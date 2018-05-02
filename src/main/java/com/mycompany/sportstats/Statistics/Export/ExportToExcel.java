@@ -57,11 +57,9 @@ public class ExportToExcel {
     }
 
     public void ExportToExcelFile()  throws IOException {
-        Player player;
-        int cellPosition = 1;
         try (FileInputStream fileIn = new FileInputStream(FILE_NAME)) {
             wb = new XSSFWorkbook(fileIn);
-            sheet = matchSheet("Coslada V");
+            sheet = matchSheet(match.getExcelSheetName());
             System.out.println("Comienzo exportación estadísticas jugadoras");
             exportPlayersStatisticsAndCallUp();
             System.out.println("Final exportación estadísticas jugadoras");
@@ -120,7 +118,6 @@ public class ExportToExcel {
                     insertBlockStatistics(player.getBlockStatistic().getLista(), cellPosition);
                     cellPosition += DISTANCE_BETWEEN_PLAYERS;
                     insertReceptionStatistics(player.getReceptionStatistic().getLista(), cellPosition);
-
                 }
 
                 // Y ahora la convocatoria
@@ -200,17 +197,19 @@ public class ExportToExcel {
 
     public void exportMatchSetup (){
         sheet = wb.getSheet(SETUP_SHEET_NAME);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i < 50; i++) {
             row = sheet.getRow(i);
             XSSFCell cell = row.getCell(SETUP_ORIGIN_MATCHS);
-            if ((cell != null) &&(Objects.equals(cell.getStringCellValue(), new String ("Coslada V")))){
-                cell.setCellValue("");
-                cell = row.getCell(SETUP_DESTINATION_MATCHS);
-                if (cell == null) {
-                    cell = row.createCell(SETUP_DESTINATION_MATCHS);
+            if (cell != null){
+                if ((Objects.equals(cell.getStringCellValue(), new String (match.getExcelSheetName())))){
+                    cell.setCellValue("");
+                    cell = row.getCell(SETUP_DESTINATION_MATCHS);
+                    if (cell == null) {
+                        cell = row.createCell(SETUP_DESTINATION_MATCHS);
+                    }
+                    cell.setCellValue(match.getExcelSheetName());
+                    break;
                 }
-                cell.setCellValue("Coslada V");
-                break;
             }
         }
     }
@@ -294,13 +293,10 @@ public class ExportToExcel {
 
     public void updateFormula(){
         // Firstly, player statistics
-        int cellPosition = 0;
-        Player player;//Leemos cada una de las líneas de la primera columna donde empiezan los jugadores
         boolean finish = false;
         int numLinea = FIRST_PLAYER_LINE;
 
         while (! finish){
-            cellPosition = 1;
             row = sheet.getRow(numLinea);
             XSSFCell cell = row.getCell(0);
             if ((cell == null) || (Objects.equals(cell.getStringCellValue(), "TOTAL"))) {
@@ -343,12 +339,6 @@ public class ExportToExcel {
                 updateFormula(wb , row, i);
             }
         }
-    }
-
-    public void updateStatisticsFormulas(int column){
-        updateFormula(wb , row, ++column);
-        updateFormula(wb , row, ++column);
-        updateFormula(wb , row, ++column);
     }
 
     public XSSFSheet matchSheet(String sheetName){

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -14,6 +15,8 @@ import com.mycompany.sportstats.Utils.Utils;
 import com.mycompany.sportstats.Utils.UtilsNumber;
 
 import org.apache.commons.lang3.StringUtils;
+
+import org.apache.commons.io.FilenameUtils;
 
 public class Main {
     static BBDD database = new BBDD();
@@ -60,11 +63,13 @@ public class Main {
     static String barra;
     static String negativo;
     static String dobleNegativo;
+    static ArrayList folderFiles;
 
     public static final String UTF8_BOM = "\uFeFF";
 
     public static void main(String[] args) throws Exception{
         Utils prueba = new Utils();
+        String fileNameWithoutExtension;
         //File fichero = new File("Stats.txt");
         System.out.println("Comienza lectura");
         ResourceBundle sportstats = ResourceBundle.getBundle("sportstats");
@@ -82,8 +87,8 @@ public class Main {
 
         try {
             database = new BBDD();
-            //database.openMSSQLSERVERconnection();
-            database.openMySQLconnection();
+            database.openMSSQLSERVERconnection();
+            //database.openMySQLconnection();
 
             database.deleteRawMatchTable();
             loadData();
@@ -101,37 +106,37 @@ public class Main {
             br.close();
         }
 
-        File fichero = new File(everything);
+        getFolderFiles(everything);
 
-        //ArrayList<String> lecturaBruta = prueba.readFile(fichero);
-        //ArrayList<String> lectura;
+        // Y ahora leo todos los partidos
+        for (Path path : getFolderFiles(everything)) {
+            fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
+            String fileInText = Utils.readFile(path.toString(), Charset.defaultCharset());
+            System.out.println(fileInText);
+            //System.out.println(formatFile(fileInText));
+            fileInText = StringUtils.stripAccents(fileInText);
+            System.out.println(fileInText);
+            ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
 
-        String fileInText = Utils.readFile(everything, Charset.defaultCharset());
-        System.out.println(fileInText);
-        //System.out.println(formatFile(fileInText));
-        fileInText = StringUtils.stripAccents(fileInText);
-        System.out.println(fileInText);
-        ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
-        
-        for (String palabra: lectura) {
-            database.insertDataRow("1718001", palabra.toString());
-            //System.out.println(palabra.toString());
+            for (String palabra: lectura) {
+                database.insertDataRow(fileNameWithoutExtension, palabra.toString());
+            }
+
+            // Una vez pasado el fichero, lo organizo
+            System.out.println("Final lectura");
+            System.out.println("Comienzo formateo");
+            prepareMatch(fileNameWithoutExtension);
+            loadData();
+            Match match = formatMatch(fileNameWithoutExtension);
+            System.out.println("Final formateo" + "\n");
+            System.out.println("\n");
+            System.out.println("\n");
+            System.out.println("Inicio estadísticas");
+            StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
+            statisticsGenerator.matchTreatment(match);
+            statisticsGenerator.exportToExcel(match);
+            System.out.println("Final estadísticas");
         }
-
-        // Una vez pasado el fichero, lo organizo
-        System.out.println("Final lectura");
-        System.out.println("Comienzo formateo");
-        prepareMatch("1718001");
-        loadData();
-        Match match = formatMatch();
-        System.out.println("Final formateo" + "\n");
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("Inicio estadísticas");
-        StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
-        statisticsGenerator.matchTreatment(match);
-        statisticsGenerator.exportToExcel(match);
-        System.out.println("Final estadísticas");
 
     }
 
@@ -171,14 +176,15 @@ public class Main {
         dobleNegativoBBDD = database.readValuesFromBBDD("--");
     }
 
-    public static Match formatMatch(){
+    public static Match formatMatch(String excelSheetName){
         Match match = new Match();
         String movement;
         ArrayList jugada;
         boolean jugadaTerminada;
         Object arrayMovimiento;
 
-        match.setMatchId("1718001");
+        match.setMatchId(excelSheetName);
+        match.setExcelSheetName(excelSheetName);
         // Voy leyendo el fichero por orden de lo que me tengo que ir encontrando
         if (Main.match.size() == 0){
             System.out.println("Tamaño 0 del partido");
@@ -443,7 +449,7 @@ public class Main {
     }
 
     public static String formatFileOrderingByNumberOfWords (String fileInText){
-        String result = "";
+        String result;
         result = fileInText.toUpperCase();
         Map<String, String> allWords = database.allWords;
         int maxCharactersInSpecialWords = maxCharactersInSpecialWords();
@@ -460,9 +466,6 @@ public class Main {
             }
         }
         System.out.println(result);
-        //result = result.replaceAll("DOBLE -", "--");
-        //result = result.replaceAll("DOBLE +", "++");
-        //System.out.println(result);
 
         for (Map.Entry<String, String> entry : UtilsNumber.mapa.entrySet())
         {
@@ -517,20 +520,13 @@ public class Main {
         String result = "";
         result = fileInText.toUpperCase();
         int i = 1;
-        //result = "DOBLE +";
 
         for (Map.Entry<String, String> entry : database.allWords.entrySet())
         {
             result = result.replaceAll(Pattern.quote(entry.getKey().toString()), entry.getValue().toString());
             System.out.println("Cambio " + entry.getKey() +  " por " + entry.getValue() + " y queda:");
-            //System.out.println(result);
             i++;
         }
-
-        //System.out.println(result);
-        //result = result.replaceAll("DOBLE -", "--");
-        //result = result.replaceAll("DOBLE +", "++");
-        //System.out.println(result);
 
         for (Map.Entry<String, String> entry : UtilsNumber.mapa.entrySet())
         {
@@ -538,5 +534,23 @@ public class Main {
         }
 
         return result;
+    }
+
+    public static ArrayList<Path> getFolderFiles(String folder) throws IOException {
+        Path folderPath = FileSystems.getDefault().getPath(folder);
+        folderFiles = new ArrayList();
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
+            for (Path entry: stream) {
+                if (entry.toString().endsWith(".txt")) {
+                    folderFiles.add(entry);
+                }
+            }
+        } catch (DirectoryIteratorException ex) {
+            // I/O error encounted during the iteration, the cause is an IOException
+            throw ex.getCause();
+        }
+        return folderFiles;
+
     }
 }

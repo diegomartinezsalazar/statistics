@@ -26,6 +26,7 @@ public class Match {
     private boolean partidoGanado = false;
     private String equipoLocal = "";
     private String equipoVisitante = "";
+    private String excelSheetName = "";
 
     public Convocatoria getConvocatoria() {
         return convocatoria;
@@ -254,5 +255,13 @@ public class Match {
             }
         }
         return false;
+    }
+
+    public String getExcelSheetName() {
+        return excelSheetName;
+    }
+
+    public void setExcelSheetName(String excelSheetName) {
+        this.excelSheetName = excelSheetName;
     }
 }

@@ -19,7 +19,6 @@ public class BBDD {
 
     public void openMSSQLSERVERconnection()
     {
-
         String connectionUrl = "jdbc:sqlserver://DESKTOP-5DDLJ2R\\SQLEXPRESS;" +
                 "databaseName=VOLSTATSDB;user=gueststats;password=gueststats";
 
