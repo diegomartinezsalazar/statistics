@@ -26,44 +26,18 @@ public class StatisticsGenerator {
 
     public StatisticsGenerator(){
         loadValues();
-        loadPlayers();
     }
 
     public void loadBaseData(){
 
     }
 
-    public void loadPlayers (){
-        // Aquí añado a los jugadores aunque los debería leer de la base de datos
-        Player player1 = new Player(1, Position.CUATRO, "Raquel", subjectsList);
-        Player player2 = new Player(2, Position.CENTRAL, "Marta", subjectsList);
-        Player player3 = new Player(3, Position.COLOCADOR, "Esther", subjectsList);
-        Player player6 = new Player(6, Position.LÍBERO, "Hansie", subjectsList);
-        Player player7 = new Player(7, Position.OPUESTO, "Tami", subjectsList);
-        Player player8 = new Player(8, Position.COLOCADOR, "Maddi", subjectsList);
-        Player player9 = new Player(9, Position.CENTRAL, "Chris", subjectsList);
-        Player player10 = new Player(10, Position.CUATRO, "Irene J", subjectsList);
-        Player player11 = new Player(11, Position.LÍBERO, "Elena", subjectsList);
-        Player player12 = new Player(12, Position.CUATRO, "Eli", subjectsList);
-        Player player13 = new Player(13, Position.CENTRAL, "Andrea", subjectsList);
-        Player player14 = new Player(14, Position.OPUESTO, "Sofí", subjectsList);
-        Player player15 = new Player(15, Position.CUATRO, "Vane", subjectsList);
-        Player player19 = new Player(19, Position.CENTRAL, "Irene C", subjectsList);
-
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player6);
-        players.add(player7);
-        players.add(player8);
-        players.add(player9);
-        players.add(player10);
-        players.add(player11);
-        players.add(player12);
-        players.add(player13);
-        players.add(player14);
-        players.add(player15);
-        players.add(player19);
+    public void loadPlayers (String teamName){
+        for (Player player: database.readPlayersTeam(teamName)
+             ) {
+            player.setSubjectStatistics(subjectsList);
+            players.add (player);
+        }
     }
 
     public void loadValues (){
@@ -92,6 +66,9 @@ public class StatisticsGenerator {
     public void matchTreatment (Match match){
         int movementPlayer = 0;
         Player player;
+
+        // Carga jugadores
+        loadPlayers(match.getNuestroEquipo().getNombre());
 
         for (Set set: match.getSets()
              ) {

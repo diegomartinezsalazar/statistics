@@ -22,27 +22,12 @@ public class Player {
         this.setNumber(number);
         this.setName(name);
         this.position = position;
-        for (SkillStatistic skillStatistic: subjectsList
-             ) {
-            if (skillStatistic.getClass() == ServeStatistic.class){
-                setServeStatistic(new ServeStatistic (skillStatistic));
-            }
-            if (skillStatistic.getClass() == ReceptionStatistic.class){
-                setReceptionStatistic(new ReceptionStatistic (skillStatistic));
-            }
-            if (skillStatistic.getClass() == SetStatistic.class){
-                setSetStatistic(new SetStatistic (skillStatistic));
-            }
-            if (skillStatistic.getClass() == AttackStatistic.class){
-                setAttackStatistic(new AttackStatistic (skillStatistic));
-            }
-            if (skillStatistic.getClass() == BlockStatistic.class){
-                setBlockStatistic(new BlockStatistic (skillStatistic));
-            }
-            if (skillStatistic.getClass() == DigStatistic.class){
-                setDigStatistic(new DigStatistic (skillStatistic));
-            }
-        }
+        setSubjectStatistics(subjectsList);
+    }
+
+    public Player (String number,String name){
+        this.setNumber(Integer.parseInt(number));
+        this.setName(name);
     }
 
     public void addServeValue(String value){
@@ -131,5 +116,29 @@ public class Player {
 
     public void setDigStatistic(DigStatistic digStatistic) {
         this.digStatistic = digStatistic;
+    }
+
+    public void setSubjectStatistics(ArrayList<SkillStatistic> subjectsList){
+        for (SkillStatistic skillStatistic: subjectsList
+                ) {
+            if (skillStatistic.getClass() == ServeStatistic.class){
+                setServeStatistic(new ServeStatistic (skillStatistic));
+            }
+            if (skillStatistic.getClass() == ReceptionStatistic.class){
+                setReceptionStatistic(new ReceptionStatistic (skillStatistic));
+            }
+            if (skillStatistic.getClass() == SetStatistic.class){
+                setSetStatistic(new SetStatistic (skillStatistic));
+            }
+            if (skillStatistic.getClass() == AttackStatistic.class){
+                setAttackStatistic(new AttackStatistic (skillStatistic));
+            }
+            if (skillStatistic.getClass() == BlockStatistic.class){
+                setBlockStatistic(new BlockStatistic (skillStatistic));
+            }
+            if (skillStatistic.getClass() == DigStatistic.class){
+                setDigStatistic(new DigStatistic (skillStatistic));
+            }
+        }
     }
 }

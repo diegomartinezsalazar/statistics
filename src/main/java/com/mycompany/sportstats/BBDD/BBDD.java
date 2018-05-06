@@ -1,5 +1,7 @@
 package com.mycompany.sportstats.BBDD;
 
+import com.mycompany.sportstats.Team.Player;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -243,6 +245,30 @@ public class BBDD {
             ResultSet rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 result.add(rs.getString("Id"));
+            }
+            // Handle any errors that may have occurred.
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            //if (rs != null) try { rs.close(); } catch(Exception e) {}
+            //if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+            //if (con != null) try { con.close(); } catch(Exception e) {}
+        }
+        return result;
+    }
+
+    public ArrayList<Player> readPlayersTeam(String teamName){
+        String SQL = "SELECT Nick, Number FROM player_team WHERE Team = '" + teamName + "'";
+        ArrayList result = new ArrayList();
+        Player player;
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                player = new Player(rs.getString("Number"), rs.getString("Nick"));
+                result.add(player);
             }
             // Handle any errors that may have occurred.
         }

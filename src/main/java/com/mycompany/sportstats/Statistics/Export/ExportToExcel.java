@@ -7,6 +7,7 @@ import com.mycompany.sportstats.Team.Match.Set;
 import com.mycompany.sportstats.Team.Player;
 
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -59,6 +60,7 @@ public class ExportToExcel {
     public void ExportToExcelFile()  throws IOException {
         try (FileInputStream fileIn = new FileInputStream(FILE_NAME)) {
             wb = new XSSFWorkbook(fileIn);
+            wb.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
             sheet = matchSheet(match.getExcelSheetName());
             System.out.println("Comienzo exportación estadísticas jugadoras");
             exportPlayersStatisticsAndCallUp();
@@ -103,7 +105,7 @@ public class ExportToExcel {
                 finish = true;
             } else {
                 // Busco el jugador en la lista de jugadores
-                player = getPlayerWithName(cell.getStringCellValue());
+                player = getPlayerWithName(cell.getStringCellValue().toUpperCase());
                 if (player != null) {
                     // Comienzo a insertar las estadísticas
                     // Primero las colocaciones
@@ -199,7 +201,7 @@ public class ExportToExcel {
         sheet = wb.getSheet(SETUP_SHEET_NAME);
         for (int i = 1; i < 50; i++) {
             row = sheet.getRow(i);
-            XSSFCell cell = row.getCell(SETUP_ORIGIN_MATCHS);
+            XSSFCell cell = row.getCell(SETUP_ORIGIN_MATCHS, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
             if (cell != null){
                 if ((Objects.equals(cell.getStringCellValue(), new String (match.getExcelSheetName())))){
                     cell.setCellValue("");
