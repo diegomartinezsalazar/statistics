@@ -201,7 +201,7 @@ public class ExportToExcel {
         sheet = wb.getSheet(SETUP_SHEET_NAME);
         for (int i = 1; i < 50; i++) {
             row = sheet.getRow(i);
-            XSSFCell cell = row.getCell(SETUP_ORIGIN_MATCHS, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+            XSSFCell cell = Utils.returnCell(row, SETUP_ORIGIN_MATCHS);
             if (cell != null){
                 if ((Objects.equals(cell.getStringCellValue(), new String (match.getExcelSheetName())))){
                     cell.setCellValue("");
