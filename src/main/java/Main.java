@@ -72,7 +72,6 @@ public class Main {
         String fileNameWithoutExtension;
         //File fichero = new File("Stats.txt");
         System.out.println("Comienza lectura");
-        ResourceBundle sportstats = ResourceBundle.getBundle("sportstats");
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         File conf = new File(classloader.getResource("Conf.txt").getFile());
