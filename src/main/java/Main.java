@@ -11,6 +11,7 @@ import com.mycompany.sportstats.BBDD.BBDD;
 import com.mycompany.sportstats.Statistics.StatisticsGenerator;
 import com.mycompany.sportstats.Team.Match.*;
 import com.mycompany.sportstats.Team.Match.Skill.*;
+import com.mycompany.sportstats.Utils.Environment;
 import com.mycompany.sportstats.Utils.Utils;
 import com.mycompany.sportstats.Utils.UtilsNumber;
 
@@ -72,11 +73,12 @@ public class Main {
         String fileNameWithoutExtension;
         //File fichero = new File("Stats.txt");
         System.out.println("Comienza lectura");
+        Environment.readEnvironment();
 
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        File conf = new File(classloader.getResource("Conf.txt").getFile());
+        //ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        //File conf = new File(classloader.getResource("Conf.txt").getFile());
         //File conf = new File(classloader.getResource("ConfMySQL.txt").getFile());
-        BufferedReader br = new BufferedReader(new FileReader(conf.getPath()));
+        //BufferedReader br = new BufferedReader(new FileReader(conf.getPath()));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"ISO-8859-1"));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"UTF-8"));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"windows-1252"));
@@ -91,24 +93,13 @@ public class Main {
 
             database.deleteRawMatchTable();
             loadData();
-            
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
 
-            while (line != null) {
-                sb.append(line);
-                //sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
-            everything = sb.toString();
         } finally {
-            br.close();
+
         }
 
-        getFolderFiles(everything);
-
         // Y ahora leo todos los partidos
-        for (Path path : getFolderFiles(everything)) {
+        for (Path path : getFolderFiles(Environment.propertyValue("filepath.windows"))) {
             fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
             String fileInText = Utils.readFile(path.toString(), Charset.defaultCharset());
             System.out.println(fileInText);

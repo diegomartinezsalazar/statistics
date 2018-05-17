@@ -1,6 +1,7 @@
 package com.mycompany.sportstats.BBDD;
 
 import com.mycompany.sportstats.Team.Player;
+import com.mycompany.sportstats.Utils.Environment;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,8 +22,7 @@ public class BBDD {
 
     public void openMSSQLSERVERconnection()
     {
-        String connectionUrl = "jdbc:sqlserver://DESKTOP-5DDLJ2R\\SQLEXPRESS;" +
-                "databaseName=VOLSTATSDB;user=gueststats;password=gueststats";
+        String connectionUrl = Environment.propertyValue("database.windowsjdbc");
 
         try {
             // Establish the connection.
@@ -45,7 +45,7 @@ public class BBDD {
 
     public void openMySQLconnection()
     {
-        String connectionUrl = "jdbc:mysql://localhost/VOLSTATSDB?user=gueststats&password=gueststats";
+        String connectionUrl = Environment.propertyValue("database.macjdbc");
 
         try {
             // Establish the connection.

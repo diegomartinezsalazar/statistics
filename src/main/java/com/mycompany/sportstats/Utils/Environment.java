@@ -1,38 +1,34 @@
 package com.mycompany.sportstats.Utils;
 
-import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Environment {
-    public String database_jdbc;
-    public String sqlServerConnection;
-    public String mySQLConnection;
-    public Boolean exportToExcel;
-    ResourceBundle sportstats;
+    private static ResourceBundle sportstats;
 
-    public Map <String, String> values = new HashMap<>();
+    private static Map <String, String> values = new HashMap<>();
 
-    public void Environment(){
+    public static void readEnvironment(){
         sportstats = ResourceBundle.getBundle("sportstats");
         String value;
         String key;
-        while (sportstats.getKeys().hasMoreElements()){
-            key = sportstats.getKeys().nextElement();
+        Enumeration<String> properties = sportstats.getKeys();
+        while (properties.hasMoreElements()){
+            key = properties.nextElement();
             value = readKey(key);
             if (value != null){
                 values.put(key, value);
             }
         }
-
     }
 
-    private String readKey(String key){
-        return (sportstats.containsKey(key)?sportstats.containsKey(key):null;
+    private static String readKey(String key){
+        return (sportstats.containsKey(key)?sportstats.getString(key):null);
     }
 
-    public String propertyValue(String key){
-        return values.get
+    public static String propertyValue(String key){
+        return values.getOrDefault(key, null);
     }
 }
