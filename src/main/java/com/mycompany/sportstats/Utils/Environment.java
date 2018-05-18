@@ -28,7 +28,10 @@ public class Environment {
         return (sportstats.containsKey(key)?sportstats.getString(key):null);
     }
 
-    public static String propertyValue(String key){
+    public static String getPropertyValue(String key){
+        if (sportstats == null){
+            readEnvironment();
+        }
         return values.getOrDefault(key, null);
     }
 }

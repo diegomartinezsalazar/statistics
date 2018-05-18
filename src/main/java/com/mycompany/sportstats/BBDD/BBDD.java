@@ -22,7 +22,7 @@ public class BBDD {
 
     public void openMSSQLSERVERconnection()
     {
-        String connectionUrl = Environment.propertyValue("database.windowsjdbc");
+        String connectionUrl = Environment.getPropertyValue("database.windowsjdbc");
 
         try {
             // Establish the connection.
@@ -45,7 +45,7 @@ public class BBDD {
 
     public void openMySQLconnection()
     {
-        String connectionUrl = Environment.propertyValue("database.macjdbc");
+        String connectionUrl = Environment.getPropertyValue("database.macjdbc");
 
         try {
             // Establish the connection.
