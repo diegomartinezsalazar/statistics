@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 public class Environment {
     private static ResourceBundle sportstats;
+    private static String operatingSystem;
 
     private static Map <String, String> values = new HashMap<>();
 
@@ -22,13 +23,26 @@ public class Environment {
                 values.put(key, value);
             }
         }
+
+        operatingSystem = System.getProperty("os.name");
     }
 
     private static String readKey(String key){
         return (sportstats.containsKey(key)?sportstats.getString(key):null);
     }
 
-    public static String propertyValue(String key){
+    public static String getPropertyValue(String key){
+        if (sportstats == null){
+            readEnvironment();
+        }
         return values.getOrDefault(key, null);
+    }
+
+    public static boolean isWindows(){
+        return operatingSystem.contains("Windows");
+    }
+
+    public static boolean isMac(){
+        return operatingSystem.contains("Mac");
     }
 }

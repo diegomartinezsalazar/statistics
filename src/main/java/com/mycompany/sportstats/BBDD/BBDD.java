@@ -20,9 +20,14 @@ public class BBDD {
     public static Map<String, String> allWords = new HashMap<String, String>();
     public static Map<String, String> allStartWords = new HashMap<String, String>();
 
+    public void openDBconnection()
+    {
+        (Environment.isWindows())?openMSSQLSERVERconnection():openMySQLconnection();
+    }
+
     public void openMSSQLSERVERconnection()
     {
-        String connectionUrl = Environment.propertyValue("database.windowsjdbc");
+        String connectionUrl = Environment.getPropertyValue("database.windowsjdbc");
 
         try {
             // Establish the connection.
@@ -45,7 +50,7 @@ public class BBDD {
 
     public void openMySQLconnection()
     {
-        String connectionUrl = Environment.propertyValue("database.macjdbc");
+        String connectionUrl = Environment.getPropertyValue("database.macjdbc");
 
         try {
             // Establish the connection.

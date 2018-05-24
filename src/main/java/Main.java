@@ -3,7 +3,6 @@ import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -99,7 +98,7 @@ public class Main {
         }
 
         // Y ahora leo todos los partidos
-        for (Path path : getFolderFiles(Environment.propertyValue("filepath.windows"))) {
+        for (Path path : getFolderFiles(Environment.getPropertyValue("filepath.windows"))) {
             fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
             String fileInText = Utils.readFile(path.toString(), Charset.defaultCharset());
             System.out.println(fileInText);
