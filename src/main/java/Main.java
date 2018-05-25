@@ -82,13 +82,11 @@ public class Main {
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"UTF-8"));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()),"windows-1252"));
         //BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(conf.getPath()), Charset.forName("Cp1252")));
-        String everything = "";
         UtilsNumber.loadNumbers();
 
         try {
             database = new BBDD();
-            database.openMSSQLSERVERconnection();
-            //database.openMySQLconnection();
+            database.openDBconnection();
 
             database.deleteRawMatchTable();
             loadData();
@@ -131,14 +129,14 @@ public class Main {
 
     public static void prepareMatch(String matchId){
         // Leer de la base de datos el partido
-        database.openMSSQLSERVERconnection();
+        //database.openMSSQLSERVERconnection();
 
         match = database.readMatch(matchId);
         System.out.println(match.size());
     }
 
     public static void loadData (){
-        database.openMSSQLSERVERconnection();
+        //database.openMSSQLSERVERconnection();
 
         nuestroEquipoBBDD = database.readCloseWordsFromBBDD("NUESTROEQUIPO");
         equipoContrarioBBDD = database.readCloseWordsFromBBDD("CONTRINCANTE");

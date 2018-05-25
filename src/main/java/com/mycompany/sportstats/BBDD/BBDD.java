@@ -1,7 +1,5 @@
 package com.mycompany.sportstats.BBDD;
 
-import com.mycompany.sportstats.Team.Player;
-import com.mycompany.sportstats.Utils.Environment;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.mycompany.sportstats.Team.Player;
+import com.mycompany.sportstats.Utils.Environment;
 
 public class BBDD {
 
@@ -22,10 +23,14 @@ public class BBDD {
 
     public void openDBconnection()
     {
-        (Environment.isWindows())?openMSSQLSERVERconnection():openMySQLconnection();
+        if (Environment.isWindows()){
+            openMSSQLSERVERconnection();
+        } else {
+            openMySQLconnection();
+        }
     }
 
-    public void openMSSQLSERVERconnection()
+    private void openMSSQLSERVERconnection()
     {
         String connectionUrl = Environment.getPropertyValue("database.windowsjdbc");
 
@@ -48,7 +53,7 @@ public class BBDD {
         }
     }
 
-    public void openMySQLconnection()
+    private void openMySQLconnection()
     {
         String connectionUrl = Environment.getPropertyValue("database.macjdbc");
 

@@ -2,7 +2,6 @@ package com.mycompany.sportstats.Statistics;
 
 import com.mycompany.sportstats.BBDD.BBDD;
 import com.mycompany.sportstats.Statistics.Export.ExportToExcel;
-import com.mycompany.sportstats.Team.Enum.Position;
 import com.mycompany.sportstats.Team.Match.Jugada;
 import com.mycompany.sportstats.Team.Match.Match;
 import com.mycompany.sportstats.Team.Match.Set;
@@ -60,7 +59,7 @@ public class StatisticsGenerator {
 
     public void openConnectionBBDD(){
         database = new BBDD();
-        database.openMSSQLSERVERconnection();
+        database.openDBconnection();
     }
 
     public void matchTreatment (Match match){
