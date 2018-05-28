@@ -14,7 +14,6 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import com.mycompany.sportstats.Utils.Environment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.lang.ClassLoader;
 
-public class Connect {
+
+public class GoogleDriveConnection {
+    private Credential authorizationToken;
     private static final String APPLICATION_NAME = "Volley statistics";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String CREDENTIALS_FOLDER = "resources"; // Directory to store user credentials.
@@ -36,6 +37,49 @@ public class Connect {
      */
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
     private static final String CLIENT_SECRET_DIR = "client_secret.json";
+
+    public GoogleDriveConnection(Credential authorizationToken){
+        this.authorizationToken = authorizationToken;
+    }
+
+    public Credential getAuthorizationToken() {
+        return authorizationToken;
+    }
+
+    public void setAuthorizationToken(Credential authorizationToken) {
+        this.authorizationToken = authorizationToken;
+    }
+
+    public List<File> getFilesInPath (ArrayList<String> paths) throws IOException, GeneralSecurityException {
+        List<File> files;
+
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, authorizationToken)
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+
+        String parentPath = "root";
+
+        for (String path: paths
+                ) {
+            FileList result = service.files().list()
+                    .setPageSize(10)
+                    .setFields("nextPageToken, files(id, name)")
+                    .setQ("'" + parentPath + "' in parents and name = '" + path + "' and mimeType = 'application/vnd.google-apps.folder'")
+                    .execute();
+            files = result.getFiles();
+            parentPath = path;
+        }
+
+        FileList result = service.files().list()
+                .setPageSize(10)
+                .setFields("nextPageToken, files(id, name)")
+                .setQ("'" + parentPath + "' in parents and mimeType != 'application/vnd.google-apps.folder'")
+                .execute();
+        files = result.getFiles();
+
+        return files;
+    }
 
     /**
      * Creates an authorized Credential object.
@@ -57,41 +101,5 @@ public class Connect {
                 .setAccessType("offline")
                 .build();
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-    }
-
-    public static void main(String... args) throws IOException, GeneralSecurityException {
-
-
-
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        GoogleDriveConnection googleDriveConnection = new GoogleDriveConnection(getCredentials(HTTP_TRANSPORT));
-
-        ArrayList<String> listaPaths = new ArrayList<>();
-        listaPaths.add("Application Data");
-        listaPaths.add("diegovol@hotmail.com");
-        listaPaths.add("Files");
-        listaPaths.add("Pending Files");
-
-        List<File> lista = googleDriveConnection.getFilesInPath(listaPaths);
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-
-        // Print the names and IDs for up to 10 files.
-        FileList result = service.files().list()
-                .setPageSize(10)
-                .setFields("nextPageToken, files(id, name)")
-                .setQ("'root' in parents and name = 'Application Data' and mimeType = 'application/vnd.google-apps.folder'")
-                .execute();
-        List<File> files = result.getFiles();
-        if (files == null || files.isEmpty()) {
-            System.out.println("No files found.");
-        } else {
-            System.out.println("Files:");
-            for (File file : files) {
-                System.out.printf("%s (%s)\n", file.getName(), file.getId());
-            }
-        }
     }
 }
