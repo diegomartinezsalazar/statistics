@@ -67,8 +67,8 @@ public class GoogleDriveConnection {
                     .setFields("nextPageToken, files(id, name)")
                     .setQ("'" + parentPath + "' in parents and name = '" + path + "' and mimeType = 'application/vnd.google-apps.folder'")
                     .execute();
-            files = result.getFiles();
-            parentPath = path;
+            //files = result.getFiles().get(0).getId();
+            parentPath = result.getFiles().get(0).getId();
         }
 
         FileList result = service.files().list()
