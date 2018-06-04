@@ -22,63 +22,27 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.lang.ClassLoader;
-
 
 public class GoogleDriveConnection {
-    private Credential authorizationToken;
-    private static final String APPLICATION_NAME = "Volley statistics";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String CREDENTIALS_FOLDER = "resources"; // Directory to store user credentials.
-
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved credentials/ folder.
-     */
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
     private static final String CLIENT_SECRET_DIR = "client_secret.json";
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private Credential authorizationToken;
+    private final NetHttpTransport HTTP_TRANSPORT;
 
-    public GoogleDriveConnection(Credential authorizationToken){
-        this.authorizationToken = authorizationToken;
-    }
+    private static GoogleDriveConnection ourInstance;
 
-    public Credential getAuthorizationToken() {
-        return authorizationToken;
-    }
-
-    public void setAuthorizationToken(Credential authorizationToken) {
-        this.authorizationToken = authorizationToken;
-    }
-
-    public List<File> getFilesInPath (ArrayList<String> paths) throws IOException, GeneralSecurityException {
-        List<File> files;
-
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, authorizationToken)
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-
-        String parentPath = "root";
-
-        for (String path: paths
-                ) {
-            FileList result = service.files().list()
-                    .setPageSize(10)
-                    .setFields("nextPageToken, files(id, name)")
-                    .setQ("'" + parentPath + "' in parents and name = '" + path + "' and mimeType = 'application/vnd.google-apps.folder'")
-                    .execute();
-            //files = result.getFiles().get(0).getId();
-            parentPath = result.getFiles().get(0).getId();
+    public static GoogleDriveConnection getInstance() throws GeneralSecurityException,IOException{
+        if (ourInstance == null) {
+            ourInstance = new GoogleDriveConnection();
         }
+        return ourInstance;
+    }
 
-        FileList result = service.files().list()
-                .setPageSize(10)
-                .setFields("nextPageToken, files(id, name)")
-                .setQ("'" + parentPath + "' in parents and mimeType != 'application/vnd.google-apps.folder'")
-                .execute();
-        files = result.getFiles();
-
-        return files;
+    private GoogleDriveConnection() throws GeneralSecurityException, IOException {
+        HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        authorizationToken = getCredentials(HTTP_TRANSPORT);
     }
 
     /**
@@ -90,7 +54,6 @@ public class GoogleDriveConnection {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        //InputStream in = Connect.class.getResourceAsStream(CLIENT_SECRET_DIR);
         InputStream in = classloader.getResourceAsStream(CLIENT_SECRET_DIR);
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
@@ -101,5 +64,17 @@ public class GoogleDriveConnection {
                 .setAccessType("offline")
                 .build();
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+    }
+
+    public static JsonFactory getJsonFactory() {
+        return JSON_FACTORY;
+    }
+
+    public Credential getAuthorizationToken() {
+        return authorizationToken;
+    }
+
+    public void setAuthorizationToken(Credential authorizationToken) {
+        this.authorizationToken = authorizationToken;
     }
 }
