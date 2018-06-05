@@ -2,11 +2,14 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import com.google.api.services.drive.model.File;
 import com.mycompany.sportstats.BBDD.BBDD;
+import com.mycompany.sportstats.GoogleDrive.GoogleDriveFilesManagement;
 import com.mycompany.sportstats.Statistics.StatisticsGenerator;
 import com.mycompany.sportstats.Team.Match.*;
 import com.mycompany.sportstats.Team.Match.Skill.*;
@@ -96,9 +99,14 @@ public class Main {
         }
 
         // Y ahora leo todos los partidos
-        for (Path path : getFolderFiles(Environment.getPropertyValue("filepath.windows"))) {
-            fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
-            String fileInText = Utils.readFile(path.toString(), Charset.defaultCharset());
+        GoogleDriveFilesManagement googleDriveFilesMng = new GoogleDriveFilesManagement();
+        ArrayList pathList = (ArrayList) googleDriveFilesMng.readFoldersOfPath(Environment.getPropertyValue("googledrive.pendingfiles"));
+
+        List<File> lista = googleDriveFilesMng.getFilesInPath(pathList);
+
+        for (File file: lista) {
+            //fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
+            /*String fileInText = Utils.readFile(new java.io.File(file), Charset.defaultCharset());
             System.out.println(fileInText);
             //System.out.println(formatFile(fileInText));
             fileInText = StringUtils.stripAccents(fileInText);
@@ -106,7 +114,7 @@ public class Main {
             ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
 
             for (String palabra: lectura) {
-                database.insertDataRow(fileNameWithoutExtension, palabra.toString());
+                //database.insertDataRow(fileNameWithoutExtension, palabra.toString());
             }
 
             // Una vez pasado el fichero, lo organizo
@@ -123,7 +131,7 @@ public class Main {
             statisticsGenerator.matchTreatment(match);
             statisticsGenerator.exportToExcel(match);
             System.out.println("Final estadísticas");
-        }
+*/        }
 
     }
 

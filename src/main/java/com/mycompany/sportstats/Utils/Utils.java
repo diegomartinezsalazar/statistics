@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
+
 public class Utils {
     public static ArrayList<String> readFile(File fichero) {
 
@@ -64,6 +66,12 @@ public class Utils {
     {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
+    }
+
+    public static String readFile(com.google.api.services.drive.model.File file, Charset encoding) throws IOException{
+        //Scanner scanner = new Scanner (file);
+        //return FileUtils.readFileToString(file, encoding.toString());
+        return "";
     }
 }
 
