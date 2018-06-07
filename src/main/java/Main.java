@@ -104,6 +104,8 @@ public class Main {
 
         List<File> lista = googleDriveFilesMng.getFilesInPath(pathList);
 
+        ArrayList filesInText = googleDriveFilesMng.filesToText(new ArrayList<>(lista));
+
         for (File file: lista) {
             //fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
             /*String fileInText = Utils.readFile(new java.io.File(file), Charset.defaultCharset());

@@ -82,6 +82,15 @@ public class GoogleDriveFilesManagement {
         OutputStream outputStream = new ByteArrayOutputStream();
         service.files().get(file.getId())
             .executeMediaAndDownloadTo(outputStream);
-        return new String (outputStream);
+        return new String (((ByteArrayOutputStream) outputStream).toByteArray());
+    }
+
+    public ArrayList<String> filesToText (ArrayList<File> files) throws GeneralSecurityException, IOException {
+        ArrayList<String> stringFiles = new ArrayList<>();
+        for (File file: files
+             ) {
+            stringFiles.add(downloadFileContent(file));
+        }
+        return stringFiles;
     }
 }
