@@ -21,7 +21,7 @@ import java.util.List;
 
 public class GoogleDriveFilesManagement {
     private GoogleDriveConnection googleDriveConnection;
-    private static final String APPLICATION_NAME = "Volleyball Statistics";
+    private static final String APPLICATION_NAME = "Vol Stats";
     private NetHttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     Drive service;
 
