@@ -12,6 +12,10 @@ public class Skill extends Movement {
         this.setValue(value);
     }
 
+    public Skill (String matchId){
+        super (matchId);
+    }
+
     public int getPlayer() {
         return player;
     }

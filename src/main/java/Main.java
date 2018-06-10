@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import com.google.api.services.drive.model.File;
 import com.mycompany.sportstats.BBDD.BBDD;
+import com.mycompany.sportstats.GoogleDrive.GoogleDriveFile;
 import com.mycompany.sportstats.GoogleDrive.GoogleDriveFilesManagement;
 import com.mycompany.sportstats.Statistics.StatisticsGenerator;
 import com.mycompany.sportstats.Team.Match.*;
@@ -100,15 +101,16 @@ public class Main {
 
         // Y ahora leo todos los partidos
         GoogleDriveFilesManagement googleDriveFilesMng = new GoogleDriveFilesManagement();
-        ArrayList pathList = (ArrayList) googleDriveFilesMng.readFoldersOfPath(Environment.getPropertyValue("googledrive.pendingfiles"));
+        ArrayList pendingFilesPath = googleDriveFilesMng.readFoldersOfPath(Environment.getPropertyValue("googledrive.pendingfiles"));
+        ArrayList processedFilesPath = googleDriveFilesMng.readFoldersOfPath(Environment.getPropertyValue("googledrive.processedfiles"));
 
-        List<File> lista = googleDriveFilesMng.getFilesInPath(pathList);
+        List<File> lista = (ArrayList)googleDriveFilesMng.getFilesInPath(pendingFilesPath);
 
-        ArrayList filesInText = googleDriveFilesMng.filesToText(new ArrayList<>(lista));
+        ArrayList<GoogleDriveFile> gdFfiles = googleDriveFilesMng.readGoogleFiles(new ArrayList<>(lista));
 
-        for (File file: lista) {
-            //fileNameWithoutExtension = FilenameUtils.removeExtension(path.getFileName().toString());
-            /*String fileInText = Utils.readFile(new java.io.File(file), Charset.defaultCharset());
+        for (GoogleDriveFile file: gdFfiles) {
+            fileNameWithoutExtension = FilenameUtils.removeExtension(file.getName());
+            String fileInText = file.getContent();
             System.out.println(fileInText);
             //System.out.println(formatFile(fileInText));
             fileInText = StringUtils.stripAccents(fileInText);
@@ -116,7 +118,7 @@ public class Main {
             ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
 
             for (String palabra: lectura) {
-                //database.insertDataRow(fileNameWithoutExtension, palabra.toString());
+                database.insertDataRow(fileNameWithoutExtension, palabra.toString());
             }
 
             // Una vez pasado el fichero, lo organizo
@@ -129,11 +131,18 @@ public class Main {
             System.out.println("\n");
             System.out.println("\n");
             System.out.println("Inicio estadísticas");
-            StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
-            statisticsGenerator.matchTreatment(match);
-            statisticsGenerator.exportToExcel(match);
+            if (Environment.getPropertyValue("export.exportToExcel") == "1") {
+                StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
+                statisticsGenerator.matchTreatment(match);
+                statisticsGenerator.exportToExcel(match);
+            }
             System.out.println("Final estadísticas");
-*/        }
+            System.out.println("Comienzo movimiento fichero");
+            if (Environment.getPropertyValue("export.exportToExcel") == "1") {
+                googleDriveFilesMng.archiveFile(file, processedFilesPath);
+            }
+            System.out.println("Final movimiento fichero");
+        }
 
     }
 

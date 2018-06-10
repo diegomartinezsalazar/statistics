@@ -1,5 +1,7 @@
 package com.mycompany.sportstats.Team.Match.Skill;
 
+import com.mycompany.sportstats.Utils.Environment;
+
 import java.util.ArrayList;
 
 public class Saque extends Skill {
@@ -12,10 +14,15 @@ public class Saque extends Skill {
     }
 
     public Saque (String matchId, ArrayList movement){
-        super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
-        this.tipo = movement.get(1).toString();
-        this.origen = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
-        this.destino = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
+        super(matchId,
+                Integer.parseInt(movement.get(0).toString()),
+                (movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
+        //this.setPlayer(Integer.parseInt(movement.get(0).toString()));
+        //this.setValue((movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
+        //super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
+        this.tipo = (movement.size()>2)?movement.get(2).toString():"";
+        this.origen = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
+        this.destino = (movement.size()>2)?Integer.parseInt(movement.get(4).toString()):0;
     }
 
     public int getOrigen() {

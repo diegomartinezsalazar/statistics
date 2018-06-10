@@ -26,7 +26,7 @@ import java.util.List;
 
 public class GoogleDriveConnection {
     private static final String CREDENTIALS_FOLDER = "resources"; // Directory to store user credentials.
-    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
+    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private static final String CLIENT_SECRET_DIR = "client_secret.json";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private Credential authorizationToken;
