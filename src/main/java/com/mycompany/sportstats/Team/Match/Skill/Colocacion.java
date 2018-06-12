@@ -1,5 +1,7 @@
 package com.mycompany.sportstats.Team.Match.Skill;
 
+import com.mycompany.sportstats.Utils.Environment;
+
 import java.util.ArrayList;
 
 public class Colocacion extends Skill {
@@ -11,7 +13,10 @@ public class Colocacion extends Skill {
     }
 
     public Colocacion (String matchId, ArrayList movement){
-        super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
+        //super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());
+        super(matchId,
+                Integer.parseInt(movement.get(0).toString()),
+                (movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.set.defaultValue"));
     }
 
     public String getTipo() {
