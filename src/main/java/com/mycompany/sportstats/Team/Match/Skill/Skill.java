@@ -1,15 +1,15 @@
 package com.mycompany.sportstats.Team.Match.Skill;
 
 import com.mycompany.sportstats.Team.Match.Movement;
+import com.mycompany.sportstats.Utils.UtilsNumber;
 
 public class Skill extends Movement {
     private int player;
     private String value;
 
-    public Skill (String matchId, int player, String value){
+    public Skill (String matchId, String player, String value){
         super(matchId);
-        this.setPlayer(player);
-        this.setValue(value);
+        setValues(player, value);
     }
 
     public Skill (String matchId){
@@ -32,4 +32,13 @@ public class Skill extends Movement {
         this.value = value;
     }
 
+    public void setValues (String player, String value) {
+        if (UtilsNumber.isInteger(player)) {
+            this.setPlayer(Integer.parseInt(player));
+            this.setValue(value);
+        }
+        else{
+            this.setValue(player);
+        }
+    }
 }

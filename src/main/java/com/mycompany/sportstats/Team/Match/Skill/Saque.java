@@ -9,13 +9,13 @@ public class Saque extends Skill {
     private int destino;
     private String tipo;
 
-    public Saque (String matchId, int player, String value){
+    public Saque (String matchId, String player, String value){
         super (matchId, player, value);
     }
 
     public Saque (String matchId, ArrayList movement){
         super(matchId,
-                Integer.parseInt(movement.get(0).toString()),
+                (movement.size()>1)?movement.get(0).toString():"",
                 (movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
         //this.setPlayer(Integer.parseInt(movement.get(0).toString()));
         //this.setValue((movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
