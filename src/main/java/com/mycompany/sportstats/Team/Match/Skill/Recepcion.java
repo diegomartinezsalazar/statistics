@@ -13,8 +13,8 @@ public class Recepcion extends Skill {
 
     public Recepcion (String matchId, ArrayList movement){
         super(matchId,
-                (movement.size()>1)?movement.get(0).toString():"",
-                (movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.reception.defaultValue"));
+                (movement.size()>0)?movement.get(0).toString():"",
+                (movement.size()>1)?movement.get(1).toString():Environment.getPropertyValue("match.reception.defaultValue"));
     }
 
     public String getTipo() {

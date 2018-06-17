@@ -1,19 +1,33 @@
 package com.mycompany.sportstats.Team.Match;
 
+import com.mycompany.sportstats.Utils.UtilsNumber;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Alineacion extends Movement {
     private ArrayList<Integer> jugadoresAlineacion = new ArrayList();
     public Alineacion(String matchId, ArrayList<String> alineacion){
         super(matchId);
         jugadoresAlineacion = new ArrayList();
-        for (String player: alineacion
+        ArrayList<String> alineacionCleared = UtilsNumber.replaceAllButNumbers(alineacion);
+        String alineacionBase = "";
+        for (String player: alineacionCleared
                 ) {
-            if (NumberUtils.isCreatable(player)){
+            alineacionBase += player;
+        }
+        alineacionCleared = new ArrayList<String>(Arrays.asList(alineacionBase.split(" ")));
+
+        for (String player: alineacionCleared
+                ) {
+            if (NumberUtils.isCreatable(player.trim())){
                 jugadoresAlineacion.add(Integer.parseInt(player));
             }
+        }
+
+        if (jugadoresAlineacion.size() != 7){
+            System.out.println("Error Alineación: Jugadores distintos de 7");
         }
     }
 
@@ -39,11 +53,16 @@ public class Alineacion extends Movement {
     }
 
     public void addCambio (int saledelCampo, int entraAlCampo){
+        boolean cambioRealizado = false;
         for (int i = 0; i < 7; i++){
             if (Integer.parseInt(jugadoresAlineacion.get(i).toString()) == saledelCampo){
                 jugadoresAlineacion.set(i, entraAlCampo);
+                cambioRealizado = true;
                 break;
             }
+        }
+        if (!cambioRealizado){
+            System.out.println("Error Cambio: El jugador " + saledelCampo + " no se encuentra en el campo");
         }
     }
 

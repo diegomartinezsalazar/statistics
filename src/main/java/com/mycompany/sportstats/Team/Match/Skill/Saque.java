@@ -15,8 +15,8 @@ public class Saque extends Skill {
 
     public Saque (String matchId, ArrayList movement){
         super(matchId,
-                (movement.size()>1)?movement.get(0).toString():"",
-                (movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
+                (movement.size()>0)?movement.get(0).toString():"",
+                (movement.size()>1)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
         //this.setPlayer(Integer.parseInt(movement.get(0).toString()));
         //this.setValue((movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.serve.defaultValue"));
         //super (matchId, Integer.parseInt(movement.get(0).toString()), movement.get(1).toString());

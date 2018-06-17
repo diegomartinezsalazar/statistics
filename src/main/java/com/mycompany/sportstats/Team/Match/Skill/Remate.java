@@ -15,8 +15,8 @@ public class Remate extends Skill {
 
     public Remate (String matchId, ArrayList movement){
         super(matchId,
-                (movement.size()>1)?movement.get(0).toString():"",
-                (movement.size()>2)?movement.get(1).toString():Environment.getPropertyValue("match.attack.defaultValue"));
+                (movement.size()>0)?movement.get(0).toString():"",
+                (movement.size()>1)?movement.get(1).toString():Environment.getPropertyValue("match.attack.defaultValue"));
         this.origen = (movement.size()>2)?Integer.parseInt(movement.get(2).toString()):0;
         this.destino = (movement.size()>2)?Integer.parseInt(movement.get(3).toString()):0;
     }

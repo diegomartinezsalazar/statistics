@@ -1,7 +1,11 @@
 package com.mycompany.sportstats.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UtilsNumber {
     public static Map<String, String> mapa = new HashMap<String, String>();
@@ -179,5 +183,22 @@ public class UtilsNumber {
             if(Character.digit(s.charAt(i),radix) < 0) return false;
         }
         return true;
+    }
+
+    public static ArrayList<String> replaceAllButNumbers (ArrayList<String> oldValues){
+        List<String> newValues = new ArrayList();
+        newValues = oldValues.stream()
+                .map (UtilsNumber::changeValue)
+                .collect(Collectors.toList());
+        return new ArrayList<>(newValues);
+    }
+
+    private static String changeValue (String initVal){
+        String result = "";
+        for (Character c: initVal.toCharArray()
+             ) {
+            result += (isInteger(c.toString()))?c:" ";
+        }
+        return result;
     }
 }

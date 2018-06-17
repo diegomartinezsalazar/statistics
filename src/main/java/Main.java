@@ -1,11 +1,11 @@
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
+import java.util.Arrays;
 
 import com.google.api.services.drive.model.File;
 import com.mycompany.sportstats.BBDD.BBDD;
@@ -112,7 +112,6 @@ public class Main {
             fileNameWithoutExtension = FilenameUtils.removeExtension(file.getName());
             String fileInText = file.getContent();
             System.out.println(fileInText);
-            //System.out.println(formatFile(fileInText));
             fileInText = StringUtils.stripAccents(fileInText);
             System.out.println(fileInText);
             ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
@@ -169,12 +168,12 @@ public class Main {
         finalDeSetBBDD = database.readCloseWordsFromBBDD("FINALDESET");
         errorContrarioBBDD = database.readCloseWordsFromBBDD("ERRORCONTRARIO");
         puntoContrarioBBDD = database.readCloseWordsFromBBDD("PUNTOCONTRARIO");
-        saqueBBDD = database.readSkillsFromBBDD("SAQUE");
-        remateBBDD = database.readSkillsFromBBDD("REMATE");
-        recepcionBBDD = database.readSkillsFromBBDD("RECEPCION");
-        colocacionBBDD = database.readSkillsFromBBDD("COLOCACION");
-        defensaBBDD = database.readSkillsFromBBDD("DEFENSA");
-        bloqueoBBDD = database.readSkillsFromBBDD("BLOQUEO");
+        saqueBBDD = database.readSkillsFromBBDD(Environment.getPropertyValue("match.serve.name"));
+        remateBBDD = database.readSkillsFromBBDD(Environment.getPropertyValue("match.attack.name"));
+        recepcionBBDD = database.readSkillsFromBBDD(Environment.getPropertyValue("match.reception.name"));
+        colocacionBBDD = database.readSkillsFromBBDD(Environment.getPropertyValue("match.set.name"));
+        defensaBBDD = database.readSkillsFromBBDD(Environment.getPropertyValue("match.defense.name"));
+        bloqueoBBDD = database.readSkillsFromBBDD(Environment.getPropertyValue("match.block.name"));
         doblePositivoBBDD = database.readValuesFromBBDD("++");
         positivoBBDD = database.readValuesFromBBDD("+");
         barraBBDD = database.readValuesFromBBDD("/");
@@ -252,7 +251,12 @@ public class Main {
             return tanteo;
         } else if (esCambio(typeOfMovement)) {
             // Generar cambio
-            Cambio cambio = new Cambio(matchId, movement);
+            Cambio cambio;
+            if ("ENTRA".equals(movement.get(0))) {
+                cambio = new Cambio(matchId, new ArrayList(Arrays.asList(movement.get(1), movement.get(3))));
+            } else {
+                cambio = new Cambio(matchId, new ArrayList(Arrays.asList(movement.get(3), movement.get(1))));
+            }
             return cambio;
         } else if (esTiempo(typeOfMovement)) {
             // Generar tiempo
@@ -449,7 +453,7 @@ public class Main {
         String jugada = "";
         for (String data: array
              ) {
-            jugada = jugada + " " + data;
+            jugada = jugada + "\t" + data;
         }
         System.out.println(jugada);
     }
