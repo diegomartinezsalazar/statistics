@@ -62,7 +62,7 @@ public class Alineacion extends Movement {
             }
         }
         if (!cambioRealizado){
-            System.out.println("Error Cambio: El jugador " + saledelCampo + " no se encuentra en el campo");
+            System.out.println("Error Cambio: El jugador " + saledelCampo + " no se encuentra en el campo. " + toString());
         }
     }
 

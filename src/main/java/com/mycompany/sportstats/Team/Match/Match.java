@@ -2,6 +2,7 @@ package com.mycompany.sportstats.Team.Match;
 
 import com.mycompany.sportstats.Team.Match.Skill.Skill;
 import com.mycompany.sportstats.Team.Player;
+import com.mycompany.sportstats.Utils.Environment;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -101,7 +102,6 @@ public class Match {
 
 
             if (set.isSetTerminado() == true){
-                //System.out.println(set.toString());
                 sets.add(set);
                 calculaEstadoPartido();
                 if (!partidoTerminado) {
@@ -167,17 +167,23 @@ public class Match {
     public String toString(){
         String match;
         String resumenSets = "";
-        match = "COMIENZO DEL PARTIDO " + matchId + "\n";
-        match += "Convocatoria: " + convocatoria.toString() + "\n\n";
+        match = "\n";
+        match += "COMIENZO DEL PARTIDO " + matchId + "\n";
+        match += "Convocatoria: " + convocatoria.toString() + "\n";
         for (Set set: sets
              ) {
-            match += "\n" + set.toString();
+            if ("1".equals(Environment.getPropertyValue("print.jugada"))) {
+                match += "\n" + set.toString();
+            }
             resumenSets += "Set " + set.getNumSet() + ": " + set.getPuntosNuestros() + "-" + set.getPuntosSuyos() + "\n";
         }
         match += "\nResultado: " + setsAFavor + "-" + setsEnContra + "\n";
         match += resumenSets;
         match += "\n";
         match += "FINAL DEL PARTIDO";
+        match += "\n";
+        match += "---------------------------------------------------------";
+        match += "\n";
         return match;
     }
 

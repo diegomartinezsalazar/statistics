@@ -1,6 +1,7 @@
 package com.mycompany.sportstats.Team.Match;
 
 import com.mycompany.sportstats.Team.Match.Skill.*;
+import com.mycompany.sportstats.TeamUtils.Tester.JugadaTester;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -152,8 +153,9 @@ public class Set {
     public void terminaJugada (){
         jugadaActual.setNuestroTanteoFinal(getPuntosNuestros());
         jugadaActual.setSuTanteoFinal(getPuntosSuyos());
+        JugadaTester jugadaTester = JugadaTester.getJugadaTester();
+        jugadaTester.isJugadaCorrect(jugadaActual);
         getJugadas().add(jugadaActual);
-
     }
 
     public void inicializaJugada(){
@@ -165,21 +167,26 @@ public class Set {
 
     public void puntoNuestro(){
         setPuntosNuestros(getPuntosNuestros() + 1);
-        if (!saqueActualFavor){
-            rotacion();
-            saqueActualFavor = true;
-        }
         terminaJugada();
         terminaSet();
-        inicializaJugada();
+
+        if (!setTerminado) {
+            if (!saqueActualFavor){
+                rotacion();
+                saqueActualFavor = true;
+            }
+            inicializaJugada();
+        }
     }
 
     public void puntoSuyo(){
         setPuntosSuyos(getPuntosSuyos() + 1);
-        saqueActualFavor = false;
         terminaJugada();
         terminaSet();
-        inicializaJugada();
+        if (!setTerminado) {
+            saqueActualFavor = false;
+            inicializaJugada();
+        }
     }
 
     public void compruebaTanteo (Tanteo tanteo){
@@ -252,15 +259,6 @@ public class Set {
     public boolean hasAlineacionInicial(){
         return alineacionInicial == null;
     }
-
-    /*public void printSet(){
-        System.out.println("Comienzo Set " + numSet);
-        System.out.println ("Alineación inicial: " + alineacionInicial.toString());
-        for (Jugada jugada: jugadas
-             ) {
-            System.out.println(jugada.toString());
-        }
-    }*/
 
     @Override
     public String toString() {

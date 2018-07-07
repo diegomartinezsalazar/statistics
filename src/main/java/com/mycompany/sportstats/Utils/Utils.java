@@ -41,7 +41,6 @@ public class Utils {
 
         try {
             list = new ArrayList<>(Arrays.asList(text.split(" ")));
-            System.out.println(list.size());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

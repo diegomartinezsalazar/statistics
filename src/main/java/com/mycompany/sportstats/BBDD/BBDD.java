@@ -112,12 +112,6 @@ public class BBDD {
             {
                 new Exception ();
             }
-
-            // Iterate through the data in the result set and display it.
-            //while (rs.next()) {
-            //    System.out.println(rs.getString(4) + " " + rs.getString(6));
-
-            //}
         }
         // Handle any errors that may have occurred.
         catch (Exception e) {

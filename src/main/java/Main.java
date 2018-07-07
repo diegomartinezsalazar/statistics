@@ -75,7 +75,7 @@ public class Main {
         Utils prueba = new Utils();
         String fileNameWithoutExtension;
         //File fichero = new File("Stats.txt");
-        System.out.println("Comienza lectura");
+        imprimirText("Comienza lectura", Environment.getPropertyValue("print.sectiontext"));
         Environment.readEnvironment();
 
         //ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -109,11 +109,12 @@ public class Main {
         ArrayList<GoogleDriveFile> gdFfiles = googleDriveFilesMng.readGoogleFiles(new ArrayList<>(lista));
 
         for (GoogleDriveFile file: gdFfiles) {
+            imprimirText("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++", "1");
             fileNameWithoutExtension = FilenameUtils.removeExtension(file.getName());
             String fileInText = file.getContent();
-            System.out.println(fileInText);
+            imprimirText(fileInText, Environment.getPropertyValue("print.rawdata"));
             fileInText = StringUtils.stripAccents(fileInText);
-            System.out.println(fileInText);
+            imprimirText(fileInText, Environment.getPropertyValue("print.treateddata"));
             ArrayList<String> lectura = Utils.stringToArray(formatFileOrderingByNumberOfWords(fileInText));
 
             for (String palabra: lectura) {
@@ -121,28 +122,33 @@ public class Main {
             }
 
             // Una vez pasado el fichero, lo organizo
-            System.out.println("Final lectura");
-            System.out.println("Comienzo formateo");
+            imprimirText("Final lectura", Environment.getPropertyValue("print.sectiontext"));
+            imprimirText("Comienzo formateo", Environment.getPropertyValue("print.sectiontext"));
             prepareMatch(fileNameWithoutExtension);
             loadData();
             Match match = formatMatch(fileNameWithoutExtension);
-            System.out.println("Final formateo" + "\n");
-            System.out.println("\n");
-            System.out.println("\n");
-            System.out.println("Inicio estadísticas");
+            imprimirText("Final formateo", Environment.getPropertyValue("print.sectiontext"));
+            imprimirText("\n", Environment.getPropertyValue("print.sectiontext"));
+            imprimirText("Inicio estadísticas", Environment.getPropertyValue("print.sectiontext"));
             if (Environment.getPropertyValue("export.exportToExcel") == "1") {
                 StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
                 statisticsGenerator.matchTreatment(match);
                 statisticsGenerator.exportToExcel(match);
             }
-            System.out.println("Final estadísticas");
-            System.out.println("Comienzo movimiento fichero");
+            imprimirText("Final estadísticas", Environment.getPropertyValue("print.sectiontext"));
+            imprimirText("Comienzo movimiento fichero", Environment.getPropertyValue("print.sectiontext"));
             if (Environment.getPropertyValue("export.exportToExcel") == "1") {
                 googleDriveFilesMng.archiveFile(file, processedFilesPath);
             }
-            System.out.println("Final movimiento fichero");
+            imprimirText("Final movimiento fichero", Environment.getPropertyValue("print.sectiontext"));
         }
 
+    }
+
+    public static void imprimirText(String section, String val){
+        if ("1".equals(val)) {
+            System.out.println(section);
+        }
     }
 
     public static void prepareMatch(String matchId){
@@ -150,7 +156,6 @@ public class Main {
         //database.openMSSQLSERVERconnection();
 
         match = database.readMatch(matchId);
-        System.out.println(match.size());
     }
 
     public static void loadData (){
@@ -450,12 +455,14 @@ public class Main {
     }
 
     public static void imprimirArray (ArrayList<String> array){
-        String jugada = "";
-        for (String data: array
-             ) {
-            jugada = jugada + "\t" + data;
+        if ("1".equals(Environment.getPropertyValue("print.movement"))) {
+            String jugada = "";
+            for (String data : array
+                    ) {
+                jugada = jugada + "\t" + data;
+            }
+            System.out.println(jugada);
         }
-        System.out.println(jugada);
     }
 
     public static String formatFileOrderingByNumberOfWords (String fileInText){
@@ -475,14 +482,11 @@ public class Main {
                 }
             }
         }
-        System.out.println(result);
 
         for (Map.Entry<String, String> entry : UtilsNumber.mapa.entrySet())
         {
             result = result.replaceAll(entry.getKey(), entry.getValue());
         }
-
-        System.out.println(result);
 
         return result;
 
